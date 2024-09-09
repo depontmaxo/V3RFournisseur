@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
+/*
 Route::get('/', function () {
     return view('connexion');
+});*/
+
+Route::get('/', function () {
+    return view('inscription');
 });

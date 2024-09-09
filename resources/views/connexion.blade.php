@@ -18,7 +18,7 @@
         <div class="container-fluid text-center">
             <h1 class="titre2">Connexion</h1>
         </div>
-        <form method="post" action="{{ route('Tutorat.index_login') }}">
+        <form method="post">
             @csrf
             <div class="d-flex row justify-content-center py-5">
                 <div class="form-group">
@@ -37,7 +37,7 @@
                 </div> 
             </div> 
         </form>
-        
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 </html>

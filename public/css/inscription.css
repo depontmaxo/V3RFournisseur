@@ -1,0 +1,77 @@
+/*Pour les titres et sous-titres*/
+@font-face {
+    font-family: 'AlumniSans-ExtraBold';
+    src: url('../fonts/AlumniSans-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'AlumniSans-Medium';
+    src: url('../fonts/AlumniSans-Medium.ttf') format('truetype');
+}
+
+
+/*Pour les textes courants et sous-titres*/
+@font-face {
+    font-family: 'Poppins-Light';
+    src: url('../fonts/Poppins-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url('../fonts/Poppins-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('../fonts/Poppins-Bold.ttf') format('truetype');
+}
+
+
+
+
+.titre{
+    background-color:rgb(99, 188, 85);
+    font-family: 'AlumniSans-Medium';
+    font-size: 21pt;
+}
+
+label{
+    font-family: 'Poppins-Medium';
+    font-size: 12pt;
+}
+
+.sousTitres{
+    font-family: 'Poppins-Light';
+    font-size: 11pt;
+    color: gray;
+}
+
+.description{
+    height: 300px; /* Définir la hauteur fixe */
+    padding: 10px;
+}
+
+.test{
+    background-color: rgb(99, 188, 85);
+}
+
+
+.a{
+    font-family: 'AlumniSans-Medium';
+}
+
+.b{
+    font-family: 'AlumniSans-ExtraBold';
+}
+
+.c{
+    font-family: 'Poppins-Light';
+}
+
+.d{
+    font-family: 'Poppins-Medium';
+}
+
+.e{
+    font-family: 'Poppins-Bold';
+}
