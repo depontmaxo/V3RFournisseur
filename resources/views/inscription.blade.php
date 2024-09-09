@@ -9,7 +9,7 @@
     </head>
     <body>
         <div>
-
+            <!--
             <div>
                 <p class="a">AlumniSans-Medium</p> </br>
                 <p class="b">AlumniSans-ExtraBold</p> </br>
@@ -18,6 +18,8 @@
                 <p class="d">Poppins-Medium</p> </br>
                 <p class="e">Poppins-Bold</p> </br>
             </div>
+            -->
+
 
             <form method="post">
                 <div class="container">
@@ -85,8 +87,11 @@
                             <input type="file" class="form-control" id="fichiersJoints" multiple>
                         </div>
 
-                        <div class="row">
-                            <button type="submit" class="btn btn-primary mb-3 col-auto">Envoyer</button>
+                        <div class="row d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary mb-3 col-auto">Confirmer et envoyer le formulaire</button>
+                            <p class="text-center"> Vous êtes déjà inscrit? 
+                                <a href="{{ route('Connexion.connexionEmail') }}">Se connecter</a> 
+                            </p>
                         </div>
                     </div>
                 </div>

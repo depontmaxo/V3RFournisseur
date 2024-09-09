@@ -47,15 +47,12 @@ label{
 }
 
 .description{
-    height: 300px; /* Définir la hauteur fixe */
+    height: 300px;
     padding: 10px;
 }
 
-.test{
-    background-color: rgb(99, 188, 85);
-}
 
-
+/*
 .a{
     font-family: 'AlumniSans-Medium';
 }
@@ -74,4 +71,4 @@ label{
 
 .e{
     font-family: 'Poppins-Bold';
-}
+}*/

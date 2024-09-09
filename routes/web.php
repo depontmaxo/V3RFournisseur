@@ -15,7 +15,6 @@ Route::get('/', function () {
 Route::get('/', function () {
     return view('inscription');
 });
-*/
 
 #################################Connexion#########################################
 Route::GET('/connexionEmail',
@@ -30,3 +29,6 @@ Route::POST('/',
 Route::GET('/loggedin',
 [UtilisateursController::class,'indextemp'])->name('Connexion.temp');
 ##################################################################################
+
+Route::GET('/formulaireInscription',
+[UtilisateursController::class,'pageInscription'])->name('Inscription.formulaireInscription');

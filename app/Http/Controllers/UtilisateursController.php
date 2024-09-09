@@ -25,6 +25,12 @@ class UtilisateursController extends Controller
         return View('connexionNEQ');
     }
 
+    
+    public function pageInscription()
+    {
+        return View('inscription');
+    }
+
     /**
      * Display a listing of the resource.
     */
