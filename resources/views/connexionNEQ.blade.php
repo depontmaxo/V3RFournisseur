@@ -33,10 +33,10 @@
             @csrf
             <div class="d-flex row justify-content-center py-5">
                 <div class="form-group">
-                <label for="email" class="titre2">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="email" name="email">
+                <label for="neq" class="titre2">NEQ</label>
+                <input type="text" class="form-control" id="neq" placeholder="00000000000" name="neq">
                 </div>
-                <a href="{{route('Connexion.connexionNEQ')}}">Inscit avec le NEQ, cliquez ici!</a> 
+                <a href="{{route('Connexion.connexionEmail')}}">Pas de NEQ, cliquez ici pour vous connecter avec un email!</a> 
                 <div class="d-flex row justify-content-center">
                     <div class="form-group">
                         <label for="password" class="titre2">Password</label>
@@ -46,7 +46,7 @@
                 <div class="d-flex row justify-content-center">
                 <div class="form-group">
                     <button type="submit" class="btn btn-secondary">Connexion</button>
-                </div> 
+                </div>
                 <a>Oublier votre mot de passe?</a>
             </div> 
         </form>
