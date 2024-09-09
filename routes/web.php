@@ -10,6 +10,10 @@ use App\Http\Controllers\UtilisateursController;
 /*
 Route::get('/', function () {
     return view('connexion');
+});*/
+
+Route::get('/', function () {
+    return view('inscription');
 });
 */
 
