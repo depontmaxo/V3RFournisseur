@@ -17,8 +17,18 @@ class Utilisateur extends Authenticatable
     */
     protected $table = "utilisateur";
     protected $fillable = [
+        'neq',
         'email',
-        'password'
+        'password',
+        'nomFournisseur',
+        'adresse',
+        'noTelephone',
+        'personneRessource',
+        'emailPersonneRessource',
+        'licenceRBQ',
+        'posteOccupeEntreprise',
+        'siteWeb',
+        'produitOuService'
     ];
 
 

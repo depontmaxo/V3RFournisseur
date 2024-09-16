@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UtilisateursController;
+use App\Http\Controllers\FournisseursController;
 
 /*Route::get('/', function () {
     return view('welcome');
@@ -25,10 +26,20 @@ Route::GET('/',
 
 Route::POST('/',
 [UtilisateursController::class,'login'])->name('Connexion.connexion');
-
-Route::GET('/loggedin',
-[UtilisateursController::class,'indextemp'])->name('Connexion.temp');
 ##################################################################################
 
+#################################Inscription#########################################
 Route::GET('/formulaireInscription',
 [UtilisateursController::class,'pageInscription'])->name('Inscription.formulaireInscription');
+##################################################################################
+
+
+#################################Utilisation fournisseur#########################################
+Route::GET('/index',
+[FournisseursController::class,'index'])->name('Fournisseur.index');
+
+Route::GET('/modificationFiche/{id}/',
+[FournisseursController::class,'show'])->name('Fournisseur.modification');
+
+
+##################################################################################

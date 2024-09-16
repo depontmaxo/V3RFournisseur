@@ -16,6 +16,15 @@ return new class extends Migration
             $table->string('neq', 255);
             $table->string('email', 255);
             $table->string('password', 255);
+            $table->string('nomFournisseur', 255);
+            $table->string('adresse', 255);
+            $table->string('noTelephone', 255);
+            $table->string('personneRessource', 255);
+            $table->string('emailPersonneRessource', 255);
+            $table->string('licenceRBQ', 255);
+            $table->string('posteOccupeEntreprise', 255);
+            $table->string('siteWeb', 255);
+            $table->string('produitOuService', 255);
             $table->rememberToken();
             $table->timestamps();
         });
