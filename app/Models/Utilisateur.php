@@ -16,6 +16,15 @@ class Utilisateur extends Authenticatable
     * @var array<int, string>
     */
     protected $table = "utilisateur";
+
+    // Define your primary key if it's not the default 'id'
+    protected $primaryKey = 'id'; // Or whatever your primary key is
+
+    // If your primary key is not an auto-incrementing integer, set this
+    protected $keyType = 'string';  // For UUID or non-integer primary keys
+    public $incrementing = false;   // Disable auto-increment if using UUIDs
+
+
     protected $fillable = [
         'neq',
         'email',

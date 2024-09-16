@@ -46,8 +46,16 @@ Route::GET('/formulaireInscription',
 Route::GET('/index',
 [FournisseursController::class,'index'])->name('Fournisseur.index');
 
-Route::GET('/modificationFiche/{id}/',
-[FournisseursController::class,'show'])->name('Fournisseur.modification');
+Route::GET('/ficheUtilisateur/{utilisateur}/',
+[FournisseursController::class,'show'])->name('Fournisseur.fiche');
 
+Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
+[FournisseursController::class,'edit'])->name('Fournisseur.modification');
+
+Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
+[FournisseursController::class,'update'])->name('Fournisseur.modification');
+
+Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
+[FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
 ##################################################################################
