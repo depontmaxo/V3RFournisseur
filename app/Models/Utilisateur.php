@@ -48,6 +48,7 @@ class Utilisateur extends Authenticatable
      * @return array<string, string>
      */
         protected $casts = [
+            'id' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
