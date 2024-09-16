@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UtilisateurSeeder extends Seeder
 {
@@ -14,6 +15,7 @@ class UtilisateurSeeder extends Seeder
     public function run(): void
     {
         DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(), // Generate a UUID for the id
             'neq'=> '12345',
             'email'=> 'test@test.com',
             'password' =>'$2y$10$t8Euw.TibLX07KUYzMMrKu7Q4Wvi4hrHP3DwewiXaDEe6bHYMhBzS',

@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-/**
-     * Run the migrations.
-     */
+    /**
+    * Run the migrations.
+    */
     public function up(): void
     {
         Schema::create('utilisateur', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('neq', 255);
             $table->string('email', 255);
             $table->string('password', 255);
