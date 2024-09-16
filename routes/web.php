@@ -26,6 +26,14 @@ Route::GET('/',
 
 Route::POST('/',
 [UtilisateursController::class,'login'])->name('Connexion.connexion');
+
+Route::GET('/motPasseOublie',
+[UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
+
+//Route::POST('/',
+//[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
+
+
 ##################################################################################
 
 #################################Inscription#########################################

@@ -51,5 +51,10 @@ class Utilisateur extends Authenticatable
             'id' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+
+            
         ];
+
+
+        
 }
