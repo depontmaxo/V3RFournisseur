@@ -26,14 +26,6 @@ class UtilisateursController extends Controller
     }
 
     /**
-    * Page pour faire un demande d'inscription
-    */
-    public function pageInscription()
-    {
-        return View('inscription');
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -83,7 +75,7 @@ class UtilisateursController extends Controller
 
     /**
     * Fonction qui login l'utilisateur qui a des information valide
-    * Ne laisse pas passer un individue qui n'a pas des information valide
+    * Ne pas laisser passer un individu qui a des informations invalides
     */
     public function login(ConnexionRequest $request)
     {

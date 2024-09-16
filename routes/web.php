@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UtilisateursController;
+use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
 
 /*Route::get('/', function () {
@@ -30,7 +31,10 @@ Route::POST('/',
 
 #################################Inscription#########################################
 Route::GET('/formulaireInscription',
-[UtilisateursController::class,'pageInscription'])->name('Inscription.formulaireInscription');
+[InscriptionController::class,'index'])->name('Inscription.envoyerFormulaireInscription');
+
+Route::POST('/inscrire',
+[InscriptionController::class,'store'])->name('Inscription.store');
 ##################################################################################
 
 
