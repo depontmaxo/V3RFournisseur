@@ -28,6 +28,14 @@ Route::POST('/',
 
 Route::GET('/loggedin',
 [UtilisateursController::class,'indextemp'])->name('Connexion.temp');
+
+Route::GET('/motPasseOublie',
+[UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
+
+//Route::POST('/',
+//[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
+
+
 ##################################################################################
 
 Route::GET('/formulaireInscription',

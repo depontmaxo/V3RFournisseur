@@ -17,6 +17,6 @@ class UtilisateurSeeder extends Seeder
             'neq'=> '12345',
             'email'=> 'test@test.com',
             'password' =>'test'
-        ]);
+        ]);      
     }
 }

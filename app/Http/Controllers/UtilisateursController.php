@@ -126,4 +126,9 @@ class UtilisateursController extends Controller
         Auth::logout();
         return redirect()->route('Tutorat.index_login');
     }
+
+
+    public function ShowMotPasseOublieForm(){
+        return view('MotPasseOublie');
+    }
 }
