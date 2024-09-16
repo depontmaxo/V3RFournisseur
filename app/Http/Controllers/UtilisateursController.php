@@ -10,7 +10,7 @@ use App\Http\Requests\ConnexionRequest;
 class UtilisateursController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Index de connection avec un email
      */
     public function index()
     {
@@ -18,25 +18,19 @@ class UtilisateursController extends Controller
     }
 
     /**
-    * Display a listing of the resource.
+    * Index de connection avec un NEQ
     */
     public function indexNEQ()
     {
         return View('connexionNEQ');
     }
 
-    
+    /**
+    * Page pour faire un demande d'inscription
+    */
     public function pageInscription()
     {
         return View('inscription');
-    }
-
-    /**
-     * Display a listing of the resource.
-    */
-    public function indextemp()
-    {
-        return View('welcome');
     }
 
     /**
@@ -87,6 +81,10 @@ class UtilisateursController extends Controller
         //
     }
 
+    /**
+    * Fonction qui login l'utilisateur qui a des information valide
+    * Ne laisse pas passer un individue qui n'a pas des information valide
+    */
     public function login(ConnexionRequest $request)
     {
         /*
@@ -100,7 +98,7 @@ class UtilisateursController extends Controller
             $reussi = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             if($reussi){
                 $usager = Utilisateur::where('email', $request->email)->firstOrFail();
-                return redirect()->route('Connexion.temp');
+                return redirect()->route('Fournisseur.index');
     
             }
             else{
@@ -111,7 +109,7 @@ class UtilisateursController extends Controller
             $reussi = Auth::attempt(['neq' => $request->neq, 'password' => $request->password]);
             if($reussi){
                 $usager = Utilisateur::where('neq', $request->neq)->firstOrFail();
-                return redirect()->route('Connexion.temp');
+                return redirect()->route('Fournisseur.index');
             }
             else{
                 return redirect()->route('Connexion.connexionNEQ')->withErrors(['Informations invalides']); 

@@ -1,4 +1,5 @@
 <?php
+/* Example, ne pas utiliser*/
 
 namespace Tests\Unit;
 
