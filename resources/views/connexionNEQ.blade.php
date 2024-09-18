@@ -20,14 +20,7 @@
             <p>{{ session('message') }}</p>
         </div>
     @endif
-        <header>
-            <div>
-                <h5 class="compagny">Fournisseur</h5>
-            </div>
-            <nav class="sub-nav">                
-                <a>Créer un compte</a>  
-            </nav>    
-        </header>
+    <!--
         <div class="container-fluid text-center">
             <h1 class="titre2">Connexion</h1>
         </div>
@@ -52,6 +45,37 @@
                 <a href="­{{route('ShowMotPasseOublie')}}">Mot De passe oublie?</a>
             </div> 
         </form>
+    -->
+
+    <form method="post" action="{{ route('Connexion.connexion') }}">
+        @csrf
+        <div class="container">
+            <div>
+                <p class="col-12 text-center my-3 titre">Connexion par NEQ</p>
+
+                <div class="mb-3 row">
+                    <label for="neq" class="col-3" >NEQ :</label>
+                    <input type="text" class="col-9" id="neq" placeholder="12345678910" name="neq">
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="password" class="col-3">Mot de passe :</label>
+                    <input type="password" class="col-9" id="password" placeholder="Entrez votre mot de passe" name="password">
+                </div>
+
+                <div class="row d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary my-4 col-auto">Se connecter</button>
+                    <p class="text-center"> Vous n'êtes pas inscrit? 
+                        <a href="{{route('Inscription.formulaireInscription')}}">Formulaire inscription</a> 
+                    </p>
+
+                    <p class="text-center">Pas de code NEQ pour la connexion? 
+                        <a href="{{route('Connexion.connexionEmail')}}">Se connecter par courriel</a> 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
 
     </body>
 </html>

@@ -58,14 +58,12 @@
                 @csrf
                 <div class="container">
                     <div>
-                        <p class="col-12 text-center my-3 titre">Connexion au portail des fournisseurs</p>
+                        <p class="col-12 text-center my-3 titre">Connexion par courriel</p>
 
                         <div class="mb-3 row">
                             <label for="email" class="col-3" >Courriel :</label>
                             <input type="text" class="col-9" id="email" placeholder="exemple@gmail.com" name="email">
                         </div>
-
-                        <a href="{{route('Connexion.connexionNEQ')}}">Se connecter avec NEQ</a> 
 
                         <div class="mb-3 row">
                             <label for="password" class="col-3">Mot de passe :</label>
@@ -76,6 +74,10 @@
                             <button type="submit" class="btn btn-primary my-4 col-auto">Se connecter</button>
                             <p class="text-center"> Vous n'êtes pas inscrit? 
                                 <a href="{{route('Inscription.formulaireInscription')}}">Formulaire inscription</a> 
+                            </p>
+
+                            <p class="text-center">Pas de courriel de connexion? 
+                                <a href="{{route('Connexion.connexionNEQ')}}">Se connecter avec NEQ</a> 
                             </p>
                         </div>
                     </div>

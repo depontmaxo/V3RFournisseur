@@ -25,6 +25,7 @@ Route::GET('/connexionEmail',
 Route::GET('/',
 [UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
 
+
 Route::POST('/',
 [UtilisateursController::class,'login'])->name('Connexion.connexion');
 
@@ -39,7 +40,7 @@ Route::GET('/motPasseOublie',
 
 #################################Inscription#########################################
 Route::GET('/formulaireInscription',
-[InscriptionController::class,'index'])->name('Inscription.envoyerFormulaireInscription');
+[InscriptionController::class,'index'])->name('Inscription.formulaireInscription');
 
 Route::POST('/inscrire',
 [InscriptionController::class,'store'])->name('Inscription.store');
