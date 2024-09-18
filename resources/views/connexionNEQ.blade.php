@@ -49,7 +49,7 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-secondary">Connexion</button>
                 </div>
-                <a href="­{{route('ShowMotPasseOublie')}}">Mot De passe oublie?</a>
+                <a href="{{route('ShowMotPasseOublie')}}">Mot De passe oublie?</a>
             </div> 
         </form>
 
