@@ -1,37 +1,41 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+<<<<<<< HEAD
+=======
 use App\Http\Controllers\UtilisateursController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
+>>>>>>> ff240fb663915634d6d59e24b3c887c5c5204a42
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
-});*/
-
-/*
-Route::get('/', function () {
-    return view('connexion');
-});*/
-
-Route::get('/', function () {
-    return view('inscription');
 });
 
-#################################Connexion#########################################
-Route::GET('/connexionEmail',
-[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::GET('/',
-[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+<<<<<<< HEAD
+require __DIR__.'/auth.php';
+=======
 
 Route::POST('/',
 [UtilisateursController::class,'login'])->name('Connexion.connexion');
+>>>>>>> ff240fb663915634d6d59e24b3c887c5c5204a42
 
-Route::GET('/motPasseOublie',
-[UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
+Auth::routes();
 
+<<<<<<< HEAD
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+=======
 //Route::POST('/',
 //[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
 
@@ -95,3 +99,4 @@ Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
 ##################################################################################
+>>>>>>> ff240fb663915634d6d59e24b3c887c5c5204a42
