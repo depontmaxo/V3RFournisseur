@@ -28,6 +28,7 @@ class UtilisateurSeeder extends Seeder
             'posteOccupeEntreprise' => 'testeur',
             'siteWeb' => 'test.com',
             'produitOuService' => 'testing',
+            'statut' => 'actif',
         ]);
     }
 }

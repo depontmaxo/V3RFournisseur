@@ -11,7 +11,7 @@
     <h1>Page Index Fournisseur</h1>
 
     
-    <a href="{{route('Fournisseur.modification', [auth()->user()->id])}}">Modifier sa fiche fournisseur</a>
+    <a href="{{route('Fournisseur.fiche', [auth()->user()->id])}}">Afficher ma fiche fournisseur</a>
     </br>
     <a>Retirer sa fiche fournisseur</a>
     </br> 

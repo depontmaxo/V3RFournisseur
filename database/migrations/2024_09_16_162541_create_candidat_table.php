@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-    * Run the migrations.
-    */
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('utilisateur', function (Blueprint $table) {
+        Schema::create('candidat', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('neq', 255);
             $table->string('email', 255);
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('posteOccupeEntreprise', 255);
             $table->string('siteWeb', 255);
             $table->string('produitOuService', 255);
-            $table->string('statut', 255);
+            $table->string('fichiers', 255);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('utilisateur');
+        Schema::dropIfExists('candidat');
     }
 };
