@@ -39,11 +39,42 @@ Route::GET('/motPasseOublie',
 ##################################################################################
 
 #################################Inscription#########################################
-Route::GET('/formulaireInscription',
-[InscriptionController::class,'index'])->name('Inscription.formulaireInscription');
+Route::GET('/formulaire/inscription',
+[InscriptionController::class,'identification'])->name('Inscription.Identification'); //Partie 1 inscription
 
-Route::POST('/inscrire',
-[InscriptionController::class,'store'])->name('Inscription.store');
+Route::GET('/formulaire/inscription/produis',
+[InscriptionController::class,'produits'])->name('Inscription.Produits'); //Partie 2 inscription
+
+Route::GET('/formulaireInscription/inscription/produis/coordonnees',
+[InscriptionController::class,'coordonnees'])->name('Inscription.Coordonnees'); //Partie 3 inscription
+
+Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact',
+[InscriptionController::class,'contact'])->name('Inscription.Contact'); //Partie 4 inscription
+
+Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact/rbq',
+[InscriptionController::class,'rbq'])->name('Inscription.RBQ'); //Partie 5 inscription
+
+Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact/rbq/envoyer',
+[InscriptionController::class,'formComplet'])->name('Inscription.Complet'); //Partie 6 inscription (page envoie)
+
+
+Route::POST('/validation/identification',
+[InscriptionController::class,'verificationIdentification'])->name('Inscription.verificationIdentification');
+
+Route::POST('/validation/produits',
+[InscriptionController::class,'verificationProduits'])->name('Inscription.verificationProduits');
+
+Route::POST('/validation/coordonnees',
+[InscriptionController::class,'verificationCoordonnees'])->name('Inscription.verificationCoordonnees');
+
+Route::POST('/validation/contact',
+[InscriptionController::class,'verificationContact'])->name('Inscription.verificationContact');
+
+Route::POST('/validation/rbq',
+[InscriptionController::class,'verificationRBQ'])->name('Inscription.verificationRBQ');
+
+Route::POST('/envoyer',
+[InscriptionController::class,'envoyerFormulaire'])->name('Inscription.verificationComplet');
 ##################################################################################
 
 

@@ -40,6 +40,10 @@ label{
     font-size: 12pt;
 }
 
+input {
+    height: 10%;
+}
+
 .sousTitres{
     font-family: 'Poppins-Light';
     font-size: 11pt;

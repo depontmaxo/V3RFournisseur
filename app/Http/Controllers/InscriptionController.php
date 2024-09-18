@@ -6,37 +6,113 @@ use Illuminate\Http\Request;
 
 class InscriptionController extends Controller
 {
-    public function index()
+    //LES CHEMINS DE PAGE DU FORMULAIRE D'INSCRIPTION
+    public function identification()
     {
-        return View('inscription');
+        return View('Inscription.inscriptionIdentification');
     }
 
-    public function store(Request $request)
+    public function contact()
+    {
+        return View('Inscription.inscriptionContact');
+    }
+
+    public function coordonnees()
+    {
+        return View('Inscription.inscriptionCoordonnees');
+    }
+
+    public function produits()
+    {
+        return View('Inscription.inscriptionProduits');
+    }
+
+    public function rbq()
+    {
+        return View('Inscription.inscriptionRBQ');
+    }
+
+    public function formComplet()
+    {
+        return View('Inscription.inscriptionComplet');
+    }
+
+
+    //VALIDATION DE DONNEE, REDIRECT ET SAUVEGARDE DANS SESSION
+    public function verificationIdentification(Request $request)
     {
         $request->validate([
-        'nom' => [
-            'required',
-            'regex:/^[A-Za-zÀ-ÖØ-öø-ÿ]+([ -][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/',
-            'between:8,65',
-        ],
-        'neq' => 'required|digits:10|integer',/*REQUIRED SEULEMENT SI IL NE FOURNIT PAS DE COURRIEL (à modifier)*/
-        'adresse' => ['required', 'max:128', 'min:5'],
-        'numTel' => 'required|digits:10|integer',
-        'site' => 'required',
-        'nomContact' => 'required',
-        'poste' => 'required',
-        'courriel' => 'required',
-        'rbq' => 'required',
-        'services' => 'required',
-        /*'fichiersJoints' => 'required',
-        'ville' => 'required',
-        'codePostal' => 'required',
-        'pays' => 'required',
-        */
+            'entreprise' => 'required',
+            'neq' => 'required|digits:10|integer',
+            'courrielConnexion' => 'required',
+            'mdp' => 'required',
+            'mdpConf' => 'required',
         ]);
 
-        //Création candidat dans BD
-        $candidat = CandidatInscription::create([
+        $this->storeInSession($request, $request->only('entreprise', 'neq', 'courrielConnexion', 'mdp', 'mdpConf'));
+        return redirect()->route('Inscription.inscriptionProduits');
+    }
+
+    public function verificationContact(Request $request)
+    {
+        $request->validate([
+            'prenom' => 'required',
+            'nom' => 'required',
+            'poste' => 'required',
+            'courrielContact' => 'required',
+            'numContact' => 'required',
+        ]);
+
+        $this->storeInSession($request, $request->only('prenom', 'nom', 'poste', 'courrielContact', 'numContact'));
+    }
+
+    public function verificationCoordonnees(Request $request)
+    {
+        $request->validate([
+            'adresse' => 'required',
+            'bureau' => 'required',
+            'ville' => 'required',
+            'province' => 'required',
+            'codePostal' => 'required',
+            'pays' => 'required',
+            'site' => 'required',
+            'numTel' => 'required',
+        ]);
+
+        $this->storeInSession($request, $request->only('adresse', 'bureau', 'ville', 'province', 'codePostal', 'pays', 'site', 'numTel'));
+    }
+
+    public function verificationProduits(Request $request)
+    {
+        $request->validate([
+            'services' => 'required',
+        ]);
+
+        $this->storeInSession($request, $request->only('services'));
+    }
+
+    public function verificationRBQ(Request $request)
+    {
+        $request->validate([
+            'rbq' => 'required',
+            'fichiersJoints' => 'required',
+        ]);
+
+        $this->storeInSession($request, $request->only('rbq', 'fichiersJoints'));
+    }
+
+
+    //VA CHERCHER INFO ET CRÉE CANDIDAT
+    public function envoyerFormulaire(Request $request)
+    {
+        $data = session('user_data', []);
+
+        $candidat = CandidatInscription::create($data);
+
+        session()->forget('user_data');
+        /*Envoyer à une page qui demande de confirmer son compte dans ses courriels*/
+
+        /*$candidat = CandidatInscription::create([
             'nom' => $request->nom,
             'neq' => $request->neq,
             'adresse' => $request->adresse,
@@ -48,11 +124,14 @@ class InscriptionController extends Controller
             'rbq' => $request->rbq,
             'services' => $request->services,
             'fichiersJoints' => $request->fichiersJoints,
-        ]);
+        ]);*/
     }
 
-    public function login(ConnexionRequest $request)
+    //Fonctions pour storer les données
+    protected function storeInSession(Request $request, $stepData)
     {
-
+        $data = session('user_data', []);
+        $data = array_merge($data, $stepData);
+        session(['user_data' => $data]);
     }
 }
