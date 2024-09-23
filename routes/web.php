@@ -30,10 +30,10 @@ Route::middleware('auth')->group(function () {
 
 #################################Connexion#########################################
 Route::GET('/connexionEmail',
-[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
+[UtilisateursController::class,'index'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
 
 Route::GET('/',
-[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
+[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ')->middleware(ClearSessionMiddleware::class);
 
 
 Route::POST('/',
