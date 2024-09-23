@@ -18,12 +18,12 @@ class UtilisateurSeeder extends Seeder
             'id' => Str::uuid()->toString(), // Generate a UUID for the id
             'neq'=> '12345',
             'email'=> 'test@test.com',
-            'password' =>'$2y$10$t8Euw.TibLX07KUYzMMrKu7Q4Wvi4hrHP3DwewiXaDEe6bHYMhBzS',
+            'password' =>'$2y$10$t8Euw.TibLX07KUYzMMrKu7Q4Wvi4hrHP3DwewiXaDEe6bHYMhBzS', //test
             'nomFournisseur' => 'test',
             'adresse' => '123 test rd',
             'noTelephone' => '(111)-111-1111',
             'personneRessource' => 'bob',
-            'emailPersonneRessource' => 'bob"test.com',
+            'emailPersonneRessource' => 'bob@test.com',
             'licenceRBQ' => 'licence',
             'posteOccupeEntreprise' => 'testeur',
             'siteWeb' => 'test.com',

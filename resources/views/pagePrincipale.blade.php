@@ -1,25 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/pagePrincipale.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Index</title>
-</head>
-<body>
-    <h1>Page Index Fournisseur</h1>
+@extends('layouts.app')
+ 
+@section('titre', 'Index')
+  
+@section('contenu')
+    <!-- tout le site ici -->
+    <body>
+        <nav class="sub-nav">
+            <form action="{{ route('Connexion.logout') }}" method="post">
+            @csrf
+            <button id="bouton1" type="submit">Déconnecter</button>
+            </form>
+        </nav>
 
-    
-    <a href="{{route('Fournisseur.fiche', [auth()->user()->id])}}">Afficher ma fiche fournisseur</a>
-    </br>
-    <a>Retirer sa fiche fournisseur</a>
-    </br> 
-    <a>Liste des contrats disponible (afficher sur la page)</a>
-    </br>
-    <a>Historique de mes contracts</a>
-    </br>
-    <a>Contact support</a>
+        <h1>Page Index Fournisseur</h1>
 
-</body>
-</html>
+        
+        <a href="{{route('Fournisseur.fiche', [auth()->user()->id])}}">Afficher ma fiche fournisseur</a>
+        </br>
+        <a onclick="return confirm('Êtes-vous sûr de rendre votre compte inactif?')" href="{{ route('Fournisseur.inactif', [auth()->user()->id]) }}">
+        Retirer sa fiche fournisseur
+        </a>
+        </br> 
+        <a>Liste des contrats disponible (afficher sur la page)</a>
+        </br>
+        <a>Historique de mes contracts</a>
+        </br>
+        <a>Contact support</a>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        <a href="{{route('Responsable.index')}}">Mode Responsable</a>
+
+    </body>   
+@endsection

@@ -29,6 +29,6 @@
     <br>
     <a href="{{route('Fournisseur.modification', [auth()->user()->id])}}">Modifier sa fiche fournisseur</a>
     <br>
-    <a href="{{ route('Fournisseur.inactif', [auth()->user()->id]) }}">Rendre le compte inactif</a>
+    <a onclick="return confirm('Êtes-vous sûr de rendre votre compte inactif?')" href="{{ route('Fournisseur.inactif', [auth()->user()->id]) }}">Rendre le compte inactif</a>
 </body>
 </html>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UtilisateursController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
+use App\Http\Controllers\ResponsablesController;
 
 /*Route::get('/', function () {
     return view('welcome');
@@ -38,6 +39,13 @@ Route::GET('/motPasseOublie',
 
 ##################################################################################
 
+
+#################################Déconnexion#########################################
+Route::POST('/logout',
+[UtilisateursController::class,'logout'])->name('Connexion.logout');
+##################################################################################
+
+
 #################################Inscription#########################################
 Route::GET('/formulaireInscription',
 [InscriptionController::class,'index'])->name('Inscription.formulaireInscription');
@@ -60,7 +68,10 @@ Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
 Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'update'])->name('Fournisseur.modification');
 
-Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
+Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
 ##################################################################################
+
+Route::GET('/reponsableIndex',
+[ResponsablesController::class,'index'])->name('Responsable.index');

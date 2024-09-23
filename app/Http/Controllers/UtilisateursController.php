@@ -16,7 +16,7 @@ class UtilisateursController extends Controller
     {
         return View('connexion');
     }
-
+    
     /**
     * Index de connection avec un NEQ
     */
@@ -114,7 +114,7 @@ class UtilisateursController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-        return redirect()->route('Tutorat.index_login');
+        return redirect()->route('Connexion.connexionEmail');
     }
 
 
