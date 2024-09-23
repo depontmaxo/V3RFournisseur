@@ -95,10 +95,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-
-Auth::routes();
-
 Route::GET('/ficheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
 
