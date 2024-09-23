@@ -8,20 +8,23 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
      */
     public function up(): void
     {
-        Schema::create('test', function (Blueprint $table) {
-            $table->id();
+        Schema::create('resetPWD', function (Blueprint $table) {
+            $table->string('email', 255);
+            $table->string('token', 255);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
      */
     public function down(): void
     {
-        Schema::dropIfExists('test');
+        Schema::dropIfExists('resetPWD');
     }
 };

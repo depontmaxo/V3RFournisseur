@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UtilisateursController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
-use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\ResponsablesController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,17 +22,26 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
 Route::POST('/',
 [UtilisateursController::class,'login'])->name('Connexion.connexion');
 
-Route::GET('/motPasseOublie',
-[UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
-
-//Route::POST('/',
-//[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
 
 
 ##################################################################################
+
+
+#################################Déconnexion#########################################
+Route::POST('/logout',
+[UtilisateursController::class,'logout'])->name('Connexion.logout');
+##################################################################################
+
 
 #################################Inscription#########################################
 Route::GET('/formulaire/inscription',
@@ -97,22 +105,10 @@ Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
 Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'update'])->name('Fournisseur.modification');
 
-Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
+Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
-############################################################################
-############################ADMIN###########################################
-Route::resource('users', UserController::class)->middleware('auth');
+##################################################################################
 
-#####Cela garantit 
-##que seules les personnes 
-##authentifiées avec un 
-##rôle d'administrateur peuvent 
-##accéder aux routes des utilisateurs.
-#Route::middleware(['auth', 'admin'])->group(function () {
- #   Route::resource('users', UserController::class);
-#});        
-
-Route::middleware(['auth', 'admin'])->get('/admin/users', [UserController::class,'index'])->name('admin.users');
-
-
+Route::GET('/reponsableIndex',
+[ResponsablesController::class,'index'])->name('Responsable.index');
