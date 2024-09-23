@@ -7,10 +7,20 @@ use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 
-/*
-Route::POST('/',
-[UtilisateursController::class,'login'])->name('Connexion.connexion');
-*/
+/*Route::get('/', function () {
+    return view('welcome');
+});*/
+
+Route::GET('/',
+[UtilisateursController::class,'index']);
+
+#################################Connexion#########################################
+Route::GET('/connexionEmail',
+[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
+
+Route::GET('/',
+[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -92,6 +102,11 @@ Route::POST('/envoyer',
 #################################Utilisation fournisseur#########################################
 Route::GET('/index',
 [FournisseursController::class,'index'])->name('Fournisseur.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 Route::GET('/ficheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
