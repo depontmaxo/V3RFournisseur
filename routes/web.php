@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UtilisateursController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
+use App\Http\Controllers\UserController;
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -98,3 +101,18 @@ Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
 ############################################################################
+############################ADMIN###########################################
+Route::resource('users', UserController::class)->middleware('auth');
+
+#####Cela garantit 
+##que seules les personnes 
+##authentifiées avec un 
+##rôle d'administrateur peuvent 
+##accéder aux routes des utilisateurs.
+#Route::middleware(['auth', 'admin'])->group(function () {
+ #   Route::resource('users', UserController::class);
+#});        
+
+Route::middleware(['auth', 'admin'])->get('/admin/users', [UserController::class,'index'])->name('admin.users');
+
+
