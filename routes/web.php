@@ -1,38 +1,41 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+<<<<<<< HEAD
+=======
 use App\Http\Controllers\UtilisateursController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
-use App\Http\Controllers\ResponsablesController;
+>>>>>>> ff240fb663915634d6d59e24b3c887c5c5204a42
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
-});*/
-
-/*
-Route::get('/', function () {
-    return view('connexion');
-});*/
-
-Route::get('/', function () {
-    return view('inscription');
 });
 
-#################################Connexion#########################################
-Route::GET('/connexionEmail',
-[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::GET('/',
-[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+<<<<<<< HEAD
+require __DIR__.'/auth.php';
+=======
 
 Route::POST('/',
 [UtilisateursController::class,'login'])->name('Connexion.connexion');
+>>>>>>> ff240fb663915634d6d59e24b3c887c5c5204a42
 
-Route::GET('/motPasseOublie',
-[UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
+Auth::routes();
 
+<<<<<<< HEAD
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+=======
 //Route::POST('/',
 //[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
 
@@ -47,11 +50,42 @@ Route::POST('/logout',
 
 
 #################################Inscription#########################################
-Route::GET('/formulaireInscription',
-[InscriptionController::class,'index'])->name('Inscription.formulaireInscription');
+Route::GET('/formulaire/inscription',
+[InscriptionController::class,'identification'])->name('Inscription.Identification'); //Partie 1 inscription
 
-Route::POST('/inscrire',
-[InscriptionController::class,'store'])->name('Inscription.store');
+Route::GET('/formulaire/inscription/produis',
+[InscriptionController::class,'produits'])->name('Inscription.Produits'); //Partie 2 inscription
+
+Route::GET('/formulaireInscription/inscription/produis/coordonnees',
+[InscriptionController::class,'coordonnees'])->name('Inscription.Coordonnees'); //Partie 3 inscription
+
+Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact',
+[InscriptionController::class,'contact'])->name('Inscription.Contact'); //Partie 4 inscription
+
+Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact/rbq',
+[InscriptionController::class,'rbq'])->name('Inscription.RBQ'); //Partie 5 inscription
+
+Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact/rbq/envoyer',
+[InscriptionController::class,'formComplet'])->name('Inscription.Complet'); //Partie 6 inscription (page envoie)
+
+
+Route::POST('/validation/identification',
+[InscriptionController::class,'verificationIdentification'])->name('Inscription.verificationIdentification');
+
+Route::POST('/validation/produits',
+[InscriptionController::class,'verificationProduits'])->name('Inscription.verificationProduits');
+
+Route::POST('/validation/coordonnees',
+[InscriptionController::class,'verificationCoordonnees'])->name('Inscription.verificationCoordonnees');
+
+Route::POST('/validation/contact',
+[InscriptionController::class,'verificationContact'])->name('Inscription.verificationContact');
+
+Route::POST('/validation/rbq',
+[InscriptionController::class,'verificationRBQ'])->name('Inscription.verificationRBQ');
+
+Route::POST('/envoyer',
+[InscriptionController::class,'envoyerFormulaire'])->name('Inscription.verificationComplet');
 ##################################################################################
 
 
@@ -72,6 +106,7 @@ Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
 ##################################################################################
+>>>>>>> ff240fb663915634d6d59e24b3c887c5c5204a42
 
 Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index');
