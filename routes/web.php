@@ -2,12 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\UtilisateursController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
->>>>>>> ff240fb663915634d6d59e24b3c887c5c5204a42
+use App\Http\Controllers\ResponsablesController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,21 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-<<<<<<< HEAD
-require __DIR__.'/auth.php';
-=======
 
 Route::POST('/',
 [UtilisateursController::class,'login'])->name('Connexion.connexion');
->>>>>>> ff240fb663915634d6d59e24b3c887c5c5204a42
 
-Auth::routes();
-
-<<<<<<< HEAD
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-=======
-//Route::POST('/',
-//[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
 
 
 ##################################################################################
@@ -106,7 +93,6 @@ Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
 ##################################################################################
->>>>>>> ff240fb663915634d6d59e24b3c887c5c5204a42
 
 Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index');
