@@ -15,12 +15,6 @@ Route::GET('/',
 [UtilisateursController::class,'index']);
 
 #################################Connexion#########################################
-Route::GET('/connexionEmail',
-[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
-
-Route::GET('/',
-[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
