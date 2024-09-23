@@ -7,9 +7,12 @@ use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+
+Route::GET('/',
+[UtilisateursController::class,'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

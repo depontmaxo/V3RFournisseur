@@ -41,7 +41,7 @@
                         <div class="row d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary my-4 col-auto">Se connecter</button>
                             <p class="text-center"> Vous n'êtes pas inscrit? 
-                                <a href="{{route('Inscription.identification')}}">Formulaire inscription</a> 
+                                <a href="{{route('Inscription.Identification')}}">Formulaire inscription</a> 
                             </p>
 
                             <p class="text-center">Pas de courriel de connexion? 
