@@ -13,10 +13,10 @@ Route::GET('/',
 
 #################################Connexion#########################################
 Route::GET('/connexionEmail',
-[UtilisateursController::class,'index'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
+[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
 
 Route::GET('/',
-[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ')->middleware(ClearSessionMiddleware::class);
+[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -28,16 +28,31 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+#################################Connexion#########################################
+Route::GET('/connexionEmail',
+[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
+
+Route::GET('/',
+[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
+
 
 Route::POST('/',
 [UtilisateursController::class,'login'])->name('Connexion.connexion');
+
+Route::GET('/motPasseOublie',
+[UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
+
+//Route::POST('/',
+//[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
+
 
 ##################################################################################
 
 
 #################################Déconnexion#########################################
-Route::POST('/logout',
-[UtilisateursController::class,'logout'])->name('Connexion.logout')->middleware(ClearSessionMiddleware::class);
+Route::POST('/logout', [UtilisateursController::class, 'logout'])->name('logout')->middleware(ClearSessionMiddleware::class);
+
+
 ##################################################################################
 
 
