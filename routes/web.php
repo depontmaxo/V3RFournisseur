@@ -7,10 +7,10 @@ use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+/*
+Route::POST('/',
+[UtilisateursController::class,'login'])->name('Connexion.connexion');
+*/
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -21,18 +21,31 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+#################################Connexion#########################################
+Route::GET('/connexionEmail',
+[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
+
+Route::GET('/',
+[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
+
 
 Route::POST('/',
 [UtilisateursController::class,'login'])->name('Connexion.connexion');
 
+Route::GET('/motPasseOublie',
+[UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
+
+//Route::POST('/',
+//[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
 
 
 ##################################################################################
 
 
 #################################Déconnexion#########################################
-Route::POST('/logout',
-[UtilisateursController::class,'logout'])->name('Connexion.logout');
+Route::POST('/logout', [UtilisateursController::class, 'logout'])->name('logout');
+
+
 ##################################################################################
 
 

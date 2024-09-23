@@ -6,7 +6,7 @@
     <!-- tout le site ici -->
     <body>
         <nav class="sub-nav">
-            <form action="{{ route('Connexion.logout') }}" method="post">
+            <form action="{{ route('logout') }}" method="post">
             @csrf
             <button id="bouton1" type="submit">Déconnecter</button>
             </form>
