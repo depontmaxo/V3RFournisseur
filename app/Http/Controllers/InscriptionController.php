@@ -42,63 +42,83 @@ class InscriptionController extends Controller
     public function verificationIdentification(Request $request)
     {
         $request->validate([
-            'entreprise' => 'required',
-            'neq' => 'required|digits:10|integer',
-            'courrielConnexion' => 'required',
-            'mdp' => 'required',
-            'mdpConf' => 'required',
+            'entreprise' => [
+                'required', 
+            'min:5', 
+            'max:75', 
+            'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/' //Vérifie qu'il n'y a plusieurs espaces un après l'autre
+            ],
+
+            'neq' => ['required', 'digits:10', 'integer'],
+            'courrielConnexion' => ['required', 'min:10', 'max:75', 'regex:/^[^\s]*$/'],
+            'password' => [
+                'required', 
+                'min:8', 
+                'max:25', 
+                'confirmed', 
+                'regex:/^[^\s]*$/' //Vérifie qu'il ne contient aucun espace dans le string
+                ]
         ]);
 
-        $this->storeInSession($request, $request->only('entreprise', 'neq', 'courrielConnexion', 'mdp', 'mdpConf'));
-        return redirect()->route('Inscription.inscriptionProduits');
+        $this->storeInSession($request, $request->only('entreprise', 'neq', 'courrielConnexion', 'password'));
+
+        return redirect()->route('Inscription.Produits');
     }
 
-    public function verificationContact(Request $request)
+
+    public function verificationProduits(Request $request)
     {
         $request->validate([
-            'prenom' => 'required',
-            'nom' => 'required',
-            'poste' => 'required',
-            'courrielContact' => 'required',
-            'numContact' => 'required',
+            'services' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/'],
         ]);
 
-        $this->storeInSession($request, $request->only('prenom', 'nom', 'poste', 'courrielContact', 'numContact'));
+        $this->storeInSession($request, $request->only('services'));
+        return redirect()->route('Inscription.Coordonnees');
     }
 
     public function verificationCoordonnees(Request $request)
     {
         $request->validate([
-            'adresse' => 'required',
-            'bureau' => 'required',
-            'ville' => 'required',
-            'province' => 'required',
-            'codePostal' => 'required',
-            'pays' => 'required',
-            'site' => 'required',
-            'numTel' => 'required',
+            'adresse' => ['required', 'regex:/^\d+\s+[a-zA-Z]+/', 'min:5', 'max:50'], // Vérifier le format avec chiffres et lettres
+            'bureau' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:5', 'max:15'],
+            'ville' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:3', 'max:30'],
+            'province' => ['required', 'min:3', 'max:25', 'regex:/^[^\s]*$/'],
+            'codePostal' => [
+                'required', 
+                'regex:/^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/'], // Valider le code postal
+            'pays' => ['required', 'regex:/^[^\s]*$/', 'min:5', 'max:35'],
+            'site' => ['required', 'regex:/^[^\s]*$/'],
+            'numTel' => ['required', 'digits:10', 'integer'],
         ]);
 
         $this->storeInSession($request, $request->only('adresse', 'bureau', 'ville', 'province', 'codePostal', 'pays', 'site', 'numTel'));
+        return redirect()->route('Inscription.Contact');
     }
 
-    public function verificationProduits(Request $request)
+    public function verificationContact(Request $request)
     {
         $request->validate([
-            'services' => 'required',
+            'prenom' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:20'],
+            'nom' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:50'],
+            'poste' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:3', 'max:30'],
+            'courrielContact' => ['required', 'regex:/^[^\s]*$/'],
+            'numContact' => ['required', 'digits:10', 'integer'],
         ]);
 
-        $this->storeInSession($request, $request->only('services'));
+        $this->storeInSession($request, $request->only('prenom', 'nom', 'poste', 'courrielContact', 'numContact'));
+        return redirect()->route('Inscription.RBQ');
     }
+
 
     public function verificationRBQ(Request $request)
     {
         $request->validate([
-            'rbq' => 'required',
-            'fichiersJoints' => 'required',
+            'rbq' => ['required'],
+            'fichiersJoints' => ['required'],
         ]);
 
         $this->storeInSession($request, $request->only('rbq', 'fichiersJoints'));
+        return redirect()->route('Inscription.Complet');
     }
 
 
@@ -107,9 +127,11 @@ class InscriptionController extends Controller
     {
         $data = session('user_data', []);
 
-        $candidat = CandidatInscription::create($data);
+        //$candidat = CandidatInscription::create($data);
 
         session()->forget('user_data');
+        //session()->flush();
+
         /*Envoyer à une page qui demande de confirmer son compte dans ses courriels*/
 
         /*$candidat = CandidatInscription::create([
@@ -125,6 +147,7 @@ class InscriptionController extends Controller
             'services' => $request->services,
             'fichiersJoints' => $request->fichiersJoints,
         ]);*/
+        //return redirect()->route('Inscription.Produits');
     }
 
     //Fonctions pour storer les données
