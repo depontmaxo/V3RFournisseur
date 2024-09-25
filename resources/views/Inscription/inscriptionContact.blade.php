@@ -12,9 +12,9 @@
                 @csrf
                 <div class="container-fluid">
                     
-                        <p class="col-12 text-center my-3 titre">Information de votre entreprise</p>
+                        <p class="col-12 text-center my-3 titre">Contact(s) rejoignable(s)</p>
                         
-                        <span class="sousTitres">Contacts</span>
+                        <span class="sousTitres">Information contact</span>
                         <div class="mb-3 row">
                             <label for="prenom" class="col-3">Prénom : </label>
                             <input type="text" class="col-9" id="prenom" placeholder="exemple: Connor" name="prenom" value="{{ old('prenom', session('user_data.prenom')) }}">

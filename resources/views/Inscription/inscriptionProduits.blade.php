@@ -12,7 +12,7 @@
                 @csrf
                 <div class="container-fluid">                                           
                         <p class="col-12 text-center my-3 titre">Descriptions des produits et services offerts</p>
-                        
+                        <span class="sousTitres">Produits ou services offerts</span>
                         <div class="mb-3 row">
                             <label for="services" class="col-3">Produits / Services :</label>
                             <textarea placeholder="Description des produits/services offerts." class="col-9 description" id="services" name="services">{{ old('services', session('user_data.services', '')) }}</textarea>
@@ -26,9 +26,6 @@
                         <div class="row d-flex justify-content-center">
                             <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.Identification') }}">Précédent</a>
                             <button type="submit" class="btn btn-primary mb-3 col-auto">Suivant</button>
-                            <p class="text-center"> Vous êtes déjà inscrit? 
-                                <a href="{{ route('Connexion.connexionEmail') }}">Se connecter</a> 
-                            </p>
                         </div>
                     
                 </div>

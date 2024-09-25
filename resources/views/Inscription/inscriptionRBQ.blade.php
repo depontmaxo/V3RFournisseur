@@ -12,7 +12,7 @@
                 @csrf
                 <div class="container-fluid">
                         <p class="col-12 text-center my-3 titre">Brochures et cartes d'affaires</p>
-                        <span class="sousTitres">Autres</span>
+                        <span class="sousTitres">Licence(s)</span>
                         <div class="mb-3 row">
                             <label for="rbq" class="col-3">Licence(s) RBQ valide(s) :</label>
                             <input type="text" class="col-9" id="rbq" placeholder="truc rbq" name="rbq" value="{{ old('rbq', session('user_data.rbq')) }}">
@@ -23,10 +23,10 @@
                         
                         </div>
 
-                        
+                        <span class="sousTitres">Fichier(s) joint(s)</span>
                         <div class="mb-3 row">
                             <label for="fichiersJoints" class="form-label">Joindres les fichiers (docx, pdf, jpg ou xlsx seulement)</label>
-                            <input type="file" class="form-control" id="fichiersJoints" value="{{ old('fichiersJoints', session('user_data.fichiersJoints')) }}" multiple>
+                            <input type="file" class="form-control" id="fichiersJoints"  multiple>
                         
                             @error('fichiersJoints')
                                 <div class="alert alert-danger">{{ $message }}</div>
