@@ -8,10 +8,10 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     */
+     */ 
     public function up(): void
     {
-        Schema::create('candidat', function (Blueprint $table) {
+        Schema::create('inscription', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('entreprise', 255);
             $table->string('neq', 255);
@@ -35,17 +35,13 @@ return new class extends Migration
             $table->string('numContact', 255);
 
             $table->string('rbq', 255);
-
-            $table->rememberToken();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('candidat');
+        Schema::dropIfExists('inscription');
     }
+
 };

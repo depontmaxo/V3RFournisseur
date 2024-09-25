@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\CandidatInscription;
+use Illuminate\Support\Facades\Hash;
 
 class InscriptionController extends Controller
 {
@@ -50,17 +53,22 @@ class InscriptionController extends Controller
             ],
 
             'neq' => ['required', 'digits:10', 'integer'],
-            'courrielConnexion' => ['required', 'min:10', 'max:75', 'regex:/^[^\s]*$/'],
+            'courrielConnexion' => ['required', 'min:5', 'max:75', 'regex:/^[^\s]*$/'],
             'password' => [
                 'required', 
                 'min:8', 
-                'max:25', 
-                'confirmed', 
+                'max:15', 
+                'regex:/[!@#$%^&*(),.?":{}|<>]/', // au moins un caractère spécial
+                'regex:/.*\d.*\d.*$/', // au moins deux chiffres
+                'confirmed',
                 'regex:/^[^\s]*$/' //Vérifie qu'il ne contient aucun espace dans le string
                 ]
         ]);
 
-        $this->storeInSession($request, $request->only('entreprise', 'neq', 'courrielConnexion', 'password'));
+        /*Pour hasher/encrypter le mdp*/
+        $hashedPassword = Hash::make($request->password);
+
+        $this->storeInSession($request, $request->only('entreprise', 'neq', 'courrielConnexion') + ['password' => $hashedPassword]);
 
         return redirect()->route('Inscription.Produits');
     }
@@ -80,13 +88,13 @@ class InscriptionController extends Controller
     {
         $request->validate([
             'adresse' => ['required', 'regex:/^\d+\s+[a-zA-Z]+/', 'min:5', 'max:50'], // Vérifier le format avec chiffres et lettres
-            'bureau' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:5', 'max:15'],
+            'bureau' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'max:15'],
             'ville' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:3', 'max:30'],
             'province' => ['required', 'min:3', 'max:25', 'regex:/^[^\s]*$/'],
             'codePostal' => [
                 'required', 
-                'regex:/^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/'], // Valider le code postal
-            'pays' => ['required', 'regex:/^[^\s]*$/', 'min:5', 'max:35'],
+                'regex:/^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/'], 
+            'pays' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:35'],
             'site' => ['required', 'regex:/^[^\s]*$/'],
             'numTel' => ['required', 'digits:10', 'integer'],
         ]);
@@ -101,7 +109,7 @@ class InscriptionController extends Controller
             'prenom' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:20'],
             'nom' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:50'],
             'poste' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:3', 'max:30'],
-            'courrielContact' => ['required', 'regex:/^[^\s]*$/'],
+            'courrielContact' => ['required', 'min:5', 'max:75', 'regex:/^[^\s]*$/'],
             'numContact' => ['required', 'digits:10', 'integer'],
         ]);
 
@@ -113,8 +121,8 @@ class InscriptionController extends Controller
     public function verificationRBQ(Request $request)
     {
         $request->validate([
-            'rbq' => ['required'],
-            'fichiersJoints' => ['required'],
+            'rbq' => ['required']/*,
+            'fichiersJoints' => ['required'],*/
         ]);
 
         $this->storeInSession($request, $request->only('rbq', 'fichiersJoints'));
@@ -126,28 +134,36 @@ class InscriptionController extends Controller
     public function envoyerFormulaire(Request $request)
     {
         $data = session('user_data', []);
-
+        //dd(/*['uuid' => (string) Str::uuid()] + */$data );
         //$candidat = CandidatInscription::create($data);
-
-        session()->forget('user_data');
-        //session()->flush();
 
         /*Envoyer à une page qui demande de confirmer son compte dans ses courriels*/
 
-        /*$candidat = CandidatInscription::create([
-            'nom' => $request->nom,
-            'neq' => $request->neq,
-            'adresse' => $request->adresse,
-            'numTel' => $request->numTel,
-            'site' => $request->site,
-            'nomContact' => $request->nomContact,
-            'poste' => $request->poste,
-            'courriel' => $request->courriel,
-            'rbq' => $request->rbq,
-            'services' => $request->services,
-            'fichiersJoints' => $request->fichiersJoints,
-        ]);*/
-        //return redirect()->route('Inscription.Produits');
+        $formulaire = CandidatInscription::create([
+            'id' => (string) Str::uuid(),
+            'entreprise' => $data['entreprise'],
+            'neq'=> $data['neq'],
+            'courrielConnexion'=> $data['courrielConnexion'],
+            'password'=> $data['password'],
+            'services'=> $data['services'],
+            'adresse' => $data['adresse'],
+            'bureau' => $data['bureau'],
+            'ville' => $data['ville'],
+            'province' => $data['province'],
+            'codePostal' => $data['codePostal'],
+            'pays' => $data['pays'],
+            'site' => $data['site'],
+            'numTel' => $data['numTel'],
+            'prenom' => $data['prenom'],
+            'nom' => $data['nom'],
+            'poste' => $data['poste'],
+            'courrielContact' => $data['courrielContact'],
+            'numContact' => $data['numContact'],
+            'rbq' => $data['rbq']
+        ]);
+
+        session()->forget('user_data');
+        return redirect()->route('Connexion.connexion');
     }
 
     //Fonctions pour storer les données
