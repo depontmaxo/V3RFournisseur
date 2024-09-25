@@ -139,6 +139,7 @@ class InscriptionController extends Controller
 
         /*Envoyer à une page qui demande de confirmer son compte dans ses courriels*/
 
+        /*Il faut s'assurer que le model CandidatInscription a tout les attributs qu'on vient lui donner sinon il ne va pas marcher*/ 
         $formulaire = CandidatInscription::create([
             'id' => (string) Str::uuid(),
             'entreprise' => $data['entreprise'],
