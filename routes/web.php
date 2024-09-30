@@ -13,7 +13,7 @@ use App\Http\Middleware\CheckRole;
 });*/
 
 Route::GET('/',
-[UtilisateursController::class,'index'])->middleware('admin','commis','responsable','admin');
+[UtilisateursController::class,'index'])->middleware('role:admin,commis,responsable,fournisseur');
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {
