@@ -1,13 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UtilisateursController;
 use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
-use App\Http\Middleware\ClearSessionMiddleware;
+
+/*Route::get('/', function () {
+    return view('welcome');
+});*/
 
 Route::GET('/',
 [UtilisateursController::class,'index'])->middleware('admin','commis','responsable','admin');
@@ -25,10 +28,10 @@ Route::middleware('auth')->group(function () {
 
 #################################Connexion#########################################
 Route::GET('/connexionEmail',
-[UtilisateursController::class,'index'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
+[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
 
 Route::GET('/',
-[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ')->middleware(ClearSessionMiddleware::class);
+[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
 
 
 Route::POST('/',
@@ -40,42 +43,34 @@ Route::GET('/motPasseOublie',
 //Route::POST('/',
 //[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+##################################################################################
 
 
 #################################Déconnexion#########################################
-Route::POST('/logout', [UtilisateursController::class, 'logout'])->name('logout')->middleware(ClearSessionMiddleware::class);
+Route::POST('/logout', [UtilisateursController::class, 'logout'])->name('logout');
 
 
 ##################################################################################
 
 
-
 #################################Inscription#########################################
-Route::GET('/formulaire',
+Route::GET('/formulaire/inscription',
 [InscriptionController::class,'identification'])->name('Inscription.Identification'); //Partie 1 inscription
 
-Route::GET('/formulaire/produits',
+Route::GET('/formulaire/inscription/produis',
 [InscriptionController::class,'produits'])->name('Inscription.Produits'); //Partie 2 inscription
 
-Route::GET('/formulaire/produits/coordonnees',
+Route::GET('/formulaireInscription/inscription/produis/coordonnees',
 [InscriptionController::class,'coordonnees'])->name('Inscription.Coordonnees'); //Partie 3 inscription
 
-Route::GET('/formulaire/produits/coordonnees/contact',
+Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact',
 [InscriptionController::class,'contact'])->name('Inscription.Contact'); //Partie 4 inscription
 
-Route::GET('/formulaire/produits/coordonnees/contact/rbq',
+Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact/rbq',
 [InscriptionController::class,'rbq'])->name('Inscription.RBQ'); //Partie 5 inscription
 
-Route::GET('/formulaire/produits/coordonnees/contact/rbq/envoyer',
+Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact/rbq/envoyer',
 [InscriptionController::class,'formComplet'])->name('Inscription.Complet'); //Partie 6 inscription (page envoie)
 
 
@@ -99,16 +94,16 @@ Route::POST('/envoyer',
 ##################################################################################
 
 
-
 #################################Utilisation fournisseur#########################################
 Route::GET('/index',
 [FournisseursController::class,'index'])->name('Fournisseur.index');
+/*
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+*/
 Route::GET('/ficheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
 
@@ -124,4 +119,4 @@ Route::GET('/inactif/{utilisateur}/',
 ##################################################################################
 
 Route::GET('/reponsableIndex',
-[ResponsablesController::class,'index'])->name('Responsable.index');
+[ResponsablesController::class,'index'])->name('Responsable.index')->middleware(CheckRole::class.':responsable');
