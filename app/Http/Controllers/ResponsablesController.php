@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Utilisateur;
 
 class ResponsablesController extends Controller
 {
@@ -13,8 +11,7 @@ class ResponsablesController extends Controller
      */
     public function index()
     {
-        $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
-        return View('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
+        return View('pagePrincipaleResponsable');
     }
 
     /**
