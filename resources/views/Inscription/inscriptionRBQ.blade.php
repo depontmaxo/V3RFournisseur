@@ -8,14 +8,14 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
     <body>
-            <form method="post" action="{{ route('Inscription.store') }}">
+            <form method="post" action="{{ route('Inscription.verificationRBQ') }}">
                 @csrf
                 <div class="container-fluid">
-                
-                        <span class="sousTitres">Autres</span>
+                        <p class="col-12 text-center my-3 titre">Brochures et cartes d'affaires</p>
+                        <span class="sousTitres">Licence(s)</span>
                         <div class="mb-3 row">
                             <label for="rbq" class="col-3">Licence(s) RBQ valide(s) :</label>
-                            <input type="text" class="col-9" id="rbq" placeholder="???" name="rbq" value="{{ old('rbq') }}">
+                            <input type="text" class="col-9" id="rbq" placeholder="truc rbq" name="rbq" value="{{ old('rbq', session('user_data.rbq')) }}">
                         
                             @error('rbq')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -23,10 +23,10 @@
                         
                         </div>
 
-                        <p class="col-12 text-center my-3 titre">Brochures et cartes d'affaires</p>
+                        <span class="sousTitres">Fichier(s) joint(s)</span>
                         <div class="mb-3 row">
                             <label for="fichiersJoints" class="form-label">Joindres les fichiers (docx, pdf, jpg ou xlsx seulement)</label>
-                            <input type="file" class="form-control" id="fichiersJoints" multiple>
+                            <input type="file" class="form-control" id="fichiersJoints"  multiple>
                         
                             @error('fichiersJoints')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -34,10 +34,11 @@
                         
                         </div>
 
+
                         <div class="row d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary mb-3 col-auto">Réviser les informations fournies</button>
-                            <button class="btn btn-primary mb-3 col-auto"><a>Précédent</a></button>
-                        </div>
+                            <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.Contact') }}">Précédent</a>
+                           <button type="submit" class="btn btn-primary mb-3 col-auto">Suivant</button>
+                       </div>
                     
                 </div>
             </form>

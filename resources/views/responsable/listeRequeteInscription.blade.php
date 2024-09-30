@@ -9,29 +9,30 @@
             <thead>
                 <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Entreprise</th>
+                <th scope="col">Visualiser</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-                </tr>
+                <?php
+                $test = 1;
+                ?>
+                @if (count($candidats))
+                    @foreach ($candidats as $candidat)
+                    <tr>
+                        <th>{{ $test++ }}</th>
+                        <td>{{ $candidat->prenom }}</td>
+                        <td>{{ $candidat->nom }}</td>
+                        <td>{{ $candidat->entreprise }}</td>
+                        <td><a href="{{ route('Fournisseur.visualiserCandidat', [$candidat]) }}">Évaluer</a></td>
+                    </tr>
+                    
+                    @endforeach
+                @else
+                    <p>Aucune requête d'inscription pour le moment</p>
+                @endif
             </tbody>
         </table>
     </div>

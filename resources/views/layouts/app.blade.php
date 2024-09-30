@@ -12,14 +12,30 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{route('Fournisseur.index')}}">Navbar</a>
+        @if (Auth::user()->role == 'responsable') 
+            <a class="navbar-brand" href="{{ route('Responsable.index') }}">Navbar</a>
+        @elseif (Auth::user()->role == 'admin')
+            <a class="navbar-brand" href="{{ route('Responsable.index') }}">Navbar</a>
+        @else
+            <a class="navbar-brand" href="{{ route('Fournisseur.index') }}">Navbar</a>
+        @endif
+
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+
+            @if (Auth::user()->role == 'responsable') 
+                <a class="nav-link active" aria-current="page" href="{{ route('Responsable.index') }}">Home</a>
+            @elseif (Auth::user()->role == 'admin')
+                <a class="nav-link active" aria-current="page" href="{{ route('Responsable.index') }}">Home</a>
+            @else
+                <a class="nav-link active" aria-current="page" href="{{ route('Fournisseur.index') }}">Home</a>
+            @endif
+
             </li>
             <li class="nav-item">
             <a class="nav-link" href="#">Link</a>

@@ -7,12 +7,10 @@
     <a href="{{route('Fournisseur.index')}}">Return</a>
     <h1>Mode Responsable</h1>
     <br>
-<<<<<<< HEAD
+    <br>
+    <br>
     <a href="{{route('Fournisseur.listeInscripton')}}">Liste demande inscription</a>
 
-=======
-    <br>
->>>>>>> main
     <h2>Liste des fournisseurs:</h2>
     
     <div class="row">
@@ -25,7 +23,7 @@
             <div class="row listeFournisseur">
                 <p class="col-sm">{{ $utilisateur->nomFournisseur }}</p>
                 <p class="col-sm">{{ $utilisateur->adresse }}</p>
-                <button type="button" onclick="window.location.href='{{ route('Fournisseur.fiche', [$utilisateur]) }}'" class="col-sm">Ouvrir</button>
+                <button type="button" onclick="window.location.href={{ route('Fournisseur.fiche', [$utilisateur]) }}" class="col-sm">Ouvrir</button>
             </div>
 
         @endforeach

@@ -8,7 +8,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
     <body>
-            <form method="post" action="{{ route('Inscription.Produits') }}">
+            <form method="post" action="{{ route('Inscription.verificationIdentification') }}">
                 @csrf
                 <div class="container-fluid">
                     
@@ -18,7 +18,7 @@
                         
                         <div class="mb-3 row">
                             <label for="entreprise" class="col-3" >Nom de l'entreprise :</label>
-                            <input type="text" class="col-9" id="entreprise" placeholder="12345678910" name="entreprise" value="{{ old('entreprise') }}">
+                            <input type="text" class="col-9" id="entreprise" placeholder="Tech Innovators" name="entreprise" value="{{ old('entreprise', session('user_data.entreprise', '')) }}">
                         
                             @error('entreprise')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -27,7 +27,7 @@
 
                         <div class="mb-3 row">
                             <label for="neq" class="col-3" >Numéro d'entreprise (NEQ) :</label>
-                            <input type="text" class="col-9" id="neq" placeholder="12345678910" name="neq" value="{{ old('neq') }}">
+                            <input type="text" class="col-9" id="neq" placeholder="12345678910" name="neq" value="{{ old('neq', session('user_data.neq', '')) }}">
                         
                             @error('neq')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -37,7 +37,7 @@
                         <span class="sousTitres">Authentification pour connexion</span> 
                         <div class="mb-3 row">
                             <label for="courrielConnexion" class="col-3" >Adresse courriel :</label>
-                            <input type="text" class="col-9" id="courrielConnexion" placeholder="12345678910" name="courrielConnexion" value="{{ old('courrielConnexion') }}">
+                            <input type="email" class="col-9" id="courrielConnexion" placeholder="example@courriel.com" name="courrielConnexion" value="{{ old('courrielConnexion', session('user_data.courrielConnexion', '')) }}">
                         
                             @error('courrielConnexion')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -45,19 +45,19 @@
                         </div>
 
                         <div class="mb-3 row">
-                            <label for="mdp" class="col-3" >Choisir un mot de passe :</label>
-                            <input type="text" class="col-9" id="mdp" placeholder="12345678910" name="mdp" value="{{ old('mdp') }}">
+                            <label for="password" class="col-3" >Choisir un mot de passe :</label>
+                            <input type="password" class="col-9" id="password" placeholder="Veuillez entrez un mot de passe" name="password">
                         
-                            @error('mdp')
+                            @error('password')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3 row">
-                            <label for="mdpConf" class="col-3" >Confirmer mot de passe :</label>
-                            <input type="text" class="col-9" id="mdpConf" placeholder="12345678910" name="mdpConf" value="{{ old('mdpConf') }}">
+                            <label for="confirmPassword" class="col-3" >Confirmer mot de passe :</label>
+                            <input type="password" class="col-9" id="password" placeholder="Retapez votre mot de passe" name="password_confirmation">
                         
-                            @error('mdpConf')
+                            @error('password_confirmation')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
