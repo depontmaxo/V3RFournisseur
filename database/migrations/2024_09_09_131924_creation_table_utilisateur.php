@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('posteOccupeEntreprise', 255);
             $table->string('siteWeb', 255);
             $table->string('produitOuService', 255);
-            $table->string('role', 255);
             $table->string('statut', 255);
             $table->rememberToken();
             $table->timestamps();

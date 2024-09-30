@@ -14,10 +14,6 @@
 
 @yield('contenu')
 
-    <footer>
-        <p>Maxime Depont</p>
-        <p>Isaac Béland-Desjardins</p>
-        <p>Yohann Arnaud Nourredine Honliasso</p>
-    </footer> 
+<!-- Mettre le footer -->
 </body>
 </html>
