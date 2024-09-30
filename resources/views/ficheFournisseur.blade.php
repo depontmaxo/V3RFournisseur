@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-@section('title',"Page d'informations pour un utilisateur")
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+@extends('layouts.app')
+ 
+@section('titre', 'Page information')
+  
+@section('contenu')
 <body>
+    @if (Auth::user()->role == 'responsable')
+        <a href="{{route('Responsable.index')}}">Retourner à la page de responsable</a>
+    @endif
+
     <h1>Voici votre fiche</h1>
 
     @if (isset( $utilisateur))
@@ -31,4 +32,4 @@
     <br>
     <a onclick="return confirm('Êtes-vous sûr de rendre votre compte inactif?')" href="{{ route('Fournisseur.inactif', [auth()->user()->id]) }}">Rendre le compte inactif</a>
 </body>
-</html>
+@endsection
