@@ -14,6 +14,10 @@
 
 @yield('contenu')
 
-<!-- Mettre le footer -->
+    <footer>
+        <p>Maxime Depont</p>
+        <p>Isaac Béland-Desjardins</p>
+        <p>Yohann Arnaud Nourredine Honliasso</p>
+    </footer> 
 </body>
 </html>
