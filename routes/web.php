@@ -8,10 +8,6 @@ use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
 Route::GET('/',
 [UtilisateursController::class,'index'])->middleware('role:admin,commis,responsable,fournisseur');
 
