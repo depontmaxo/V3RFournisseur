@@ -7,9 +7,13 @@ use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\ClearSessionMiddleware;
+
+require __DIR__.'/auth.php';
+
 
 Route::GET('/',
-[UtilisateursController::class,'index'])->middleware('role:admin,commis,responsable,fournisseur');
+[UtilisateursController::class,'index'])/*->middleware('role:admin,commis,responsable,fournisseur');*/;
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {
@@ -22,9 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-#################################Connexion#########################################
-Route::GET('/',
-[UtilisateursController::class,'index'])->name('Connexion.connexion');
+Route::GET('/connexionEmail',
+[UtilisateursController::class,'index'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
 
 
 Route::POST('/',
@@ -49,19 +52,19 @@ Route::POST('/logout', [UtilisateursController::class, 'logout'])->middleware('a
 Route::GET('/formulaire/inscription',
 [InscriptionController::class,'identification'])->name('Inscription.Identification'); //Partie 1 inscription
 
-Route::GET('/formulaire/inscription/produis',
+Route::GET('/formulaire/inscription/produits',
 [InscriptionController::class,'produits'])->name('Inscription.Produits'); //Partie 2 inscription
 
-Route::GET('/formulaireInscription/inscription/produis/coordonnees',
+Route::GET('/formulaireInscription/inscription/produits/coordonnees',
 [InscriptionController::class,'coordonnees'])->name('Inscription.Coordonnees'); //Partie 3 inscription
 
-Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact',
+Route::GET('/formulaireInscription/inscription/produits/coordonnees/contact',
 [InscriptionController::class,'contact'])->name('Inscription.Contact'); //Partie 4 inscription
 
-Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact/rbq',
+Route::GET('/formulaireInscription/inscription/produits/coordonnees/contact/rbq',
 [InscriptionController::class,'rbq'])->name('Inscription.RBQ'); //Partie 5 inscription
 
-Route::GET('/formulaireInscription/inscription/produis/coordonnees/contact/rbq/envoyer',
+Route::GET('/formulaireInscription/inscription/produits/coordonnees/contact/rbq/envoyer',
 [InscriptionController::class,'formComplet'])->name('Inscription.Complet'); //Partie 6 inscription (page envoie)
 
 
@@ -85,7 +88,7 @@ Route::POST('/envoyer',
 ##################################################################################
 
 
-#################################Utilisation fournisseur#########################################
+#################################Fournisseur#########################################
 Route::GET('/index',
 [FournisseursController::class,'index'])->name('Fournisseur.index');
 
@@ -94,10 +97,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-require __DIR__.'/auth.php';
-
-Auth::routes();
 
 Route::GET('/ficheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
@@ -111,15 +110,23 @@ Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
 Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
-##################################################################################
+
+
+
+#################################Responsable#########################################
+Route::GET('/reponsableIndex',
+[ResponsablesController::class,'index'])->name('Responsable.index')->middleware(CheckRole::class.':responsable');
+
+Route::GET('/responsableIndex/listeInscription',
+[ResponsablesController::class,'voirListeInscription'])->name('Fournisseur.listeInscripton');
 
 Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index');
 
+Route::GET('/responsableIndex/listeInscription/{candidat}',
+[ResponsablesController::class,'evaluerCandidat'])->name('Fournisseur.visualiserCandidat');
 
-
-
-########################ADMIN#####################################################
+#################################Admin#########################################
 use App\Http\Controllers\UserController;
 
 Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
