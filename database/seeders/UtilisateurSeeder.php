@@ -30,5 +30,12 @@ class UtilisateurSeeder extends Seeder
             'produitOuService' => 'testing',
             'statut' => 'actif',
         ]);
+
+        DB::table('users')->insert([
+            'email'=> 'test@commis.com',
+            'rôle' => 'commis',     
+        ]);
     }
+
+   
 }
