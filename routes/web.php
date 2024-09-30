@@ -8,12 +8,6 @@ use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\ClearSessionMiddleware;
-use App\Http\Middleware\CheckRole;
-
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-use App\Http\Middleware\ClearSessionMiddleware;
 
 Route::GET('/',
 [UtilisateursController::class,'index'])->middleware('admin','commis','responsable','admin');
