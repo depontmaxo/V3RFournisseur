@@ -82,5 +82,12 @@ class UtilisateurSeeder extends Seeder
             'role' => 'responsable',
             'statut' => 'actif',
         ]);
+
+        DB::table('users')->insert([
+            'email'=> 'test@commis.com',
+            'rôle' => 'commis',     
+        ]);
     }
+
+   
 }

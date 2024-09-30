@@ -97,13 +97,17 @@ Route::POST('/envoyer',
 #################################Utilisation fournisseur#########################################
 Route::GET('/index',
 [FournisseursController::class,'index'])->name('Fournisseur.index');
-/*
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-*/
+
+require __DIR__.'/auth.php';
+
+Auth::routes();
+
 Route::GET('/ficheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
 
@@ -119,4 +123,14 @@ Route::GET('/inactif/{utilisateur}/',
 ##################################################################################
 
 Route::GET('/reponsableIndex',
-[ResponsablesController::class,'index'])->name('Responsable.index')->middleware(CheckRole::class.':responsable');
+[ResponsablesController::class,'index'])->name('Responsable.index');
+
+
+
+
+########################ADMIN#####################################################
+use App\Http\Controllers\UserController;
+
+Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
+
+Route::get('/gestion-users', [UserController::class, 'gestionUser']);
