@@ -97,6 +97,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+require __DIR__.'/auth.php';
+
+Auth::routes();
+
 Route::GET('/ficheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
 
@@ -113,3 +117,13 @@ Route::GET('/inactif/{utilisateur}/',
 
 Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index');
+
+
+
+
+########################ADMIN#####################################################
+use App\Http\Controllers\UserController;
+
+Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
+
+Route::get('/gestion-users', [UserController::class, 'gestionUser']);

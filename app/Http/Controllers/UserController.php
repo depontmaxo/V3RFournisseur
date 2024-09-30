@@ -8,20 +8,24 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function gestionUser()
+    {
+        $users = User::all();
+        return view('admin.GestionUsers', compact ('users')) ;
+    }
     
 
+    public function index()
+    {
+        return view('admin.index');  // Renvoie la vue d'index pour l'admin
+    }
 
-public function index()
+
+public function indexx()
 {
     $users = User::all();
     return view('admin.users', compact('users'));
 }
-
-public function create()
-{
-    return view('users.create');
-}
-
 public function store(Request $request)
 {
     $request->validate([
