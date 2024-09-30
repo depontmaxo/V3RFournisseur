@@ -7,8 +7,8 @@
     <a href="{{route('Fournisseur.index')}}">Return</a>
     <h1>Mode Responsable</h1>
     <br>
-    <br>
-    <br>
+    <a href="{{route('Fournisseur.listeInscripton')}}">Liste demande inscription</a>
+
     <h2>Liste des fournisseurs:</h2>
     
     <div class="row">

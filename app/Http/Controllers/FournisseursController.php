@@ -8,6 +8,11 @@ use App\Models\Utilisateur;
 
 class FournisseursController extends Controller
 {
+
+    public function voirListeInscription()
+    {
+        return view('responsable.listeRequeteInscription');
+    }
     /**
      * Index du site web.
      */

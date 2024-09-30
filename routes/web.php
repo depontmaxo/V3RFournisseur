@@ -116,7 +116,12 @@ Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
 Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
+
+
 ##################################################################################
 
 Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index')->middleware(CheckRole::class.':responsable');
+
+Route::GET('/responsableIndex/listeInscription',
+[FournisseursController::class,'voirListeInscription'])->name('Fournisseur.listeInscripton');
