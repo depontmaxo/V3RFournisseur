@@ -8,7 +8,6 @@
     <h1>Mode Responsable</h1>
     <br>
     <br>
-    <br>
     <h2>Liste des fournisseurs:</h2>
     
     <div class="row">

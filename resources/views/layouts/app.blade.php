@@ -12,7 +12,11 @@
 <body>
 <!-- Mettre la NavBar et toutes les entêtes du site ici -->
 
-@yield('contenu')
+    @if (auth()->user() !== null) 
+        @yield('contenu')
+    @else
+        <p>Accès non authorisé</p>
+    @endif
 
     <footer>
         <p>Maxime Depont</p>
