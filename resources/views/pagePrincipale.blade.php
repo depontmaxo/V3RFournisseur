@@ -46,7 +46,5 @@
 
     </body>   
     
-@else
-    <p>Accès non authorisé</p>
 @endif
 @endsection

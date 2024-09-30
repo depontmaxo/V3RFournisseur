@@ -46,9 +46,7 @@ Route::GET('/motPasseOublie',
 
 
 #################################Déconnexion#########################################
-Route::POST('/logout', [UtilisateursController::class, 'logout'])->name('logout');
-
-
+Route::POST('/logout', [UtilisateursController::class, 'logout'])->middleware('auth')->name('logout');
 ##################################################################################
 
 
@@ -135,4 +133,12 @@ use App\Http\Controllers\UserController;
 
 Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
 
-Route::get('/gestion-users', [UserController::class, 'gestionUser']);
+
+Route::get('/gestion-users', [UserController::class, 'gestionUser'])->name('gestion.userAdmin');
+
+//Page acceuil avec tableau de bord
+Route::get('/acceuilAdmin', [UserController::class, 'acceuilAdmin'])->name('acceuilAdmin.index');
+
+//Supprimer un utilisateur
+Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
+

@@ -21,6 +21,25 @@ class UserController extends Controller
     }
 
 
+    public function acceuilAdmin()
+    {
+        return view('admin.acceuilAdmin');
+    }
+
+    // UserController.php
+public function destroy($id)
+{
+    $user = User::find($id);
+    if ($user) {
+        $user->delete();
+        return response()->json(['success' => true]);
+    } else {
+        return response()->json(['success' => false], 404);
+    }
+}
+
+
+
 public function indexx()
 {
     $users = User::all();
@@ -60,10 +79,17 @@ public function update(Request $request, User $user)
     return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
 }
 
-public function destroy(User $user)
+
+public function deleteUser($id)
 {
-    $user->delete();
-    return redirect()->route('users.index')->with('success', 'Utilisateur supprimé avec succès.');
+    $user = User::find($id);
+    if ($user) {
+        $user->delete();
+        return response()->json(['success' => true]);
+    } else {
+        return response()->json(['success' => false], 404);
+    }
 }
+
 
 }

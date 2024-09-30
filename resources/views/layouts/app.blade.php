@@ -63,9 +63,11 @@
         @yield('contenu')
     @else
         <p>Accès non authorisé</p>
+        <a href="{{route('Connexion.connexionNEQ')}}">Retourner à la page de connexion</a>
     @endif
 
     <footer>
+        </br>
         <p>Maxime Depont</p>
         <p>Isaac Béland-Desjardins</p>
         <p>Yohann Arnaud Nourredine Honliasso</p>
