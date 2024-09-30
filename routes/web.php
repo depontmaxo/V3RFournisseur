@@ -8,9 +8,7 @@ use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
+require __DIR__.'/auth.php';
 
 Route::GET('/',
 [UtilisateursController::class,'index'])->middleware('role:admin,commis,responsable,fournisseur');
@@ -104,10 +102,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-
-Auth::routes();
-
 Route::GET('/ficheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
 
@@ -122,13 +116,12 @@ Route::GET('/inactif/{utilisateur}/',
 
 
 
-##################################################################################
-
 Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index')->middleware(CheckRole::class.':responsable');
 
 Route::GET('/responsableIndex/listeInscription',
 [FournisseursController::class,'voirListeInscription'])->name('Fournisseur.listeInscripton');
+Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index');
 
 
