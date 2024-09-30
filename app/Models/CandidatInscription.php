@@ -15,20 +15,57 @@ class CandidatInscription extends Authenticatable
     *
     * @var array<int, string>
     */
-    protected $table = "candidat";
+
+    protected $table = "inscription";
+
+    // Define your primary key if it's not the default 'id'
+    protected $primaryKey = 'id'; // Or whatever your primary key is
+
+    // If your primary key is not an auto-incrementing integer, set this
+    protected $keyType = 'string';  // For UUID or non-integer primary keys
+    public $incrementing = false;   // Disable auto-increment if using UUIDs
+
     protected $fillable = [
+        'id',
+        'entreprise',
         'neq',
-        'email',
+        'courrielConnexion',
         'password',
-        'nomFournisseur',
+        'services',
         'adresse',
-        'noTelephone',
-        'personneRessource',
-        'emailPersonneRessource',
-        'licenceRBQ',
-        'posteOccupeEntreprise',
-        'siteWeb',
-        'produitOuService',
-        'fichiers'
+        'bureau',
+        'ville',
+        'province',
+        'codePostal',
+        'pays',
+        'site',
+        'numTel',
+        'prenom',
+        'nom',
+        'poste',
+        'courrielContact',
+        'numContact',
+        'rbq'
     ];
+
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected $casts = [
+        'id' => 'string',
+        'password' => 'hashed',
+    ];
+
 }

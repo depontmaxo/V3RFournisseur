@@ -13,7 +13,7 @@
                 <div class="container-fluid">
                     <!--Si on a le temps, essaye de le faire recherche sur google map pour autoremplir infos-->
 
-                    <p class="col-12 text-center my-3 titre">Information de votre entreprise</p>
+                    <p class="col-12 text-center my-3 titre">Coordonnées de votre entreprise</p>
                        
                        <span class="sousTitres">Coordonnées</span>
 
