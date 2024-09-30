@@ -27,12 +27,34 @@
 
     <div class="container">
         <div class="text-center my-4">
-            <button class="btn btn-outline-primary" onclick="showForm('email-login')">Connexion par courriel</button>
             <button class="btn btn-outline-primary" onclick="showForm('neq-login')">Connexion par NEQ</button>
+            <button class="btn btn-outline-primary" onclick="showForm('email-login')">Connexion par courriel</button>
+        </div>
+
+        <!-- NEQ login form -->
+        <div id="neq-login" class="login-section active">
+            <form method="post" action="{{ route('Connexion.connexion') }}">
+                @csrf
+                <p class="col-12 text-center my-3 titre">Connexion par NEQ</p>
+                <div class="mb-3 row">
+                    <label for="neq" class="col-3">NEQ :</label>
+                    <input type="text" class="col-9" id="neq" placeholder="12345678910" name="neq">
+                </div>
+                <div class="mb-3 row">
+                    <label for="password" class="col-3">Mot de passe :</label>
+                    <input type="password" class="col-9" id="password" placeholder="Entrez votre mot de passe" name="password">
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary my-4 col-auto">Se connecter</button>
+                </div>
+            </form>
+            <p class="text-center"> Vous n'êtes pas inscrit? 
+                <a href="{{route('Inscription.Identification')}}">Formulaire inscription</a> 
+            </p>
         </div>
 
         <!-- Email login form -->
-        <div id="email-login" class="login-section active">
+        <div id="email-login" class="login-section">
             <form method="post" action="{{ route('Connexion.connexion') }}">
                 @csrf
                 <p class="col-12 text-center my-3 titre">Connexion par courriel</p>
@@ -53,27 +75,7 @@
             </p>
         </div>
 
-        <!-- NEQ login form -->
-        <div id="neq-login" class="login-section">
-            <form method="post" action="{{ route('Connexion.connexion') }}">
-                @csrf
-                <p class="col-12 text-center my-3 titre">Connexion par NEQ</p>
-                <div class="mb-3 row">
-                    <label for="neq" class="col-3">NEQ :</label>
-                    <input type="text" class="col-9" id="neq" placeholder="12345678910" name="neq">
-                </div>
-                <div class="mb-3 row">
-                    <label for="password" class="col-3">Mot de passe :</label>
-                    <input type="password" class="col-9" id="password" placeholder="Entrez votre mot de passe" name="password">
-                </div>
-                <div class="row d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary my-4 col-auto">Se connecter</button>
-                </div>
-            </form>
-            <p class="text-center"> Vous n'êtes pas inscrit? 
-                <a href="{{route('Inscription.Identification')}}">Formulaire inscription</a> 
-            </p>
-        </div>
+        
     </div>
 
     <script>
