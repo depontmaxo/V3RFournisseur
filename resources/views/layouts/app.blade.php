@@ -43,7 +43,11 @@
     </div>
     </nav>
 
-@yield('contenu')
+    @if (auth()->user() !== null) 
+        @yield('contenu')
+    @else
+        <p>Accès non authorisé</p>
+    @endif
 
     <footer>
         <p>Maxime Depont</p>
