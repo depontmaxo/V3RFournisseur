@@ -35,13 +35,7 @@
         </br>
         </br>
         </br>
-        @role('responsable')
-            <a href="{{route('Responsable.index')}}">Mode Responsable</a>
-        @endrole
-        </br>
-        </br>
-        </br>
-        </br>
+        <a href="{{route('Responsable.index')}}">Mode Responsable</a>
 
     </body>   
 @endsection

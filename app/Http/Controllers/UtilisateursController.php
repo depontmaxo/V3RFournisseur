@@ -114,7 +114,7 @@ class UtilisateursController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-        return redirect()->route('Connexion.connexionNEQ');
+        return redirect()->route('Connexion.connexionEmail');
     }
 
 
