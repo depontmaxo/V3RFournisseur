@@ -27,11 +27,8 @@ Route::middleware('auth')->group(function () {
 });
 
 #################################Connexion#########################################
-Route::GET('/connexionEmail',
-[UtilisateursController::class,'index'])->name('Connexion.connexionEmail');
-
 Route::GET('/',
-[UtilisateursController::class,'indexNEQ'])->name('Connexion.connexionNEQ');
+[UtilisateursController::class,'index'])->name('Connexion.connexion');
 
 
 Route::POST('/',
@@ -48,9 +45,7 @@ Route::GET('/motPasseOublie',
 
 
 #################################Déconnexion#########################################
-Route::POST('/logout', [UtilisateursController::class, 'logout'])->name('logout');
-
-
+Route::POST('/logout', [UtilisateursController::class, 'logout'])->middleware('auth')->name('logout');
 ##################################################################################
 
 

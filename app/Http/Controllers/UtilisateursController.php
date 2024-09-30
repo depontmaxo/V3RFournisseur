@@ -16,14 +16,6 @@ class UtilisateursController extends Controller
     {
         return View('connexion');
     }
-    
-    /**
-    * Index de connection avec un NEQ
-    */
-    public function indexNEQ()
-    {
-        return View('connexionNEQ');
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -85,16 +77,22 @@ class UtilisateursController extends Controller
         Remettre après déboguage
         */
         //dd($request);
+        
 
         if($request->neq == null){
             $reussi = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             if($reussi){
+                $testNEQ = Utilisateur::where('email', $request->email)->firstOrFail();
+                if($testNEQ->neq !== null)
+                {
+                    return redirect()->route('Connexion.connexion')->withErrors(['Connectez-vous avec votre NEQ']);
+                }
                 $usager = Utilisateur::where('email', $request->email)->firstOrFail();
                 return redirect()->route('Fournisseur.index');
     
             }
             else{
-                return redirect()->route('Connexion.connexionEmail')->withErrors(['Informations invalides']); 
+                return redirect()->route('Connexion.connexion')->withErrors(['Informations invalides']); 
             }
         }
         if($request->email == null){
@@ -104,17 +102,17 @@ class UtilisateursController extends Controller
                 return redirect()->route('Fournisseur.index');
             }
             else{
-                return redirect()->route('Connexion.connexionNEQ')->withErrors(['Informations invalides']); 
+                return redirect()->route('Connexion.connexion')->withErrors(['Informations invalides']); 
             }
         }
         else{
-            return redirect()->route('Connexion.connexionNEQ')->withErrors(['Informations invalides']); 
+            return redirect()->route('Connexion.connexion')->withErrors(['Informations invalides']); 
         }
     }
 
     public function logout(Request $request) {
         Auth::logout();
-        return redirect()->route('Connexion.connexionNEQ');
+        return redirect()->route('Connexion.connexion');
     }
 
 
