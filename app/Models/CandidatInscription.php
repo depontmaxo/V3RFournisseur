@@ -40,13 +40,18 @@ class CandidatInscription extends Authenticatable
         'pays',
         'site',
         'numTel',
-        'prenom',
-        'nom',
-        'poste',
-        'courrielContact',
-        'numContact',
         'rbq'
     ];
+
+    public function contacts()
+    {
+        return $this->hasMany(Contacts::class, 'inscription_id');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'inscription_id');
+    }
 
 
     /**

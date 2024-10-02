@@ -113,46 +113,74 @@ class InscriptionController extends Controller
     public function verificationContact(Request $request)
     {
         $request->validate([
-            'prenom' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:20'],
-            'nom' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:50'],
-            'poste' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:3', 'max:30'],
-            'courrielContact' => ['required', 'min:5', 'max:75', 'regex:/^[^\s]*$/'],
-            'numContact' => ['required', 'digits:10', 'integer'],
+            'prenom.*' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:20'],
+            'nom.*' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:50'],
+            'poste.*' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:3', 'max:30'],
+            'courrielContact.*' => ['required', 'min:5', 'max:75', 'regex:/^[^\s]*$/'],
+            'numContact.*' => ['required', 'digits:10', 'integer'],
         ]);
-
-        $this->storeInSession($request, $request->only('prenom', 'nom', 'poste', 'courrielContact', 'numContact'));
+    
+        // Récupérer les contacts
+        $contacts = [];
+        foreach ($request->prenom as $index => $prenom) {
+            $contacts[] = [
+                'prenom' => $prenom,
+                'nom' => $request->nom[$index],
+                'poste' => $request->poste[$index],
+                'courrielContact' => $request->courrielContact[$index],
+                'numContact' => $request->numContact[$index],
+            ];
+        }
+    
+        // Stocker les contacts dans la session
+        $this->storeInSession($request, ['contacts' => $contacts]);
+    
         return redirect()->route('Inscription.RBQ');
     }
 
 
     public function verificationRBQ(Request $request)
     {
+        // Validation des fichiers et de rbq
         $request->validate([
-            'rbq' => ['required']/*,
-            'fichiersJoints' => ['required'],*/
+            'rbq' => ['required'],
+            'documents.*' => ['required|file|mimes:doc,docx,pdf,jpg,jpeg,xls,xlsx|max:75000'],
         ]);
-
-        $this->storeInSession($request, $request->only('rbq', 'fichiersJoints'));
-        return redirect()->route('Inscription.Complet');
+    
+        // Récupérer les fichiers validés
+        $uploadedFiles = [];
+        foreach ($request->file('documents') as $file) {
+            $uploadedFiles[] = [
+                'name' => $file->getClientOriginalName(),
+                'size' => $file->getSize(),
+                'type' => $file->getClientMimeType(),
+                'stream' => fopen($file->getRealPath(), 'rb'), // Ouvrir le fichier en tant que flux
+            ];
+        }
+    
+        // Stocker les données dans la session
+        $stepData = $request->only('rbq'); // Inclure seulement rbq
+        $stepData['documents'] = $uploadedFiles; // Ajouter les fichiers au tableau de données
+        $this->storeInSession($request, $stepData);
+    
+        // Redirection vers la page de confirmation
+        return redirect()->route('Inscription.Complet'); // Remplacez par votre route de confirmation
     }
-
 
     //VA CHERCHER INFO ET CRÉE CANDIDAT
     public function envoyerFormulaire(Request $request)
     {
+        // Récupérer les données de la session
         $data = session('user_data', []);
-        //dd(/*['uuid' => (string) Str::uuid()] + */$data );
-        //$candidat = CandidatInscription::create($data);
-
-        /*Envoyer à une page qui demande de confirmer son compte dans ses courriels*/
-
+        $uuid = (string) Str::uuid();
+        // Créer le candidat
         $formulaire = CandidatInscription::create([
-            'id' => (string) Str::uuid(),
+            'id' => $uuid,
             'entreprise' => $data['entreprise'],
-            'neq'=> $data['neq'],
-            'courrielConnexion'=> $data['courrielConnexion'],
-            'password'=> $data['password'],
-            'services'=> $data['services'],
+            'neq' => $data['neq'],
+            'courrielConnexion' => $data['courrielConnexion'],
+            'password' => $data['password'],
+            'services' => $data['services'],
             'adresse' => $data['adresse'],
             'bureau' => $data['bureau'],
             'ville' => $data['ville'],
@@ -161,16 +189,43 @@ class InscriptionController extends Controller
             'pays' => $data['pays'],
             'site' => $data['site'],
             'numTel' => $data['numTel'],
-            'prenom' => $data['prenom'],
-            'nom' => $data['nom'],
-            'poste' => $data['poste'],
-            'courrielContact' => $data['courrielContact'],
-            'numContact' => $data['numContact'],
             'rbq' => $data['rbq']
         ]);
 
+        // Récupérer les fichiers de la session
+        $documents = $data['documents'] ?? [];
+        
+        foreach ($documents as $file) {
+            // Enregistrer chaque fichier dans la table 'documents'
+            $formulaire->documents()->create([
+                'file_name' => $file['name'],
+                'file_size' => $file['size'],
+                'file_type' => $file['type'],
+                'file_stream' => $file['stream'],
+                // 'inscription_id' => $formulaire->id, // Cette ligne est gérée automatiquement par Eloquent
+            ]);
+        }
+
+        // Récupérer les contacts de la session
+        $contacts = $data['contacts'] ?? [];
+
+        foreach ($contacts as $contact) {
+            // Enregistrer chaque contact dans la table 'contacts'
+            $formulaire->contacts()->create([
+                'prenom' => $contact['prenom'],
+                'nom' => $contact['nom'],
+                'poste' => $contact['poste'],
+                'courrielContact' => $contact['courrielContact'],
+                'numContact' => $contact['numContact'],
+                'inscription_id' => $formulaire->id, // Relier le contact au candidat
+            ]);
+        }
+
+        // Effacer les données de la session
         session()->forget('user_data');
-        return redirect()->route('Connexion.connexion');
+
+        // Redirection après l'envoi
+        return redirect()->route('Connexion.connexion')->with('success', 'Inscription réussie !');
     }
 
     //Fonctions pour storer les données
