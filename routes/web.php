@@ -13,7 +13,7 @@ require __DIR__.'/auth.php';
 
 
 Route::GET('/',
-[UtilisateursController::class,'index'])/*->middleware('role:admin,commis,responsable,fournisseur');*/;
+[UtilisateursController::class,'index'])->middleware(ClearSessionMiddleware::class);
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {

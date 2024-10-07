@@ -79,6 +79,7 @@
     </div>
 
     <script>
+        localStorage.clear();
         function showForm(formId) {
             document.querySelectorAll('.login-section').forEach(section => {
                 section.classList.remove('active');

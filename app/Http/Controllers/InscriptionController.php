@@ -124,7 +124,7 @@ class InscriptionController extends Controller
         $contacts = [];
         foreach ($request->prenom as $index => $prenom) {
             $contacts[] = [
-                'prenom' => $prenom,
+                'prenom' => $prenom[$index],
                 'nom' => $request->nom[$index],
                 'poste' => $request->poste[$index],
                 'courrielContact' => $request->courrielContact[$index],
