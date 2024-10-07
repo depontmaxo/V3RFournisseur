@@ -17,12 +17,13 @@
     </div>
     @if (count($utilisateurs))
         @foreach ($utilisateurs as $utilisateur)
-            <div class="row listeFournisseur">
-                <p class="col-sm">{{ $utilisateur->nomFournisseur }}</p>
-                <p class="col-sm">{{ $utilisateur->adresse }}</p>
-                <button type="button" onclick="window.location.href='{{ route('Fournisseur.fiche', [$utilisateur]) }}'" class="col-sm">Ouvrir</button>
-            </div>
-
+            @if ($utilisateur->statut == 'actif')
+                <div class="row listeFournisseur">
+                    <p class="col-sm">{{ $utilisateur->nomFournisseur }}</p>
+                    <p class="col-sm">{{ $utilisateur->adresse }}</p>
+                    <button type="button" onclick="window.location.href='{{ route('Fournisseur.fiche', [$utilisateur]) }}'" class="col-sm">Ouvrir</button>
+                </div>
+            @endif
         @endforeach
     @else
         <p>404 Erreur<p>

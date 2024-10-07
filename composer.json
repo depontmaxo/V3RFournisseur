@@ -6,11 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "^11.26",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
-        "maatwebsite/excel": "^1.1",
-        "phpoffice/phpspreadsheet": "^2.2",
         "psr/simple-cache": "^3.0"
     },
     "require-dev": {

@@ -112,8 +112,13 @@ Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
 Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'update'])->name('Fournisseur.modification');
 
+##################################################################################
+
 Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
+
+Route::GET('/actif/{utilisateur}/',
+[FournisseursController::class,'actif'])->name('Fournisseur.actif');
 
 ##################################################################################
 

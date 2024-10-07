@@ -84,7 +84,17 @@ class FournisseursController extends Controller
         // Ajouter une confirmation email pour la désactivation/supression du compte
         $utilisateur->statut = 'inactif';
         $utilisateur->save();
-        return View('connexion')->with('message', "Votre compte est rendu incatif");
+        return View('pagePrincipale')->with('message', "Votre compte est rendu inactif");
+
+    }
+
+    public function actif(Utilisateur $utilisateur)
+    {
+        //Comment on supprime / met inactif les comptes
+        // Ajouter une confirmation email pour la désactivation/supression du compte
+        $utilisateur->statut = 'actif';
+        $utilisateur->save();
+        return View('pagePrincipale')->with('message', "Votre compte est rendu actif");
 
     }
 
