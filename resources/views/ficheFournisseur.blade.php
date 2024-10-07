@@ -28,8 +28,12 @@
         <p>404 Erreur<p>
     @endif
     <br>
-    <a href="{{route('Fournisseur.modification', [auth()->user()->id])}}">Modifier sa fiche fournisseur</a>
+    <a href="{{route('Fournisseur.modification', $utilisateur->id)}}">Modifier sa fiche fournisseur</a>
     <br>
-    <a onclick="return confirm('Êtes-vous sûr de rendre votre compte inactif?')" href="{{ route('Fournisseur.inactif', [auth()->user()->id]) }}">Rendre le compte inactif</a>
+    @if ($utilisateur->statut == 'actif')
+    <a onclick="return confirm('Êtes-vous sûr de rendre votre compte inactif?')" href="{{ route('Fournisseur.inactif', $utilisateur->id) }}">Rendre le compte inactif</a>
+    @else
+    <a onclick="return confirm('Êtes-vous sûr de rendre votre compte actif?')" href="{{ route('Fournisseur.actif', $utilisateur->id) }}">Rendre le compte actif</a>
+    @endif
 </body>
 @endsection
