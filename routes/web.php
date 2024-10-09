@@ -131,7 +131,7 @@ Route::GET('/reponsableIndex',
 ########################ADMIN#####################################################
 use App\Http\Controllers\UserController;
 
-Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
+Route::get('/admin', [AuthController::class, 'index'])->name('admin.index');
 
 
 Route::get('/gestion-users', [UserController::class, 'gestionUser'])->name('gestion.userAdmin');
@@ -141,4 +141,16 @@ Route::get('/acceuilAdmin', [UserController::class, 'acceuilAdmin'])->name('acce
 
 //Supprimer un utilisateur
 Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
+
+//Modifier le role d'un utilisateur
+Route::post('/users/update-roles', [UserController::class, 'updateRoles']); 
+
+//Connexion de l'admin
+// Route pour afficher la page de connexion
+Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
+
+// Route pour traiter la connexion
+Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
+
+
 

@@ -1,40 +1,48 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion Administrateur</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Connexion Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
-        <h2>Connexion Administrateur</h2>
-        <form action="/admin/login" method="POST">
-            @csrf  <!-- Protection CSRF pour Laravel -->
-            
-            <!-- Adresse e-mail -->
-            <div class="form-group">
-                <label for="email">Adresse e-mail</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre adresse e-mail" required>
-            </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>Connexion Administrateur</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('adminLogin') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Adresse e-mail</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre adresse e-mail" required>
+                            </div>
 
-            <!-- Sélection du rôle -->
-            <div class="form-group">
-                <label for="role">Rôle</label>
-                <select class="form-control" id="role" name="role" required>
-                    <option value="Commis">Commis</option>
-                    <option value="Responsable">Responsable</option>
-                    <option value="Administrateur">Admin</option>
-                </select>
-            </div>
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Rôle</label>
+                                <input type="text" class="form-control" id="role" name="role" placeholder="Entrez votre rôle" required>
+                            </div>
 
-            <!-- Bouton de connexion -->
-            <button type="submit" class="btn btn-primary">Se connecter</button>
-        </form>
+                            @if($errors->any())
+                                <div class="alert alert-danger">
+                                    {{ $errors->first() }}
+                                </div>
+                            @endif
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Se connecter</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

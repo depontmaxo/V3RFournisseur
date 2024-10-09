@@ -25,14 +25,21 @@
             <tr>
                 <td>{{ $user->email }}</td>
                 <td>
-                    <select class="form-control">
-                        <option value="Administrateur">Administrateur</option>
-                        <option value="Commis">Commis</option>
-                        <option value="Responsable">Responsable</option>
-                    </select>
+                    <div class="form-group">
+                        <select class="form-control user-role" data-id="{{ $user->id }}">
+                            <option value="Administrateur" {{ $user->role == 'Administrateur' ? 'selected' : '' }}>
+                                Administrateur
+                            </option>
+                            <option value="Commis" {{ $user->role == 'Commis' ? 'selected' : '' }}>
+                                Commis
+                            </option>
+                            <option value="Responsable" {{ $user->role == 'Responsable' ? 'selected' : '' }}>
+                                Responsable
+                            </option>
+                        </select>
+                    </div>
                 </td>
                 <td>
-                    <button class="btn btn-success btn-sm">Ajouter</button>
                     <button class="btn btn-danger btn-sm btn-delete" data-id="{{ $user->id }}">Supprimer</button>
                 </td>
             </tr>
@@ -80,6 +87,34 @@
                     }           
                 });
             }  
+        });
+
+        // Gestion du clic sur le bouton Enregistrer les modifications
+        $('.btn-primary').click(function() {
+            var roles = [];
+
+            // Récupérer les informations des rôles sélectionnés pour chaque utilisateur
+            $('.user-role').each(function() {
+                var userId = $(this).data('id');
+                var role = $(this).val();
+                roles.push({ id: userId, role: role });
+            });
+
+            // Envoyer les modifications au serveur
+            $.ajax({
+                url: '/users/update-roles', // URL de mise à jour des rôles
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // Ajouter le token CSRF dans les en-têtes
+                },
+                data: { roles: roles },
+                success: function(result) {
+                    alert('Les rôles ont été mis à jour avec succès.');
+                },
+                error: function(xhr) {
+                    alert('Erreur lors de la mise à jour des rôles.');
+                }
+            });
         });
     });
 </script>
