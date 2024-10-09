@@ -14,7 +14,7 @@ class UtilisateurSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('utilisateur')->insert([
+      /*  DB::table('utilisateur')->insert([
             'id' => Str::uuid()->toString(), // Generate a UUID for the id
             'neq'=> '12345',
             'email'=> 'test@test.com',
@@ -82,7 +82,7 @@ class UtilisateurSeeder extends Seeder
             'role' => 'responsable',
             'statut' => 'actif',
         ]);
-
+*/
         DB::table('users')->insert([
             'email'=> 'test@commis.com',
             'rôle' => 'commis',     

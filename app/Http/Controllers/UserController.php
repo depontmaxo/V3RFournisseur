@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 
+
 class UserController extends Controller
 {
     public function gestionUser()
@@ -14,11 +15,6 @@ class UserController extends Controller
         return view('admin.GestionUsers', compact ('users')) ;
     }
     
-
-    public function index()
-    {
-        return view('admin.index');  // Renvoie la vue d'index pour l'admin
-    }
 
 
     public function acceuilAdmin()
@@ -79,7 +75,7 @@ public function update(Request $request, User $user)
     return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
 }
 
-
+##Suppresion d'un utilisateur
 public function deleteUser($id)
 {
     $user = User::find($id);
@@ -91,5 +87,22 @@ public function deleteUser($id)
     }
 }
 
+#Modification du role d'un utilisateur
+public function updateRoles(Request $request) {
+    foreach ($request->roles as $roleUpdate) {
+        $user = User::find($roleUpdate['id']);
+        if ($user) {
+            $user->role = $roleUpdate['role'];
+            $user->save();
+        }
+    }
+    
+    return response()->json(['message' => 'Rôles mis à jour avec succès.']);
+}
 
 }
+
+
+
+
+
