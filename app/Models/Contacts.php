@@ -15,10 +15,11 @@ class Contacts extends Model
         'nom',
         'poste',
         'courrielContact',
-        'numContact'
+        'numContact',
+        //'candidat_id', // Assurez-vous que cette clé est remplie
     ];
 
-    public function inscription()
+    public function candidat()
     {
         return $this->belongsTo(CandidatInscription::class, 'inscription_id');
     }

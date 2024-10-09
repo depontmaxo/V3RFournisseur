@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\CandidatInscription;
+use App\Models\Contacts;
 use Illuminate\Support\Facades\Hash;
 
 class InscriptionController extends Controller
@@ -96,7 +97,7 @@ class InscriptionController extends Controller
         $request->validate([
             'adresse' => ['required', 'regex:/^\d+\s+[a-zA-Z]+/', 'min:5', 'max:50'], // Vérifier le format avec chiffres et lettres
             'bureau' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'max:15'],
-            'ville' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:3', 'max:30'],
+            'ville' => ['required', 'regex:/^[A-Za-z0-9]+(?:[- ][A-Za-z0-9]+)*$/', 'min:3', 'max:30'],
             'province' => ['required', 'min:3', 'max:25', 'regex:/^[^\s]*$/'],
             'codePostal' => [
                 'required', 
@@ -113,27 +114,29 @@ class InscriptionController extends Controller
     public function verificationContact(Request $request)
     {
         $request->validate([
-            'prenom.*' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:20'],
-            'nom.*' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:50'],
-            'poste.*' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:3', 'max:30'],
-            'courrielContact.*' => ['required', 'min:5', 'max:75', 'regex:/^[^\s]*$/'],
-            'numContact.*' => ['required', 'digits:10', 'integer'],
+            'prenom' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:20'],
+            'nom' => ['required', 'regex:/^[^\s]*$/', 'min:3', 'max:50'],
+            'poste' => ['required', 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 'min:3', 'max:30'],
+            'courrielContact' => ['required', 'min:5', 'max:75', 'regex:/^[^\s]*$/'],
+            'numContact' => ['required', 'digits:10', 'integer'],
         ]);
     
         // Récupérer les contacts
-        $contacts = [];
-        foreach ($request->prenom as $index => $prenom) {
+        /*$contacts = [];
+        foreach ($request->only('prenom') as $index => $prenom) {
             $contacts[] = [
-                'prenom' => $prenom[$index],
+                'prenom' => $request->prenom[$index],
                 'nom' => $request->nom[$index],
                 'poste' => $request->poste[$index],
                 'courrielContact' => $request->courrielContact[$index],
                 'numContact' => $request->numContact[$index],
             ];
-        }
+        }*/
     
+        
         // Stocker les contacts dans la session
-        $this->storeInSession($request, ['contacts' => $contacts]);
+        //$this->storeInSession($request, ['contacts' => $contacts]);
+        $this->storeInSession($request, $request->only('prenom', 'nom', 'poste', 'courrielContact', 'numContact'));
     
         return redirect()->route('Inscription.RBQ');
     }
@@ -144,7 +147,8 @@ class InscriptionController extends Controller
         // Validation des fichiers et de rbq
         $request->validate([
             'rbq' => ['required'],
-            'documents.*' => ['required|file|mimes:doc,docx,pdf,jpg,jpeg,xls,xlsx|max:75000'],
+            'documents' => ['required', 'array'],
+            'documents.*' => ['file', 'mimes:docx,doc,pdf,jpg,jpeg,xls,xlsx', 'max:75000'],
         ]);
     
         // Récupérer les fichiers validés
@@ -157,11 +161,13 @@ class InscriptionController extends Controller
                 'stream' => fopen($file->getRealPath(), 'rb'), // Ouvrir le fichier en tant que flux
             ];
         }
-    
+
+
         // Stocker les données dans la session
-        $stepData = $request->only('rbq'); // Inclure seulement rbq
+        $this->storeInSession($request, $request->only('rbq') + ['documents' => $uploadedFiles]);
+        /*$stepData = $request->only('rbq'); // Inclure seulement rbq
         $stepData['documents'] = $uploadedFiles; // Ajouter les fichiers au tableau de données
-        $this->storeInSession($request, $stepData);
+        $this->storeInSession($request, $stepData);*/
     
         // Redirection vers la page de confirmation
         return redirect()->route('Inscription.Complet'); // Remplacez par votre route de confirmation
@@ -172,6 +178,7 @@ class InscriptionController extends Controller
     {
         // Récupérer les données de la session
         $data = session('user_data', []);
+        //dd($data);
         $uuid = (string) Str::uuid();
         // Créer le candidat
         $formulaire = CandidatInscription::create([
@@ -206,20 +213,31 @@ class InscriptionController extends Controller
             ]);
         }
 
-        // Récupérer les contacts de la session
-        $contacts = $data['contacts'] ?? [];
-
+        /*$contacts = $data['contacts'] ?? [];
+        
         foreach ($contacts as $contact) {
-            // Enregistrer chaque contact dans la table 'contacts'
+            // Enregistrer chaque fichier dans la table 'documents'
             $formulaire->contacts()->create([
                 'prenom' => $contact['prenom'],
                 'nom' => $contact['nom'],
                 'poste' => $contact['poste'],
                 'courrielContact' => $contact['courrielContact'],
                 'numContact' => $contact['numContact'],
-                'inscription_id' => $formulaire->id, // Relier le contact au candidat
+                // 'inscription_id' => $formulaire->id, // Cette ligne est gérée automatiquement par Eloquent
             ]);
-        }
+        }*/
+
+        $contact = Contacts::create([
+            'inscription_id' => $uuid,
+            'prenom' => $data['prenom'],
+            'nom' => $data['nom'],
+            'poste' => $data['poste'],
+            'courrielContact' => $data['courrielContact'],
+            'numContact' => $data['numContact'],
+        ]);
+
+        // Récupérer les contacts de la session
+
 
         // Effacer les données de la session
         session()->forget('user_data');

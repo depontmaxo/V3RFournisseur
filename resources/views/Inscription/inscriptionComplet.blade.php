@@ -140,7 +140,7 @@
                        </div>
 
 
-                       <!---------------------------SECTION CONTACTS------------------------
+                       <!---------------------------SECTION CONTACTS------------------------>
                        <p class="col-12 text-center my-3 titre">Contact(s) rejoignable(s)</p>
                         
                         <span class="sousTitres">Information contact</span>
@@ -192,13 +192,13 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         
-                        </div>  --->
+                        </div> 
 
-                        <p class="col-12 text-center my-3 titre">Contact(s) rejoignable(s)</p>
+                        <!--<p class="col-12 text-center my-3 titre">Contact(s) rejoignable(s)</p>
 
                         <span class="sousTitres">Information contact</span>
 
-                        <!-- Vérifie si des contacts existent dans la session -->
+                         Vérifie si des contacts existent dans la session 
                         @if(session('user_data.contacts'))
                             @foreach(session('user_data.contacts') as $index => $contact)
                                 <fieldset disabled>
@@ -245,7 +245,7 @@
                             @endforeach
                         @else
                             <p>Aucun contact n'a été ajouté.</p>
-                        @endif
+                        @endif -->
 
                        <!---------------------------SECTION RBQ ET FICHIERS--------------------------->
                     

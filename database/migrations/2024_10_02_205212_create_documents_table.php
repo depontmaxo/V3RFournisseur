@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->uuid('inscription_id'); // UUID ici
             $table->foreign('inscription_id')->references('id')->on('inscriptions')->onDelete('cascade'); // Clé étrangère
-            $table->string('prenom', 255);
-            $table->string('nom', 255);
             $table->string('file_name');
             $table->integer('file_size');
             $table->string('file_type');

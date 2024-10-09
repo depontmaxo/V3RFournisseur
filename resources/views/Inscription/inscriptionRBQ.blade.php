@@ -25,8 +25,8 @@
 
                         <span class="sousTitres">Fichier(s) joint(s)</span>
                         <div class="mb-3 row">
-                            <label for="documents" class="form-label">Joindres les fichiers (docx, pdf, jpg ou xlsx seulement)</label>
-                            <input type="file" class="form-control" id="documents" name="documents[]"  multiple>
+                            <label for="documents[]" class="form-label">Joindres les fichiers (docx, doc, pdf, jpg, jpeg, xls, xlsx seulement)</label>
+                            <input type="file" class="form-control" name="documents[]" multiple>
                         
                             @error('documents')
                                 <div class="alert alert-danger">{{ $message }}</div>
