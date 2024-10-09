@@ -12,11 +12,18 @@ class ResponsablesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->filled('search')){
+            $utilisateursRechercher = Utilisateur::search($request->search)->where('role', 'fournisseur')->get();
+        }
+        else{
+            $utilisateursRechercher = Utilisateur::where('role', 'fournisseur')->get();
+        }
+
         //On va chercher tout les utilisateurs ayant le role fournisseur
         $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
-        return View('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
+        return View('responsable.pagePrincipaleResponsable', compact('utilisateurs', 'utilisateursRechercher'));
     }
 
     public function voirListeInscription()
