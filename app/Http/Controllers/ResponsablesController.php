@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Utilisateur;
 use App\Models\CandidatInscription;
-
+use Illuminate\Support\Facades\Http;
 class ResponsablesController extends Controller
 {
     /**
@@ -14,7 +14,33 @@ class ResponsablesController extends Controller
      */
     public function index(Request $request)
     {
-        //On va chercher tout les utilisateurs ayant le role fournisseur
+        /*
+            ///////////////////////////////Check API pour NEQ valid////////////////////////////////////////////////////////////////
+
+            ////////////////////////
+            // Ce code fonctionne //
+            ////////////////////////
+
+            $test = Http::withoutVerifying()->get('https://donneesquebec.ca/recherche/api/action/datastore_search_sql', [
+                //'sql' => 'SELECT * FROM "32f6ec46-85fd-45e9-945b-965d9235840a" WHERE "NEQ" = \'1\''
+                'sql' => 'SELECT * FROM "32f6ec46-85fd-45e9-945b-965d9235840a" WHERE "NEQ" = \'8831854938\''
+            ]);
+
+            $responseArray = $test->json();
+            
+            // Check if records array is empty
+            if (empty($responseArray['result']['records'])) {
+                //dd('No records found');
+            } else {
+                //dd($responseArray['result']['records']['0']['NEQ']);
+                //dd($responseArray['result']['records']);
+            }
+
+            //dd($test->json());
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        */
+        
         $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
         return View('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
     }
