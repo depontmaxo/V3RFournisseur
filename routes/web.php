@@ -8,6 +8,7 @@ use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\ClearSessionMiddleware;
+use App\Http\Controllers\AuthController;
 
 require __DIR__.'/auth.php';
 
@@ -27,7 +28,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::GET('/connexionEmail',
-[UtilisateursController::class,'index'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
+[UtilisateursController::class,'pageConnexion'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
 
 
 Route::POST('/',
