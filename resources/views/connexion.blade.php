@@ -31,7 +31,6 @@
             <button class="btn btn-outline-primary" onclick="showForm('email-login')">Connexion par courriel</button>
         </div>
 
-        <!-- NEQ login form -->
         <div id="neq-login" class="login-section active">
             <form method="post" action="{{ route('Connexion.connexion') }}">
                 @csrf
@@ -53,7 +52,6 @@
             </p>
         </div>
 
-        <!-- Email login form -->
         <div id="email-login" class="login-section">
             <form method="post" action="{{ route('Connexion.connexion') }}">
                 @csrf

@@ -120,6 +120,9 @@ Route::GET('/actif/{utilisateur}/',
 Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index')->middleware(CheckRole::class.':responsable');
 
+Route::GET('/responsable/recherche',
+[ResponsablesController::class,'recherche'])->name('Responsable.recherche')->middleware(CheckRole::class.':responsable');
+
 Route::GET('/responsableIndex/listeInscription',
 [ResponsablesController::class,'voirListeInscription'])->name('Fournisseur.listeInscripton');
 

@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.26",
-        "laravel/scout": "^10.11",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
         "psr/http-message": "^2.0",
