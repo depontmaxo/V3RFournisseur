@@ -107,10 +107,13 @@ Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
 Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'update'])->name('Fournisseur.modification');
 
+##################################################################################
+
 Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
-
+Route::GET('/actif/{utilisateur}/',
+[FournisseursController::class,'actif'])->name('Fournisseur.actif');
 
 
 #################################Responsable#########################################
@@ -129,7 +132,7 @@ Route::GET('/responsableIndex/listeInscription/{candidat}',
 #################################Admin#########################################
 use App\Http\Controllers\UserController;
 
-Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
+Route::get('/admin', [AuthController::class, 'index'])->name('admin.index');
 
 
 Route::get('/gestion-users', [UserController::class, 'gestionUser'])->name('gestion.userAdmin');
@@ -139,4 +142,16 @@ Route::get('/acceuilAdmin', [UserController::class, 'acceuilAdmin'])->name('acce
 
 //Supprimer un utilisateur
 Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
+
+//Modifier le role d'un utilisateur
+Route::post('/users/update-roles', [UserController::class, 'updateRoles']); 
+
+//Connexion de l'admin
+// Route pour afficher la page de connexion
+Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
+
+// Route pour traiter la connexion
+Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
+
+
 
