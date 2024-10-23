@@ -3,48 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de bord Admin</title>
-    
-    <!-- Lien vers le fichier CSS de Bootstrap via CDN -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Formulaire Amélioré</title>
+    <!-- Lien vers Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b70424hT7SYkC1OgzlSRP+IlRH9sENBO0LR" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Couleur de fond légère */
+        }
+
+        .form-container {
+            border: 2px solid red; /* Bordures rouges */
+            padding: 40px; /* Plus d'espace interne */
+            border-radius: 15px; /* Arrondir encore plus les coins */
+            max-width: 500px;
+            margin: 100px auto;
+            background-color: white; /* Fond blanc pour contraste */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #dc3545; /* Rouge Bootstrap */
+        }
+
+        .btn-custom {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: white;
+        }
+
+        .btn-custom:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="container mt-5">
-        <h1 class="text-center">Tableau de bord de l'Administrateur</h1>
-        <br><br>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center">Actions</th>
-                    </tr> 
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="text-center">
-                            <a href="{{ route('gestion.userAdmin') }}">Gestion des Utilisateurs</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">
-                            <a href="#">Gérer les paramètres du système</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">
-                            <a href="#">Gérer les modèles de courriels</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="container">
+        <div class="form-container">
+            <h2>Inscription</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="nom" class="form-label">Nom</label>
+                    <input type="text" class="form-control" id="nom" placeholder="Entrez votre nom">
+                </div>
+                <div class="mb-3">
+                    <label for="prenom" class="form-label">Prénom</label>
+                    <input type="text" class="form-control" id="prenom" placeholder="Entrez votre prénom">
+                </div>
+                <div class="mb-3">
+                    <label for="sexe" class="form-label">Sexe</label>
+                    <select class="form-select" id="sexe">
+                        <option selected disabled>Choisissez...</option>
+                        <option value="homme">Homme</option>
+                        <option value="femme">Femme</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-custom w-100">Soumettre</button>
+            </form>
         </div>
     </div>
 
-    <!-- Lien vers le fichier JavaScript de Bootstrap et jQuery via CDN -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <!-- Lien vers Bootstrap JS (optionnel) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-mQ93zZqG9936Is3nOe0gxC70Vb2OmQ1pMaM2L6iE9EvsOVjO0tZX2oF6pG1KBr2J" crossorigin="anonymous"></script>
 </body>
 </html>

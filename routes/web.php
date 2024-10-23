@@ -8,12 +8,14 @@ use App\Http\Controllers\FournisseursController;
 use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\ClearSessionMiddleware;
+use App\Http\Controllers\Auth\LoginController;
+
 
 require __DIR__.'/auth.php';
 
 
 Route::GET('/',
-[UtilisateursController::class,'index'])/*->middleware('role:admin,commis,responsable,fournisseur');*/;
+[UtilisateursController::class,'index'])->name('index')/*->middleware('role:admin,commis,responsable,fournisseur');*/;
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {
@@ -132,7 +134,7 @@ Route::GET('/responsableIndex/listeInscription/{candidat}',
 #################################Admin#########################################
 use App\Http\Controllers\UserController;
 
-Route::get('/admin', [AuthController::class, 'index'])->name('admin.index');
+Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
 
 
 Route::get('/gestion-users', [UserController::class, 'gestionUser'])->name('gestion.userAdmin');
@@ -148,10 +150,17 @@ Route::post('/users/update-roles', [UserController::class, 'updateRoles']);
 
 //Connexion de l'admin
 // Route pour afficher la page de connexion
-Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
+//Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
 
 // Route pour traiter la connexion
 Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
 
+#######################EMAIL#################################################################################
+
+// Route pour afficher le formulaire de récupération de mot de passe (GET)
+Route::get('/forgot_password', [LoginController::class, 'forgotPassword'])->name('app_forgotpassword');
+
+// Route pour traiter la soumission du formulaire de récupération de mot de passe (POST)
+Route::post('/forgot_password', [LoginController::class, 'forgotPassword'])->name('app_forgotpassword');
 
 
