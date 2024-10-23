@@ -14,7 +14,7 @@ require __DIR__.'/auth.php';
 
 
 Route::GET('/',
-[UtilisateursController::class,'index'])->middleware(ClearSessionMiddleware::class);
+[UtilisateursController::class,'index'])->name('Accueil')->middleware(ClearSessionMiddleware::class);
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {
