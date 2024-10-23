@@ -8,7 +8,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
     <body>
-            <form method="post" action="{{ route('Inscription.verificationRBQ') }}">
+            <form method="post" action="{{ route('Inscription.verificationRBQ') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="container-fluid">
                         <p class="col-12 text-center my-3 titre">Brochures et cartes d'affaires</p>
@@ -25,10 +25,10 @@
 
                         <span class="sousTitres">Fichier(s) joint(s)</span>
                         <div class="mb-3 row">
-                            <label for="fichiersJoints" class="form-label">Joindres les fichiers (docx, pdf, jpg ou xlsx seulement)</label>
-                            <input type="file" class="form-control" id="fichiersJoints"  multiple>
+                            <label for="documents[]" class="form-label">Joindres les fichiers (docx, doc, pdf, jpg, jpeg, xls, xlsx seulement)</label>
+                            <input type="file" class="form-control" name="documents[]" multiple>
                         
-                            @error('fichiersJoints')
+                            @error('documents')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         
@@ -37,7 +37,7 @@
 
                         <div class="row d-flex justify-content-center">
                             <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.Contact') }}">Précédent</a>
-                           <button type="submit" class="btn btn-primary mb-3 col-auto">Suivant</button>
+                            <button type="submit" class="btn btn-primary mb-3 col-auto">Suivant</button>
                        </div>
                     
                 </div>

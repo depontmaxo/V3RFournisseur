@@ -11,10 +11,10 @@ return new class extends Migration
      */ 
     public function up(): void
     {
-        Schema::create('inscription', function (Blueprint $table) {
+        Schema::create('inscriptions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('entreprise', 255);
-            $table->string('neq', 255);
+            $table->string('entreprise', 255)->unique();
+            $table->string('neq', 255)->unique();
             $table->string('courrielConnexion', 255);
             $table->string('password', 255);
 
@@ -28,12 +28,6 @@ return new class extends Migration
             $table->string('site', 255);
             $table->string('numTel', 255);
             
-            $table->string('prenom', 255);
-            $table->string('nom', 255);
-            $table->string('poste', 255);
-            $table->string('courrielContact', 255);
-            $table->string('numContact', 255);
-
             $table->string('rbq', 255);
             $table->timestamps();
         });
@@ -41,7 +35,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('inscription');
+        Schema::dropIfExists('inscriptions');
     }
 
 };

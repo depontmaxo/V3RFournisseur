@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'AlumniSans-ExtraBold';
+    src: url('../fonts/AlumniSans-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'AlumniSans-Medium';
+    src: url('../fonts/AlumniSans-Medium.ttf') format('truetype');
+}
+
+
+/*Pour les textes courants et sous-titres*/
+@font-face {
+    font-family: 'Poppins-Light';
+    src: url('../fonts/Poppins-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url('../fonts/Poppins-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('../fonts/Poppins-Bold.ttf') format('truetype');
+}
+
+
+/*Fonts pour les titres*/
+.titre-medium{
+    font-family: 'AlumniSans-Medium';
+}
+
+.titre-extrabold{
+    font-family: 'AlumniSans-ExtraBold';
+}
+
+
+/*Fonts pour les sous-titres*/
+.texte{
+    font-family: 'Poppins-Light';
+}
+
+.soustitre{
+    font-family: 'Poppins-Medium';
+}
+
+.soustitre-bold{
+    font-family: 'Poppins-Bold';
+}

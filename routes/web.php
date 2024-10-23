@@ -15,7 +15,7 @@ require __DIR__.'/auth.php';
 
 
 Route::GET('/',
-[UtilisateursController::class,'index'])->name('index')/*->middleware('role:admin,commis,responsable,fournisseur');*/;
+[UtilisateursController::class,'index'])/*->middleware('role:admin,commis,responsable,fournisseur');*/;
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {
@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::GET('/connexionEmail',
-[UtilisateursController::class,'index'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
+[UtilisateursController::class,'pageConnexion'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
 
 
 Route::POST('/',
