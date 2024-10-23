@@ -10,10 +10,7 @@ class AuthController extends Controller
 {
 
     
-    public function index()
-    {
-        return view('admin.index');  // Renvoie la vue d'index pour l'admin
-    }
+    
 
     // Gère la connexion
     public function adminLogin(Request $request)

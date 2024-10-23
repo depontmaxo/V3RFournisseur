@@ -29,7 +29,10 @@
         <div class="text-center my-4">
             <button class="btn btn-outline-primary" onclick="showForm('neq-login')">Connexion par NEQ</button>
             <button class="btn btn-outline-primary" onclick="showForm('email-login')">Connexion par courriel</button>
+            <button class="btn btn-outline-danger ml-2" onclick="window.location.href='{{ route('admin.index') }}'">Employé</button>
         </div>
+
+       
 
         <!-- NEQ login form -->
         <div id="neq-login" class="login-section active">
@@ -47,13 +50,14 @@
                 <div class="row d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary my-4 col-auto">Se connecter</button>
                 </div>
+
+               
             </form>
             <p class="text-center"> Vous n'êtes pas inscrit? 
                 <a href="{{route('Inscription.Identification')}}">Formulaire inscription</a> 
             </p>
         </div>
 
-        <!-- Email login form -->
         <div id="email-login" class="login-section">
             <form method="post" action="{{ route('Connexion.connexion') }}">
                 @csrf
@@ -71,13 +75,14 @@
                 </div>
             </form>
             <p class="text-center"> Vous n'êtes pas inscrit? 
-                <a href="{{route('Inscription.Identification')}}">Formulaire inscription</a> 
-            </p>
+                <a href="{{route('Inscription.Identification')}}">Formulaire inscription</a>  
+                <a href="{{ route('app_forgotpassword')}}">Forgot password</a>  
+            </p>  
         </div>
 
         
     </div>
-
+ 
     <script>
         localStorage.clear();
         function showForm(formId) {
