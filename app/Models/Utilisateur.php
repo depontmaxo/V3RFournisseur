@@ -27,18 +27,14 @@ class Utilisateur extends Authenticatable
 
 
     protected $fillable = [
+        'id',
+        'nom_entreprise',
         'neq',
         'email',
         'password',
-        'nomFournisseur',
-        'adresse',
-        'noTelephone',
-        'personneRessource',
-        'emailPersonneRessource',
-        'licenceRBQ',
-        'posteOccupeEntreprise',
-        'siteWeb',
-        'produitOuService'
+        'role',
+        'statut',
+        'rbq'
     ];
 
 
@@ -61,47 +57,21 @@ class Utilisateur extends Authenticatable
             'id' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-
-            
         ];
 
-    public function searchableAs(): string
+     
+    public function contacts()
     {
-        return 'posts_index';
-    }
-    
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return array<string, mixed>
-     */
-    public function toSearchableArray()
-    {
-        return [
-            'neq' => $this->name,
-            'email' => $this->email,
-            'nomFournisseur' => $this->nomFournisseur,
-            'adresse' => $this->adresse,
-            'noTelephone' => $this->noTelephone,
-            'personneRessource' => $this->personneRessource,
-            'emailPersonneRessource' => $this->emailPersonneRessource,
-            'licenceRBQ' => $this->licenceRBQ,
-            'posteOccupeEntreprise' => $this->posteOccupeEntreprise,
-            'siteWeb' => $this->siteWeb,
-            'produitOuService' => $this->produitOuService
-        ];
+        return $this->hasMany(Contacts::class, 'utilisateur_id');
     }
 
-    public function getScoutKey(): mixed
+    public function documents()
     {
-        return $this->id;
+        return $this->hasMany(Document::class, 'utilisateur_id');
     }
- 
-    /**
-     * Get the key name used to index the model.
-     */
-    public function getScoutKeyName(): mixed
+
+    public function coordonnees()
     {
-        return 'id';
+        return $this->hasOne(Coordonnees::class, 'utilisateur_id');
     }
 }

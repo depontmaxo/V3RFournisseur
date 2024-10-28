@@ -253,7 +253,7 @@
                     
                     <div class="row d-flex justify-content-center">
                         <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.RBQ') }}">Précédent</a>
-                        <button type="submit" class="btn btn-primary mb-3 col-auto">Confirmer et envoyer le formulaire</button>
+                        <button type="submit" class="btn btn-primary mb-3 mx-3 col-auto">Confirmer et envoyer le formulaire</button>
                     </div>
                 
                 </div>

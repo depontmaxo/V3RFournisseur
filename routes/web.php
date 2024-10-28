@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::GET('/connexionEmail',
-[UtilisateursController::class,'pageConnexion'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
+[UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
 
 
 Route::POST('/',
@@ -47,6 +47,7 @@ Route::GET('/motPasseOublie',
 
 #################################Déconnexion#########################################
 Route::POST('/logout', [UtilisateursController::class, 'logout'])->middleware('auth')->name('logout');
+Route::GET('/logout', [UtilisateursController::class, 'logout'])->middleware('auth')->name('logout.link');
 ##################################################################################
 
 
@@ -155,8 +156,6 @@ Route::post('/users/update-roles', [UserController::class, 'updateRoles']);
 // Route pour afficher la page de connexion
 //Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
 
-// Route pour traiter la connexion
-Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
 
 #######################EMAIL#################################################################################
 

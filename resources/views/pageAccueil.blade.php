@@ -16,7 +16,7 @@
                 <h1 class="titre-extrabold message d-flex justify-content-center">Portail fournisseur de Trois-Rivières</h1>
                 <p class="texte info d-flex justify-content-center">Pour vous connecter ou envoyer un formulaire d'inscription, veuillez choisir l'une des options suivantes</p>
                 <div class="py-4 d-flex justify-content-center">
-                    <a class="btn btn-primary mb-3 col-3 precedent" href="{{ route('Connexion.connexionEmail') }}">Se connecter</a>
+                    <a class="btn btn-primary mb-3 col-3 precedent" href="{{ route('Connexion.pageConnexion') }}">Se connecter</a>
                     <a class="btn btn-primary mb-3 col-3 offset-2 precedent" href="{{ route('Inscription.Identification') }}">Inscription</a>
                 </div>
             </div>

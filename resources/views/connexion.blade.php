@@ -63,6 +63,7 @@
             </p>
         </div>
 
+        <!-- Email login form -->
         <div id="email-login" class="login-section">
             <form method="post" action="{{ route('Connexion.connexion') }}">
                 @csrf

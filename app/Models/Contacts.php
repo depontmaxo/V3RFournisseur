@@ -10,18 +10,17 @@ class Contacts extends Model
     use HasFactory;
 
     protected $fillable = [
-        'inscription_id',
         'prenom',
         'nom',
         'poste',
-        'courrielContact',
-        'numContact',
-        //'candidat_id', // Assurez-vous que cette clé est remplie
+        'email_contact',
+        'num_contact',
+        'utilisateur_id'
     ];
 
-    public function candidat()
+    public function utilisateur()
     {
-        return $this->belongsTo(CandidatInscription::class, 'inscription_id');
+        return $this->belongsTo(Utilisateur::class, 'utilisateur_id');
     }
 
 }

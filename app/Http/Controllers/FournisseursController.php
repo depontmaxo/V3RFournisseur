@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Utilisateur;
+use App\Models\Contacts;
+use App\Models\Coordonnees;
+use App\Models\Document;
 
 class FournisseursController extends Controller
 {
@@ -39,8 +42,10 @@ class FournisseursController extends Controller
      */
     public function show(Utilisateur $utilisateur)
     {
+        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         //dd($utilisateur);
-        return View('ficheFournisseur', compact('utilisateur'));
+        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees'));
     }
 
     /**

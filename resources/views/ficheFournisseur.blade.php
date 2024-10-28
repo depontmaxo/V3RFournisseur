@@ -4,26 +4,19 @@
   
 @section('contenu')
 <body>
-    @if (Auth::user()->role == 'responsable')
-        <a href="{{route('Responsable.index')}}">Retourner à la page de responsable</a>
-    @endif
-
-    <h1>Voici votre fiche</h1>
-
+    <h1>{{ $utilisateur->nom_entreprise }}</h1>
     @if (isset( $utilisateur))
-        <p>Voici les information de votre compte</p>
-        <br>
         <p>NEQ : {{ $utilisateur->neq }}</p>
         <p>Email: {{ $utilisateur->email }}</p>
-        <p>Nom fournisseur: {{ $utilisateur->nomFournisseur }}</p>
-        <p>Adresse: {{ $utilisateur->adresse }}</p>
-        <p>Numero de téléphone: {{ $utilisateur->noTelephone }}</p>
-        <p>Personne ressource: {{ $utilisateur->personneRessource }}</p>
-        <p>Email de personne ressource: {{ $utilisateur->emailPersonneRessource }}</p>
-        <p>LicenceRBQ: {{ $utilisateur->licenceRBQ }}</p>
-        <p>Poste occupé: {{ $utilisateur->posteOccupeEntreprise }}</p>
-        <p>Site web de votre entreprise: {{ $utilisateur->siteWeb }}</p>
-        <p>Produit ou Service: {{ $utilisateur->produitOuService }}</p>
+        <p>Adresse: {{ $coordonnees->adresse }}</p>
+        <p>Numero de téléphone: {{ $coordonnees->noTelephone }}</p>
+        <p>Personne ressource: {{ $contacts->prenom }} {{ $contacts->nom }}</p>
+        <p>Email de personne ressource: {{ $contacts->email_contact }}</p>
+        <p>LicenceRBQ: {{ $utilisateur->rbq }}</p>
+        <p>Poste occupé: {{ $contacts->poste }}</p>
+        <p>Site web de votre entreprise: {{ $coordonnees->siteweb }}</p>
+        <p>Services et/ou produits offerts : informations à venir</p>
+        <p>Statut de votre demande d'inscription : {{ $utilisateur->statut }}</p>
     @else
         <p>404 Erreur<p>
     @endif

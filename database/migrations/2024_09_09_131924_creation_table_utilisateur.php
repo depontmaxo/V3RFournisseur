@@ -13,20 +13,13 @@ return new class extends Migration
     {
         Schema::create('utilisateur', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('neq', 255);
+            $table->string('nom_entreprise', 255)->unique();
+            $table->string('neq', 255)->unique();
             $table->string('email', 255);
             $table->string('password', 255);
-            $table->string('nomFournisseur', 255);
-            $table->string('adresse', 255);
-            $table->string('noTelephone', 255);
-            $table->string('personneRessource', 255);
-            $table->string('emailPersonneRessource', 255);
-            $table->string('licenceRBQ', 255);
-            $table->string('posteOccupeEntreprise', 255);
-            $table->string('siteWeb', 255);
-            $table->string('produitOuService', 255);
             $table->string('role', 255);
-            $table->string('statut', 255);
+            $table->enum('statut', ['Actif', 'Inactif', 'En attente', 'Refusé'])->default('En attente');
+            $table->string('rbq', 255);
             $table->rememberToken();
             $table->timestamps();
         });

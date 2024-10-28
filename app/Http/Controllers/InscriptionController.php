@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\CandidatInscription;
+use App\Models\Utilisateur;
+use App\Models\Document;
+use App\Models\Coordonnees;
 use App\Models\Contacts;
 use Illuminate\Support\Facades\Hash;
 
@@ -179,32 +181,29 @@ class InscriptionController extends Controller
         // Récupérer les données de la session
         $data = session('user_data', []);
         //dd($data);
+
         $uuid = (string) Str::uuid();
-        // Créer le candidat
-        $formulaire = CandidatInscription::create([
+
+        // Créer l'utilisateur
+        $utilisateur = Utilisateur::create([
             'id' => $uuid,
-            'entreprise' => $data['entreprise'],
+            'nom_entreprise' => $data['entreprise'],
             'neq' => $data['neq'],
-            'courrielConnexion' => $data['courrielConnexion'],
+            'email' => $data['courrielConnexion'],
             'password' => $data['password'],
-            'services' => $data['services'],
-            'adresse' => $data['adresse'],
-            'bureau' => $data['bureau'],
-            'ville' => $data['ville'],
-            'province' => $data['province'],
-            'codePostal' => $data['codePostal'],
-            'pays' => $data['pays'],
-            'site' => $data['site'],
-            'numTel' => $data['numTel'],
+            'role' => 'fournisseur',
+            'statut' => 'En attente',
             'rbq' => $data['rbq']
         ]);
+
+
 
         // Récupérer les fichiers de la session
         $documents = $data['documents'] ?? [];
         
         foreach ($documents as $file) {
             // Enregistrer chaque fichier dans la table 'documents'
-            $formulaire->documents()->create([
+            $utilisateur->documents()->create([
                 'file_name' => $file['name'],
                 'file_size' => $file['size'],
                 'file_type' => $file['type'],
@@ -212,6 +211,39 @@ class InscriptionController extends Controller
                 // 'inscription_id' => $formulaire->id, // Cette ligne est gérée automatiquement par Eloquent
             ]);
         }
+
+        $utilisateur->coordonnees()->create([
+            'adresse' => $data['adresse'],
+            'bureau' => $data['bureau'],
+            'ville' => $data['ville'],
+            'province' => $data['province'],
+            'code_postal' => $data['codePostal'],
+            'pays' => $data['pays'],
+            'siteweb' => $data['site'],
+            'num_telephone' => $data['numTel'],
+        ]);
+
+        /*
+        $coordonnees = Coordonnees::create([
+            'inscription_id' => $uuid,
+            'adresse' => $data['adresse'],
+            'bureau' => $data['bureau'],
+            'ville' => $data['ville'],
+            'province' => $data['province'],
+            'code_postal' => $data['codePostal'],
+            'pays' => $data['pays'],
+            'siteweb' => $data['site'],
+            'num_telephone' => $data['numTel'],
+        ]);*/
+
+        $utilisateur->contacts()->create([
+            /*'utilisateur_id' => $uuid,*/
+            'prenom' => $data['prenom'],
+            'nom' => $data['nom'],
+            'poste' => $data['poste'],
+            'email_contact' => $data['courrielContact'],
+            'num_contact' => $data['numContact'],
+        ]);
 
         /*$contacts = $data['contacts'] ?? [];
         
@@ -227,15 +259,6 @@ class InscriptionController extends Controller
             ]);
         }*/
 
-        $contact = Contacts::create([
-            'inscription_id' => $uuid,
-            'prenom' => $data['prenom'],
-            'nom' => $data['nom'],
-            'poste' => $data['poste'],
-            'courrielContact' => $data['courrielContact'],
-            'numContact' => $data['numContact'],
-        ]);
-
         // Récupérer les contacts de la session
 
 
@@ -243,7 +266,7 @@ class InscriptionController extends Controller
         session()->forget('user_data');
 
         // Redirection après l'envoi
-        return redirect()->route('Connexion.connexion')->with('success', 'Inscription réussie !');
+        return redirect()->route('Connexion.pageConnexion')->with('success', 'Inscription réussie !');
     }
 
     //Fonctions pour storer les données

@@ -95,7 +95,7 @@
 
                        <div class="row d-flex justify-content-center">
                             <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.Produits') }}">Précédent</a>
-                           <button type="submit" class="btn btn-primary mb-3 col-auto">Suivant</button>
+                           <button type="submit" class="btn btn-primary mb-3 mx-3 col-auto">Suivant</button>
                        </div>
                     
                 </div>

@@ -5,20 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Document extends Model
+class Coordonnees extends Model
 {
     use HasFactory;
 
+    
     protected $fillable = [
-        'file_name',
-        'file_size',
-        'file_type',
-        'file_stream',
-        'utilisateur_id', // Assurez-vous que cette clé est remplie
+        'adresse',
+        'bureau',
+        'ville',
+        'province',
+        'code_postal',
+        'pays',
+        'siteweb',
+        'num_telephone',
+        'utilisateur_id',
     ];
 
     public function utilisateur()
     {
         return $this->belongsTo(Utilisateur::class, 'utilisateur_id');
     }
+
 }
