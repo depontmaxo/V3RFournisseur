@@ -55,6 +55,12 @@ input {
     padding: 10px;
 }
 
+.test{
+    margin-top: 5%;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    /*border: solid 1px lightgray;*/
+}
 
 /*
 .a{
