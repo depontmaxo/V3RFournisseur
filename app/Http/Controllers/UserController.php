@@ -9,6 +9,13 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+
+
+    public function index()
+    {
+        return view('admin.index');  // Renvoie la vue d'index pour l'admin
+    }
+
     public function gestionUser()
     {
         $users = User::all();

@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Database\Eloquent\Model;
+ 
 class Utilisateur extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -64,6 +65,43 @@ class Utilisateur extends Authenticatable
             
         ];
 
+    public function searchableAs(): string
+    {
+        return 'posts_index';
+    }
+    
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'neq' => $this->name,
+            'email' => $this->email,
+            'nomFournisseur' => $this->nomFournisseur,
+            'adresse' => $this->adresse,
+            'noTelephone' => $this->noTelephone,
+            'personneRessource' => $this->personneRessource,
+            'emailPersonneRessource' => $this->emailPersonneRessource,
+            'licenceRBQ' => $this->licenceRBQ,
+            'posteOccupeEntreprise' => $this->posteOccupeEntreprise,
+            'siteWeb' => $this->siteWeb,
+            'produitOuService' => $this->produitOuService
+        ];
+    }
 
-        
+    public function getScoutKey(): mixed
+    {
+        return $this->id;
+    }
+ 
+    /**
+     * Get the key name used to index the model.
+     */
+    public function getScoutKeyName(): mixed
+    {
+        return 'id';
+    }
 }
