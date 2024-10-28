@@ -18,8 +18,10 @@
         <p>Nom fournisseur: {{ $utilisateur->nomFournisseur }}</p>
         <p>Adresse: {{ $utilisateur->adresse }}</p>
         <p>Numero de téléphone: {{ $utilisateur->noTelephone }}</p>
+        <!--
         <p>Personne ressource: {{ $utilisateur->personneRessource }}</p>
         <p>Email de personne ressource: {{ $utilisateur->emailPersonneRessource }}</p>
+        -->
         <p>LicenceRBQ: {{ $utilisateur->licenceRBQ }}</p>
         <p>Poste occupé: {{ $utilisateur->posteOccupeEntreprise }}</p>
         <p>Site web de votre entreprise: {{ $utilisateur->siteWeb }}</p>

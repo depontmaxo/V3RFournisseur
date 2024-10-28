@@ -24,4 +24,9 @@ class Contacts extends Model
         return $this->belongsTo(CandidatInscription::class, 'inscription_id');
     }
 
+    public function utilisateurs()
+    {
+        return $this->belongsTo(Utilisateur::class);
+    }
+
 }

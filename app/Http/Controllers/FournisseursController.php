@@ -39,8 +39,11 @@ class FournisseursController extends Controller
      */
     public function show(Utilisateur $utilisateur)
     {
-        //dd($utilisateur);
-        return View('ficheFournisseur', compact('utilisateur'));
+        //dd($utilisateur->id);
+        $contacts = $utilisateur->contacts()->where('inscription_id',$utilisateur->id)->get();
+        
+
+        return View('ficheFournisseur', compact('utilisateur','contacts'));
     }
 
     /**
