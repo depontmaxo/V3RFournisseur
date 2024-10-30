@@ -196,8 +196,6 @@ class InscriptionController extends Controller
             'rbq' => $data['rbq']
         ]);
 
-
-
         // Récupérer les fichiers de la session
         $documents = $data['documents'] ?? [];
         
@@ -208,7 +206,7 @@ class InscriptionController extends Controller
                 'file_size' => $file['size'],
                 'file_type' => $file['type'],
                 'file_stream' => $file['stream'],
-                // 'inscription_id' => $formulaire->id, // Cette ligne est gérée automatiquement par Eloquent
+                // 'utilisateurs_id' => $formulaire->id, // Cette ligne est gérée automatiquement par Eloquent
             ]);
         }
 
@@ -223,18 +221,6 @@ class InscriptionController extends Controller
             'num_telephone' => $data['numTel'],
         ]);
 
-        /*
-        $coordonnees = Coordonnees::create([
-            'inscription_id' => $uuid,
-            'adresse' => $data['adresse'],
-            'bureau' => $data['bureau'],
-            'ville' => $data['ville'],
-            'province' => $data['province'],
-            'code_postal' => $data['codePostal'],
-            'pays' => $data['pays'],
-            'siteweb' => $data['site'],
-            'num_telephone' => $data['numTel'],
-        ]);*/
 
         $utilisateur->contacts()->create([
             /*'utilisateur_id' => $uuid,*/
@@ -244,22 +230,6 @@ class InscriptionController extends Controller
             'email_contact' => $data['courrielContact'],
             'num_contact' => $data['numContact'],
         ]);
-
-        /*$contacts = $data['contacts'] ?? [];
-        
-        foreach ($contacts as $contact) {
-            // Enregistrer chaque fichier dans la table 'documents'
-            $formulaire->contacts()->create([
-                'prenom' => $contact['prenom'],
-                'nom' => $contact['nom'],
-                'poste' => $contact['poste'],
-                'courrielContact' => $contact['courrielContact'],
-                'numContact' => $contact['numContact'],
-                // 'inscription_id' => $formulaire->id, // Cette ligne est gérée automatiquement par Eloquent
-            ]);
-        }*/
-
-        // Récupérer les contacts de la session
 
 
         // Effacer les données de la session
