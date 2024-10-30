@@ -15,11 +15,11 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('nom_entreprise', 255)->unique();
             $table->string('neq', 255)->unique();
-            $table->string('email', 255);
+            $table->string('email', 255)->unique()->nullable();
             $table->string('password', 255);
             $table->string('role', 255);
             $table->enum('statut', ['Actif', 'Inactif', 'En attente', 'Refusé'])->default('En attente');
-            $table->string('rbq', 255);
+            $table->string('rbq', 255)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -14,16 +14,6 @@
         </a>
         </br>
 
-        <p>Nature / Code UNSPSC / Description</p>
-        @foreach ($codeUNSPSCunite as $unscpsc)
-            <p>{{ $unscpsc->nature_contrat }} / {{ $unscpsc->code_unspsc }} / {{ $unscpsc->desc_det_unspsc }}</p>
-        @endforeach
-        
-        <!-- Pagination Links -->
-        <div class="d-flex justify-content-between">
-            {{ $codeUNSPSCunite->links('vendor.pagination.bootstrap-4') }} 
-        </div>
-
     
 @endif
 @endsection

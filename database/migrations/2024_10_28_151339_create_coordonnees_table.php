@@ -16,12 +16,12 @@ return new class extends Migration
             $table->uuid('utilisateur_id');
             $table->foreign('utilisateur_id')->references('id')->on('utilisateur')->onDelete('cascade');
             $table->string('adresse', 255);
-            $table->string('bureau', 255);
+            $table->string('bureau', 255)->nullable();
             $table->string('ville', 255);
             $table->string('province', 255);
             $table->string('code_postal', 255);
             $table->string('pays', 255);
-            $table->string('siteweb', 255);
+            $table->string('siteweb', 255)->nullable();
             $table->string('num_telephone', 255);
             $table->timestamps();
         });
