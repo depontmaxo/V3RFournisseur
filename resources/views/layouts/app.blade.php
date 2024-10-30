@@ -11,7 +11,7 @@
 
 
 <body>
-    @if (auth()->user() !== null) 
+    @if (auth()->user() != null) 
     <div class="header">
         <div class="side-nav">
             <!--<div class="user">
@@ -19,11 +19,11 @@
             </div>-->
             <ul>
             @if (Auth::user()->role == 'responsable')
-                <li class="soustitre"><a class="no-style-link" href="{{ route('Responsable.index') }}">Accueil</a></li>
+                <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil</a></li>
                 <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.index')}}">Fournisseur actif</a></li>
                 <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.listeInscripton')}}">Demandes inscriptions</a></li>
             @elseif (Auth::user()->role == 'commis')
-                <li class="soustitre"><a class="no-style-link" href="{{ route('Responsable.index') }}">Accueil</a></li>
+                <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil</a></li>
                 <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.index')}}">Fournisseur actif</a></li>
                 <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.listeInscripton')}}">Demandes inscriptions</a></li>
             @elseif (Auth::user()->role == 'fournisseur')
@@ -53,7 +53,7 @@
             // Redirige vers la route Laravel
             window.location.href = "{{ route('Connexion.connexion') }}";
         });
-    </script>
+        </script>
     @endif
     
 
@@ -63,5 +63,6 @@
         <p>Isaac Béland-Desjardins</p>
         <p>Yohann Arnaud Nourredine Honliasso</p>
     </footer> 
+
 </body>
 </html>
