@@ -73,11 +73,15 @@
                 <div class="row d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary my-4 col-auto">Se connecter</button>
                 </div>
+               
+                
             </form>
+            
             <p class="text-center"> Vous n'êtes pas inscrit? 
-                <a href="{{route('Inscription.Identification')}}">Formulaire inscription</a>  
-                <a href="{{ route('app_forgotpassword')}}">Forgot password</a>  
+                <a href="{{route('Inscription.Identification')}}">Formulaire inscription</a>&nbsp &nbsp &nbsp 
+                <a class="" href="{{ route('app_forgotpassword')}}">Mot de passe oublié?</a>       
             </p>  
+
         </div>
 
         
