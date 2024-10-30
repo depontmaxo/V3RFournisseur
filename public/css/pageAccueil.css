@@ -1,0 +1,80 @@
+/*body {
+    margin: 0;
+    height: 100vh;
+    background: url('../images/bg_villeTR.jpg') no-repeat center center/cover;
+    position: relative;
+}*/
+
+/*.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;  
+    height: 100%;
+    background-color: rgb(99, 188, 85); 
+    opacity: 92%;
+    clip-path: polygon(100% 0, 45% 0, 15% 100%, 100% 100%);
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    overflow: hidden;
+}*/
+
+/*.test{
+    border: solid 4px red;
+    position: relative;
+    width: 100%; 
+    height: 100%; 
+    clip-path: inherit; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    color: white;
+    font-size: 24px; 
+}*/
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: url('../images/bg_villeTR.jpg') no-repeat center center/cover;
+    position: relative;
+}
+
+.parallelogram {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%; /* Adjust this to change the coverage */
+    height: 100%; /* Full height */
+    background-color: rgba(99, 188, 85, 0.92); /* Change to your desired color with opacity */
+    transform: skew(-15deg); /* Adjust the skew angle */
+    transform-origin: top right; /* Skew from the top right */
+    overflow: hidden; /* Hide overflow */
+}
+
+.message{
+    transform: skew(15deg);
+    transform-origin: top right;
+    /*padding-left: 20px;*/
+    font-size: 40pt;
+    color: rgb(11, 35, 65);
+    
+}
+
+.info{
+    transform: skew(15deg);
+    transform-origin: top right;
+    color: rgb(11, 35, 65);
+    font-size: 11pt;
+    /*padding-left: 40px;*/
+    
+}
+
+a{
+    transform: skew(15deg);
+    transform-origin: top right;
+}
+
+.container{
+    padding-top: 25%;
+}

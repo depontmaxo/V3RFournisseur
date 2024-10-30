@@ -18,14 +18,6 @@ class Utilisateur extends Authenticatable
     */
     protected $table = "utilisateur";
 
-    // Define your primary key if it's not the default 'id'
-    protected $primaryKey = 'id'; // Or whatever your primary key is
-
-    // If your primary key is not an auto-incrementing integer, set this
-    protected $keyType = 'string';  // For UUID or non-integer primary keys
-    public $incrementing = false;   // Disable auto-increment if using UUIDs
-
-
     protected $fillable = [
         'neq',
         'email',
@@ -41,67 +33,22 @@ class Utilisateur extends Authenticatable
         'produitOuService'
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-    // Mis en commentaire le temps de toute mettre en place
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-        protected $hidden = [
-            'password',
-            'remember_token',
-        ];
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-        protected $casts = [
-            'id' => 'string',
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+    protected $casts = [
+        'id' => 'string',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
 
-            
-        ];
+        
+    ];
 
-    public function searchableAs(): string
+    public function contacts()
     {
-        return 'posts_index';
-    }
-    
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return array<string, mixed>
-     */
-    public function toSearchableArray()
-    {
-        return [
-            'neq' => $this->name,
-            'email' => $this->email,
-            'nomFournisseur' => $this->nomFournisseur,
-            'adresse' => $this->adresse,
-            'noTelephone' => $this->noTelephone,
-            'personneRessource' => $this->personneRessource,
-            'emailPersonneRessource' => $this->emailPersonneRessource,
-            'licenceRBQ' => $this->licenceRBQ,
-            'posteOccupeEntreprise' => $this->posteOccupeEntreprise,
-            'siteWeb' => $this->siteWeb,
-            'produitOuService' => $this->produitOuService
-        ];
+        return $this->hasMany(Contacts::class);
     }
 
-    public function getScoutKey(): mixed
-    {
-        return $this->id;
-    }
- 
-    /**
-     * Get the key name used to index the model.
-     */
-    public function getScoutKeyName(): mixed
-    {
-        return 'id';
-    }
 }

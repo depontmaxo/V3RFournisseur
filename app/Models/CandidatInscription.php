@@ -16,7 +16,7 @@ class CandidatInscription extends Authenticatable
     * @var array<int, string>
     */
 
-    protected $table = "inscription";
+    protected $table = "inscriptions";
 
     // Define your primary key if it's not the default 'id'
     protected $primaryKey = 'id'; // Or whatever your primary key is
@@ -40,13 +40,18 @@ class CandidatInscription extends Authenticatable
         'pays',
         'site',
         'numTel',
-        'prenom',
-        'nom',
-        'poste',
-        'courrielContact',
-        'numContact',
         'rbq'
     ];
+
+    public function contacts()
+    {
+        return $this->hasMany(Contacts::class, 'inscription_id');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'inscription_id');
+    }
 
 
     /**

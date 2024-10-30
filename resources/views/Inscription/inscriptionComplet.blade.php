@@ -140,7 +140,7 @@
                        </div>
 
 
-                       <!---------------------------SECTION CONTACTS--------------------------->
+                       <!---------------------------SECTION CONTACTS------------------------>
                        <p class="col-12 text-center my-3 titre">Contact(s) rejoignable(s)</p>
                         
                         <span class="sousTitres">Information contact</span>
@@ -192,7 +192,60 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         
-                        </div>
+                        </div> 
+
+                        <!--<p class="col-12 text-center my-3 titre">Contact(s) rejoignable(s)</p>
+
+                        <span class="sousTitres">Information contact</span>
+
+                         Vérifie si des contacts existent dans la session 
+                        @if(session('user_data.contacts'))
+                            @foreach(session('user_data.contacts') as $index => $contact)
+                                <fieldset disabled>
+                                    <div class="mb-3 row">
+                                        <label for="prenom_{{ $index }}" class="col-3">Prénom :</label>
+                                        <input type="text" class="col-9" id="prenom_{{ $index }}" placeholder="exemple: Connor" name="prenom[]" value="{{ old('prenom.' . $index, $contact['prenom']) }}">
+                                        @error('prenom.' . $index)
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="nom_{{ $index }}" class="col-3">Nom :</label>
+                                        <input type="text" class="col-9" id="nom_{{ $index }}" placeholder="exemple: McDavid" name="nom[]" value="{{ old('nom.' . $index, $contact['nom']) }}">
+                                        @error('nom.' . $index)
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="poste_{{ $index }}" class="col-3">Poste/Fonction :</label>
+                                        <input type="text" class="col-9" id="poste_{{ $index }}" placeholder="Chef administration" name="poste[]" value="{{ old('poste.' . $index, $contact['poste']) }}">
+                                        @error('poste.' . $index)
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="courrielContact_{{ $index }}" class="col-3">Courriel :</label>
+                                        <input type="email" class="col-9" id="courrielContact_{{ $index }}" placeholder="exemple@gmail.com" name="courrielContact[]" value="{{ old('courrielContact.' . $index, $contact['courrielContact']) }}">
+                                        @error('courrielContact.' . $index)
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="numContact_{{ $index }}" class="col-3">Numéro de téléphone :</label>
+                                        <input type="text" class="col-9" id="numContact_{{ $index }}" placeholder="(819)123-4567" name="numContact[]" value="{{ old('numContact.' . $index, $contact['numContact']) }}">
+                                        @error('numContact.' . $index)
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </fieldset>
+                            @endforeach
+                        @else
+                            <p>Aucun contact n'a été ajouté.</p>
+                        @endif -->
 
                        <!---------------------------SECTION RBQ ET FICHIERS--------------------------->
                     

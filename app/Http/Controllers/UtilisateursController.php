@@ -12,9 +12,19 @@ class UtilisateursController extends Controller
     /**
      * Index de connection avec un email
      */
-    public function index()
+    /*public function index()
     {
         return View('connexion');
+    }*/
+
+    public function pageConnexion()
+    {
+        return View('connexion');
+    }
+
+    public function index()
+    {
+        return View('pageAccueil');
     }
 
     /**
