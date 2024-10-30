@@ -17,7 +17,12 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (Auth::user()->role== 'fournisseur' || Auth::user()->role== 'responsable' || Auth::user()->role== 'commis' || Auth::user()->role== 'admin' )
+        if (Auth::user() == null)
+        {
+            Auth::logout();
+            return redirect()->route('Connexion.connexion');
+        }
+        else if (Auth::user()->role== 'fournisseur' || Auth::user()->role== 'responsable' || Auth::user()->role== 'commis' || Auth::user()->role== 'admin' )
         {
             return $next($request);
         }
