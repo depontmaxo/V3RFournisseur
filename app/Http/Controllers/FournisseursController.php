@@ -53,9 +53,12 @@ class FournisseursController extends Controller
      */
     public function show(Utilisateur $utilisateur)
     {
+        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         //dd($utilisateur);
-        return View('ficheFournisseur', compact('utilisateur'));
+        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees'));
     }
+
 
     /**
      * Sert à modifier les infomations de la fiche du fournisseur
