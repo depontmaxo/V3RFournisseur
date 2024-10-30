@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Utilisateur;
+use App\Models\CodeUNSPSC;
 use App\Models\Contacts;
 use App\Models\Coordonnees;
 use App\Models\Document;
@@ -17,8 +18,18 @@ class FournisseursController extends Controller
      */
     public function index()
     {
+
         //dd(auth()->user()->id);
-        return View('pagePrincipale');
+        $codeUNSPSC = CodeUNSPSC::all();
+
+        //$codeUNSPSCnature = CodeUNSPSC::select('nature_contrat')->groupBy('nature_contrat')->get();
+
+        $codeUNSPSCunite = CodeUNSPSC::select('code_unspsc', 'desc_det_unspsc', 'nature_contrat')->paginate(25);
+
+        //dd($codeUNSPSCunite);
+
+        return View('pagePrincipale', compact('codeUNSPSC', 'codeUNSPSCunite'));
+
     }
 
     /**
@@ -42,10 +53,8 @@ class FournisseursController extends Controller
      */
     public function show(Utilisateur $utilisateur)
     {
-        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->firstOrFail();
-        $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         //dd($utilisateur);
-        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees'));
+        return View('ficheFournisseur', compact('utilisateur'));
     }
 
     /**
