@@ -22,8 +22,8 @@
             <input type="checkbox" id="code_unspsc" name="code_unspsc"/>
             <label for="desc_det_unspsc">Description :</label>
             <input type="checkbox" id="desc_det_unspsc" name="desc_det_unspsc"/>
-            <label for="nature">Nature :</label>
-            <input type="checkbox" id="nature" name="nature"/>
+            <label for="nature_contrat">Nature :</label>
+            <input type="checkbox" id="nature_contrat" name="nature_contrat"/>
 
 
             <input type="text" placeholder="Rechercher" id="recherche" name="recherche"/>
