@@ -31,6 +31,9 @@
                             @error('documents')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+                            @error('documents.*')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         
                         </div>
 
