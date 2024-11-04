@@ -146,6 +146,10 @@ class InscriptionController extends Controller
 
     public function verificationRBQ(Request $request)
     {
+        //Si vous avez l'erreur "Content Too Large" de Laravel, il faut aller dans le fichier php.ini dans le composer et changer les valeurs des lignes :
+        //post_max_size (mettre 75M)
+        //upload_max_filesize (mettre environ 40M) - Ensuite il faut redémarrer VSCode et le site
+
         // Validation des fichiers et de rbq
         $request->validate([
             'rbq' => ['required'],
