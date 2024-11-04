@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Models\Utilisateur;
 use App\Models\CodeUNSPSC;
 use App\Models\Contacts;
@@ -20,15 +21,30 @@ class FournisseursController extends Controller
     {
 
         //dd(auth()->user()->id);
-        $codeUNSPSC = CodeUNSPSC::all();
-
         //$codeUNSPSCnature = CodeUNSPSC::select('nature_contrat')->groupBy('nature_contrat')->get();
 
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
 
         //dd($codeUNSPSCunite);
 
-        return View('pagePrincipale', compact('codeUNSPSC', 'codeUNSPSCunite'));
+        //Seed pour voir si une page refresh
+        $randomId = rand(2,9999999);
+
+
+        // Retrieve checked items in session.
+        $checked_UNSPSC = [];
+        if (Session::has('checked_UNSPSC'))
+            $checked_UNSPSC = Session::get('checked_UNSPSC');
+
+        // Persist new checked items.
+        $checked_UNSPSC = array_merge($checked_UNSPSC, Input::get('codeUNSPSCunite'));
+        Session::flash('checked_UNSPSC', $checked_UNSPSC);
+
+        /*
+        return View::make('form')->with('items', $items);
+        */
+
+        return View('pagePrincipale', compact('codeUNSPSCunite','randomId'));
 
     }
 
@@ -125,12 +141,15 @@ class FournisseursController extends Controller
 
     public function recherche(Request $request)
     {
+
+        $randomId = rand(2,9999999);
+
         if($request->recherche == ""){
             $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')
             ->orderBy('code_unspsc', 'asc')
             ->paginate(10);
 
-            return view('pagePrincipale', compact('codeUNSPSCunite'));
+            return view('pagePrincipale', compact('codeUNSPSCunite','randomId'));
         }
 
         $recherche = $request->recherche;
@@ -152,8 +171,53 @@ class FournisseursController extends Controller
 
         $codeUNSPSCunite = $query->paginate(10);
 
-        return view('pagePrincipale', compact('codeUNSPSCunite'));
+
+        // Retrieve checked items in session.
+        $checked_UNSPSC = [];
+        if (Session::has('checked_UNSPSC'))
+            $checked_UNSPSC = Session::get('checked_UNSPSC');
+
+        // Persist new checked items.
+        $checked_UNSPSC = array_merge($checked_UNSPSC, Input::get('codeUNSPSCunite'));
+        Session::flash('checked_UNSPSC', $checked_UNSPSC);
+
+        /*
+        return View::make('form')->with('items', $items);
+        */
+
+
+        return view('pagePrincipale', compact('codeUNSPSCunite','randomId'));
 
     }
 
+    
+    public function choisit(Request $request)
+    {
+        $randomId = rand(2,9999999);
+        
+        dd($request);
+
+        $utilisateurId = $request->input('utilisateur_id');
+        $selectedCodes = $request->input('code_unspsc_choisit', []);
+        
+        if ($utilisateurId && !empty($selectedCodes)) {
+            foreach ($selectedCodes as $unscpscId) {
+                DB::table('utilisateur_unspsc')->insert([
+                    'utilisateur_id' => $utilisateurId,
+                    'unscpsc_id' => $unscpscId,
+                    'id' => (string) Str::uuid(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+        
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')
+            ->orderBy('code_unspsc', 'asc')
+            ->paginate(10);
+    
+        return view('pagePrincipale', compact('codeUNSPSCunite','randomId'));
+    }
+
+    
 }

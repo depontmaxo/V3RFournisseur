@@ -129,6 +129,9 @@ Route::GET('/responsable/recherche',
 Route::GET('/unspsc/recherche',
 [FournisseursController::class,'recherche'])->name('Fournisseurs.recherche')->middleware(CheckRole::class.':responsable');
 
+Route::GET('/unspsc/choisit',
+[FournisseursController::class,'choisit'])->name('Fournisseurs.choisit')->middleware(CheckRole::class.':responsable');
+
 Route::GET('/responsableIndex/listeInscription',
 [ResponsablesController::class,'voirListeInscription'])->name('Fournisseur.listeInscripton');
 
