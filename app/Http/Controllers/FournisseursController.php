@@ -24,7 +24,7 @@ class FournisseursController extends Controller
 
         //$codeUNSPSCnature = CodeUNSPSC::select('nature_contrat')->groupBy('nature_contrat')->get();
 
-        $codeUNSPSCunite = CodeUNSPSC::select('code_unspsc', 'desc_det_unspsc', 'nature_contrat')->paginate(25);
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
 
         //dd($codeUNSPSCunite);
 
@@ -122,4 +122,36 @@ class FournisseursController extends Controller
     {
 
     }
+
+    public function recherche(Request $request)
+    {
+        if($request->recherche == ""){
+            $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
+
+            return view('pagePrincipale', compact('codeUNSPSCunite'));
+        }
+
+        $recherche = $request->recherche;
+
+        $query = CodeUNSPSC::query();
+
+        if($request->code_unspsc == "on"){
+            $query->whereAny(['code_unspsc'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->nature == "on"){
+            $query->whereAny(['nature'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->desc_det_unspsc == "on"){
+            $query->whereAny(['desc_det_unspsc'], 'LIKE' , "%$recherche%");
+        }
+        else{
+            $query->whereAny(['code_unspsc', 'desc_det_unspsc', 'nature'], 'LIKE' , "%$recherche%");
+        }
+
+        $codeUNSPSCunite = $query->paginate(10);
+
+        return view('pagePrincipale', compact('codeUNSPSCunite'));
+
+    }
+
 }

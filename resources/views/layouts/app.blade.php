@@ -48,7 +48,7 @@
 
     @else
         <p>Accès non authorisé</p>
-        <a href="{{route('Connexion.connexionNEQ')}}">Retourner à la page de connexion</a>
+        <a href="{{route('Connexion.connexion')}}">Retourner à la page de connexion</a>
     @endif
     <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
