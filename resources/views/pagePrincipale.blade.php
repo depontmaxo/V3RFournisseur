@@ -14,54 +14,50 @@
     </a>
     </br>
 
-    <!-- Search Form -->
-    <form method="get" action="/unspsc/recherche" style="display-flex">
-        @csrf
-        <label for="nature_contrat">Nature :</label>
-        <input type="checkbox" id="nature_contrat" name="nature_contrat" {{ request()->has('nature_contrat') ? 'checked' : '' }} />
-        
-        <label for="code_unspsc">Code UNSPSC :</label>
-        <input type="checkbox" id="code_unspsc" name="code_unspsc" {{ request()->has('code_unspsc') ? 'checked' : '' }} />
-        
-        <label for="desc_det_unspsc">Description :</label>
-        <input type="checkbox" id="desc_det_unspsc" name="desc_det_unspsc" {{ request()->has('desc_det_unspsc') ? 'checked' : '' }} />
+    <div class="rechercheUNSPSC">
+        <!-- Search Form -->
+        <form method="get" action="/index/unspsc/recherche" style="display-flex">
+            @csrf
+            <label for="nature_contrat">Nature :</label>
+            <input type="checkbox" id="nature_contrat" name="nature_contrat" {{ request()->has('nature_contrat') ? 'checked' : '' }} />
+            
+            <label for="code_unspsc">Code UNSPSC :</label>
+            <input type="checkbox" id="code_unspsc" name="code_unspsc" {{ request()->has('code_unspsc') ? 'checked' : '' }} />
+            
+            <label for="desc_det_unspsc">Description :</label>
+            <input type="checkbox" id="desc_det_unspsc" name="desc_det_unspsc" {{ request()->has('desc_det_unspsc') ? 'checked' : '' }} />
 
-        <input type="text" placeholder="Rechercher" id="recherche" name="recherche" value="{{ request('recherche') }}" />
-        <button class="btn btn-primary no-border-button" type="submit">Rechercher</button>
-    </form>
+            <input type="text" placeholder="Rechercher" id="recherche" name="recherche" value="{{ request('recherche') }}" />
+            <button class="btn btn-primary no-border-button" type="submit">Rechercher</button>
+        </form>
 
-    <h1>Seed : {{ $randomId }}</h1>
+        <!-- Selection Form -->
+        <form method="get" action="/index/unspsc/choisit" style="display-flex">
+            @csrf
+            <p>Nature / Code UNSPSC / Description</p>
 
-    <!-- Selection Form -->
-    <form method="get" action="/unspsc/choisit" style="display-flex">
-        @csrf
-        <p>Nature / Code UNSPSC / Description</p>
+            <!-- Display the List of UNSPSC Codes with Their Selection State Preserved -->
+            @foreach ($codeUNSPSCunite as $unscpsc)
+                <div class="decisionUNSPSC">
+                    <input type="checkbox" 
+                        id="code_unspsc_choisit_{{ $unscpsc->code_unspsc }}" 
+                        name="code_unspsc_choisit[]" 
+                        value="{{ $unscpsc->code_unspsc }}" 
+                        {{ in_array($unscpsc->code_unspsc, request('code_unspsc_choisit', [])) ? 'checked' : '' }}> <!-- Check if the code is selected -->
+                    <p class="pUNSPSC">{{ $unscpsc->nature_contrat }} / {{ $unscpsc->code_unspsc }} / {{ $unscpsc->desc_det_unspsc }}</p>
+                </div>
+            @endforeach
 
-        <!-- Display the List of UNSPSC Codes with Their Selection State Preserved -->
-        @foreach ($codeUNSPSCunite as $unscpsc)
-            <div class="decisionUNSPSC">
-                <input type="checkbox" 
-                    id="code_unspsc_choisit_{{ $unscpsc->code_unspsc }}" 
-                    name="code_unspsc_choisit[]" 
-                    value="{{ $unscpsc->code_unspsc }}" 
-                    {{ in_array($unscpsc->code_unspsc, request('code_unspsc_choisit', [])) ? 'checked' : '' }}> <!-- Check if the code is selected -->
-                <p class="pUNSPSC">{{ $unscpsc->nature_contrat }} / {{ $unscpsc->code_unspsc }} / {{ $unscpsc->desc_det_unspsc }}</p>
+            <!-- Pagination Links -->
+            <div class="d-flex justify-content-between custom-pagination">
+                {{ $codeUNSPSCunite->withQueryString()->links('pagination::bootstrap-4') }}
             </div>
-        @endforeach
 
-        <!-- Pagination Links -->
-        <div class="d-flex justify-content-between custom-pagination">
-            {{ $codeUNSPSCunite->withQueryString()->links('pagination::bootstrap-4') }}
-        </div>
+            <button class="btn btn-primary no-border-button" type="submit">Complété sélection de mes codes UNSPSC</button>
+        </form>
+    </div>
 
-        <!-- Debugging Section -->
-        <h4>Debugging Selected UNSPSC Codes:</h4>
-        @foreach (request('code_unspsc_choisit', []) as $selectedCode)
-            <input type="text" name="code_unspsc_choisit[]" value="{{ $selectedCode }}" />
-        @endforeach
-
-        <button class="btn btn-primary no-border-button" type="submit">Complété sélection de mes codes UNSPSC</button>
-    </form>
+   
 
 
 

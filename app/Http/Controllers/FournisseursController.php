@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Models\Utilisateur;
 use App\Models\CodeUNSPSC;
 use App\Models\Contacts;
@@ -29,20 +31,6 @@ class FournisseursController extends Controller
 
         //Seed pour voir si une page refresh
         $randomId = rand(2,9999999);
-
-
-        // Retrieve checked items in session.
-        $checked_UNSPSC = [];
-        if (Session::has('checked_UNSPSC'))
-            $checked_UNSPSC = Session::get('checked_UNSPSC');
-
-        // Persist new checked items.
-        $checked_UNSPSC = array_merge($checked_UNSPSC, Input::get('codeUNSPSCunite'));
-        Session::flash('checked_UNSPSC', $checked_UNSPSC);
-
-        /*
-        return View::make('form')->with('items', $items);
-        */
 
         return View('pagePrincipale', compact('codeUNSPSCunite','randomId'));
 
@@ -71,8 +59,19 @@ class FournisseursController extends Controller
     {
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
+
         //dd($utilisateur);
-        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees'));
+
+        $codes = DB::table('utilisateur_unspsc')
+        ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+        ->where('utilisateur_unspsc.utilisateur_id', $utilisateur->id)
+        ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.desc_det_unspsc') // Select the needed fields
+        ->get();
+    
+        //dd($codes);
+
+        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','codes','codeUNSPSCunite'));
     }
 
 
@@ -134,6 +133,14 @@ class FournisseursController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    public function support()
+    {
+        return View('support');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Utilisateur $utilisateur)
     {
 
@@ -142,14 +149,12 @@ class FournisseursController extends Controller
     public function recherche(Request $request)
     {
 
-        $randomId = rand(2,9999999);
-
         if($request->recherche == ""){
             $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')
             ->orderBy('code_unspsc', 'asc')
             ->paginate(10);
 
-            return view('pagePrincipale', compact('codeUNSPSCunite','randomId'));
+            return view('pagePrincipale', compact('codeUNSPSCunite'));
         }
 
         $recherche = $request->recherche;
@@ -172,43 +177,41 @@ class FournisseursController extends Controller
         $codeUNSPSCunite = $query->paginate(10);
 
 
-        // Retrieve checked items in session.
-        $checked_UNSPSC = [];
-        if (Session::has('checked_UNSPSC'))
-            $checked_UNSPSC = Session::get('checked_UNSPSC');
-
-        // Persist new checked items.
-        $checked_UNSPSC = array_merge($checked_UNSPSC, Input::get('codeUNSPSCunite'));
-        Session::flash('checked_UNSPSC', $checked_UNSPSC);
-
-        /*
-        return View::make('form')->with('items', $items);
-        */
-
-
-        return view('pagePrincipale', compact('codeUNSPSCunite','randomId'));
+        return view('pagePrincipale', compact('codeUNSPSCunite'));
 
     }
 
     
     public function choisit(Request $request)
     {
-        $randomId = rand(2,9999999);
-        
-        dd($request);
+        //dd($request->code_unspsc_choisit);
+        //dd($request->code_unspsc_choisit);
 
-        $utilisateurId = $request->input('utilisateur_id');
-        $selectedCodes = $request->input('code_unspsc_choisit', []);
+        $selectedCodes = $request->code_unspsc_choisit;
+        $utilisateurId = auth()->id();
+
+        //dd($utilisateurId);
+        //dd($selectedCodes);
         
         if ($utilisateurId && !empty($selectedCodes)) {
-            foreach ($selectedCodes as $unscpscId) {
-                DB::table('utilisateur_unspsc')->insert([
-                    'utilisateur_id' => $utilisateurId,
-                    'unscpsc_id' => $unscpscId,
-                    'id' => (string) Str::uuid(),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+            foreach ($selectedCodes as $unspscId) {
+                // Regarde si il existe déjà
+                $exists = DB::table('utilisateur_unspsc')
+                    ->where('utilisateur_id', $utilisateurId)
+                    ->where('unspsc_id', $unspscId)
+                    ->exists();
+        
+                // Insertion
+                if (!$exists) {
+                    DB::table('utilisateur_unspsc')->insert([
+                        'utilisateur_id' => $utilisateurId,
+                        'unspsc_id' => $unspscId,
+                    ]);
+                }
+                else{
+                    //Mettre un message d'erreur
+                    //dd($exists);
+                }
             }
         }
         
@@ -216,8 +219,18 @@ class FournisseursController extends Controller
             ->orderBy('code_unspsc', 'asc')
             ->paginate(10);
     
-        return view('pagePrincipale', compact('codeUNSPSCunite','randomId'));
+        return view('pagePrincipale', compact('codeUNSPSCunite'));
     }
+
+
+    /*
+    Debug pour les codes unspsc
+        <!-- Debugging Section -->
+        <h4>Debugging Selected UNSPSC Codes:</h4>
+        @foreach (request('code_unspsc_choisit', []) as $selectedCode)
+            <input type="text" name="code_unspsc_choisit[]" value="{{ $selectedCode }}" />
+        @endforeach
+    */
 
     
 }
