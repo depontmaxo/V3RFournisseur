@@ -15,7 +15,7 @@ require __DIR__.'/auth.php';
 
 
 Route::GET('/',
-[UtilisateursController::class,'index'])/*->middleware('role:admin,commis,responsable,fournisseur');*/;
+[UtilisateursController::class,'index'])->name('page.Accueil')/*->middleware('role:admin,commis,responsable,fournisseur');*/;
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {

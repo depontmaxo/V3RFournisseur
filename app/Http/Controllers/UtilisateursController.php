@@ -49,12 +49,12 @@ class UtilisateursController extends Controller
                     return redirect()->route('Fournisseur.index');
                 }
                 else{
-                    return redirect()->route('Connexion.connexion')->withErrors(['Informations invalides']); 
+                    return redirect()->route('Connexion.pageConnexion')->withErrors(['Informations invalides']); 
                 }
     
             }
             else{
-                return redirect()->route('Connexion.connexion')->withErrors(['Informations invalides']); 
+                return redirect()->route('Connexion.pageConnexion')->withErrors(['Informations invalides']); 
             }
 
         }
@@ -65,11 +65,11 @@ class UtilisateursController extends Controller
                 return redirect()->route('Fournisseur.index');
             }
             else{
-                return redirect()->route('Connexion.connexion')->withErrors(['Informations invalides']); 
+                return redirect()->route('Connexion.pageConnexion')->withErrors(['Informations invalides']); 
             }
         }
         else{
-            return redirect()->route('Connexion.connexion')->withErrors(['Informations invalides']); 
+            return redirect()->route('Connexion.pageConnexion')->withErrors(['Informations invalides']); 
         }
     }
 
