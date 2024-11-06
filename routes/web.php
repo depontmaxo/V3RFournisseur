@@ -124,9 +124,16 @@ Route::GET('/inactif/{utilisateur}/',
 Route::GET('/actif/{utilisateur}/',
 [FournisseursController::class,'actif'])->name('Fournisseur.actif');
 
+//Accepté ou refusé candidat
+Route::GET('/accepte/{candidat}/',
+[FournisseursController::class,'candidatAccepte'])->name('Candidat.Accepte');
 
-Route::GET('/reponsableIndex',
-[ResponsablesController::class,'index'])->name('Responsable.index')->middleware(CheckRole::class.':responsable');
+Route::GET('/refuser/{candidat}/',
+[FournisseursController::class,'candidatRefuse'])->name('Candidat.Refuse');
+
+
+Route::GET('/listeFournisseur',
+[ResponsablesController::class,'listeFournisseur'])->name('Responsable.listeFournisseur')->middleware(CheckRole::class.':responsable');
 
 Route::GET('/responsable/recherche',
 [ResponsablesController::class,'recherche'])->name('Responsable.recherche')->middleware(CheckRole::class.':responsable');
@@ -134,18 +141,13 @@ Route::GET('/responsable/recherche',
 Route::GET('/responsableIndex/listeInscription',
 [ResponsablesController::class,'voirListeInscription'])->name('Fournisseur.listeInscripton');
 
-Route::GET('/reponsableIndex',
-[ResponsablesController::class,'index'])->name('Responsable.index');
+/*Route::GET('/reponsableIndex',
+[ResponsablesController::class,'index'])->name('Responsable.index');*/
 
 Route::GET('/responsableIndex/listeInscription/{candidat}',
 [ResponsablesController::class,'evaluerCandidat'])->name('Fournisseur.visualiserCandidat');
 
-//Accepté ou refusé candidat
-Route::GET('/accepte/{candidat}/',
-[FournisseursController::class,'candidatAccepte'])->name('Candidat.Accepte');
 
-Route::GET('/refuser/{candidat}/',
-[FournisseursController::class,'candidatRefuse'])->name('Candidat.Refuse');
 
 #################################Admin#########################################
 use App\Http\Controllers\UserController;

@@ -23,23 +23,38 @@
     </form>
 
 
-
-
-    <div class="row">
-        <p class="col-sm">Nom Fournisseur</p>
-        <p class="col-sm">Adresse du fournisseur</p>
-        <p class="col-sm">Ouvrir la fiche fournisseur</p>
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Entreprise</th>
+                <th scope="col">NEQ</th>
+                <th scope="col">Courriel</th>
+                <th scope="col">Visualiser</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $test = 1;
+                ?>
+                @if (count($utilisateurs))
+                    @foreach ($utilisateurs as $utilisateur)
+                    <tr>
+                        <th>{{ $test++ }}</th>
+                        <td>{{ $utilisateur->nom_entreprise }}</td>
+                        <td>{{ $utilisateur->neq }}</td>
+                        <td>{{ $utilisateur->email }}</td>
+                        <td><a href="{{ route('Fournisseur.fiche', [$utilisateur]) }}">Ouvrir</a></td>
+                    </tr>
+                    
+                    @endforeach
+                @else
+                    <p>Aucune requête d'inscription pour le moment</p>
+                @endif
+            </tbody>
+        </table>
     </div>
-
-    @foreach ($utilisateurs as $utilisateur)
-        <div class="row listeFournisseur">
-            <p class="col-sm">{{ $utilisateur->nomFournisseur }}</p>
-            <p class="col-sm">{{ $utilisateur->adresse }}</p>
-            <button type="button" onclick="window.location.href='{{ route('Fournisseur.fiche', [$utilisateur]) }}'" class="col-sm">Ouvrir</button>
-        </div>
-    @empty
-        <p>Aucun fournisseur trouver</p>
-    @endforeach
 
 </body>
 @endsection

@@ -9,7 +9,7 @@ use App\Models\CandidatInscription;
 use Illuminate\Support\Facades\Http;
 class ResponsablesController extends Controller
 {
-    public function index(Request $request)
+    public function listeFournisseur(Request $request)
     {
         /*
             ///////////////////////////////Check API pour NEQ valid////////////////////////////////////////////////////////////////

@@ -20,11 +20,11 @@
             <ul>
             @if (Auth::user()->role == 'responsable')
                 <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil</a></li>
-                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.index')}}">Fournisseur actif</a></li>
+                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}">Fournisseur actif</a></li>
                 <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.listeInscripton')}}">Demandes inscriptions</a></li>
             @elseif (Auth::user()->role == 'commis')
                 <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil</a></li>
-                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.index')}}">Fournisseur actif</a></li>
+                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}">Fournisseur actif</a></li>
                 <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.listeInscripton')}}">Demandes inscriptions</a></li>
             @elseif (Auth::user()->role == 'fournisseur')
                 <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil</a></li>
