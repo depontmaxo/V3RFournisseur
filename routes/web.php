@@ -126,26 +126,34 @@ Route::GET('/actif/{utilisateur}/',
 
 //Accepté ou refusé candidat
 Route::GET('/accepte/{candidat}/',
-[FournisseursController::class,'candidatAccepte'])->name('Candidat.Accepte');
+[ResponsablesController::class,'candidatAccepte'])->name('Candidat.Accepte');
 
 Route::GET('/refuser/{candidat}/',
-[FournisseursController::class,'candidatRefuse'])->name('Candidat.Refuse');
+[ResponsablesController::class,'candidatRefuse'])->name('Candidat.Refuse');
 
 
-Route::GET('/listeFournisseur',
+
+
+
+//Faire la recherche de fournisseur et candidat
+Route::GET('/responsable/rechercheFournisseur',
+[ResponsablesController::class,'rechercheFournisseur'])->name('Responsable.rechercheFournisseur')->middleware(CheckRole::class.':responsable');
+
+Route::GET('/responsable/rechercheCandidat',
+[ResponsablesController::class,'rechercheCandidat'])->name('Responsable.rechercheCandidat')->middleware(CheckRole::class.':responsable');
+
+//Liste fournisseur et inscription
+Route::GET('/responsable/listeInscription',
+[ResponsablesController::class,'voirListeInscription'])->name('Responsable.listeInscripton');
+
+Route::GET('/responsable/listeFournisseur',
 [ResponsablesController::class,'listeFournisseur'])->name('Responsable.listeFournisseur')->middleware(CheckRole::class.':responsable');
-
-Route::GET('/responsable/recherche',
-[ResponsablesController::class,'recherche'])->name('Responsable.recherche')->middleware(CheckRole::class.':responsable');
-
-Route::GET('/responsableIndex/listeInscription',
-[ResponsablesController::class,'voirListeInscription'])->name('Fournisseur.listeInscripton');
 
 /*Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index');*/
 
 Route::GET('/responsableIndex/listeInscription/{candidat}',
-[ResponsablesController::class,'evaluerCandidat'])->name('Fournisseur.visualiserCandidat');
+[ResponsablesController::class,'evaluerCandidat'])->name('Responsable.visualiserCandidat');
 
 
 

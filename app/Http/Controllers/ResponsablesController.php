@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Utilisateur;
-use App\Models\CandidatInscription;
+use App\Models\Contacts;
+use App\Models\Coordonnees;
 use Illuminate\Support\Facades\Http;
 class ResponsablesController extends Controller
 {
@@ -38,7 +39,9 @@ class ResponsablesController extends Controller
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         */
         
-        $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
+        $utilisateurs = Utilisateur::where('role', 'fournisseur')
+            ->where('statut', 'Actif')
+            ->get();
         return View('responsable.listeFournisseur', compact('utilisateurs'));
     }
 
@@ -48,38 +51,6 @@ class ResponsablesController extends Controller
         -Nom
         -Adresse
     */
-    public function recherche(Request $request)
-    {
-        //dd($request->adresse);
-
-        if($request->recherche == ""){
-            $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
-
-            return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
-        }
-
-        $recherche = $request->recherche;
-
-        $query = Utilisateur::query();
-
-        if($request->nom == "on"){
-            $query->where('role', 'fournisseur');
-            $query->whereAny(['nomFournisseur'], 'LIKE' , "%$recherche%");
-        }
-        else if($request->adresse == "on"){
-            $query->where('role', 'fournisseur');
-            $query->whereAny(['adresse'], 'LIKE' , "%$recherche%");
-        }
-        else{
-            $query->where('role', 'fournisseur');
-            $query->whereAny(['nomFournisseur', 'adresse'], 'LIKE' , "%$recherche%");
-        }
-
-        $utilisateurs = $query->get();
-
-        return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
-
-    }
 
     public function voirListeInscription()
     {
@@ -97,13 +68,107 @@ class ResponsablesController extends Controller
     public function candidatAccepte(Utilisateur $candidat){
         $candidat->statut = 'Actif';
         $candidat->save();
-        return View('responsable.listeRequeteInscription')->with('message', "Le candidat est ajouté avec succès");
+        $candidats = Utilisateur::where('role', 'fournisseur')->where('statut', 'En attente')
+            ->get();
+        return View('responsable.listeRequeteInscription', compact('candidats'))->with('message', "Le candidat est ajouté avec succès");
     }
 
     public function candidatRefuse(Utilisateur $candidat){
         $candidat->statut = 'Refusé';
         $candidat->save();
-        return View('responsable.listeRequeteInscription')->with('message', "Le candidat a été refusé avec succès");
+        $candidats = Utilisateur::where('role', 'fournisseur')
+        ->where('statut', 'En attente')
+        ->get();
+        return View('responsable.listeRequeteInscription', compact('candidats'))->with('message', "Le candidat a été refusé avec succès");
+    }
+
+
+
+    public function rechercheFournisseur(Request $request)
+    {
+        //dd($request->adresse);
+
+        if($request->recherche == ""){
+            $utilisateurs = Utilisateur::where('role', 'fournisseur')
+            ->where('statut', 'Actif')
+            ->get();
+
+            return view('responsable.listeFournisseur', compact('utilisateurs'));
+        }
+
+        $recherche = $request->recherche;
+
+        $query = Utilisateur::query();
+
+        if($request->nom == "on"){
+            $query->where('role', 'fournisseur');
+            $query->where('statut', 'Actif');
+            $query->whereAny(['nom_entreprise'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->neq == "on"){
+            $query->where('role', 'fournisseur');
+            $query->where('statut', 'Actif');
+            $query->whereAny(['neq'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->courriel == "on"){
+            $query->where('role', 'fournisseur');
+            $query->where('statut', 'Actif');
+            $query->whereAny(['email'], 'LIKE' , "%$recherche%");
+        }
+        else{
+            $query->where('role', 'fournisseur');
+            $query->where('statut', 'Actif');
+            $query->whereAny(['nom_entreprise', 'neq', 'email'], 'LIKE' , "%$recherche%");
+        }
+
+        $utilisateurs = $query->get();
+
+        return view('responsable.listeFournisseur', compact('utilisateurs'));
+
+    }
+
+
+    public function rechercheCandidat(Request $request)
+    {
+        //dd($request->adresse);
+
+        if($request->recherche == ""){
+            $candidats = Utilisateur::where('role', 'fournisseur')
+            ->where('statut', 'En attente')
+            ->get();
+
+            return view('responsable.listeRequeteInscription', compact('candidats'));
+        }
+
+        $recherche = $request->recherche;
+
+        $query = Utilisateur::query();
+
+        if($request->nom == "on"){
+            $query->where('role', 'fournisseur');
+            $query->where('statut', 'En attente');
+            $query->whereAny(['nom_entreprise'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->neq == "on"){
+            $query->where('role', 'fournisseur');
+            $query->where('statut', 'En attente');
+            $query->whereAny(['neq'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->courriel == "on"){
+            $query->where('role', 'fournisseur');
+            $query->where('statut', 'En attente');
+            $query->whereAny(['email'], 'LIKE' , "%$recherche%");
+        }
+        else{
+            $query->where('role', 'fournisseur');
+            $query->where('statut', 'En attente');
+            $query->whereAny(['nom_entreprise', 'neq', 'email'], 'LIKE' , "%$recherche%");
+        }
+
+        $candidats = $query->get();
+
+        return view('responsable.listeRequeteInscription', compact('candidats'));
+
     }
 
     

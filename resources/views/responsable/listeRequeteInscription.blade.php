@@ -4,6 +4,24 @@
   
 @section('contenu')
 <body>
+
+<h2>Liste des candidats:</h2>
+
+    <form method="get" action="/responsable/rechercheCandidat" style="display-flex">
+        @csrf
+        <label for="nom">Nom :</label>
+        <input type="checkbox" id="nom" name="nom"/>
+        <label for="neq">NEQ :</label>
+        <input type="checkbox" id="neq" name="neq"/>
+        <label for="courriel">Courriel :</label>
+        <input type="checkbox" id="courriel" name="courriel"/>
+
+
+        <input type="text" placeholder="Rechercher" id="recherche" name="recherche"/>
+        <button class="btn btn-primary no-border-button" type="submit">Rechercher</button>
+    </form>
+
+
     <div class="container-fluid">
         <table class="table">
             <thead>
@@ -26,7 +44,7 @@
                         <td>{{ $candidat->nom_entreprise }}</td>
                         <td>{{ $candidat->neq }}</td>
                         <td>{{ $candidat->email }}</td>
-                        <td><a href="{{ route('Fournisseur.visualiserCandidat', [$candidat]) }}">Évaluer</a></td>
+                        <td><a href="{{ route('Responsable.visualiserCandidat', [$candidat]) }}">Évaluer</a></td>
                     </tr>
                     
                     @endforeach

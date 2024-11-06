@@ -4,18 +4,16 @@
   
 @section('contenu')
 <body>
-    <h1>Mode Responsable</h1>
-    <br>
-
     <h2>Liste des fournisseurs:</h2>
-    
 
-    <form method="get" action="/responsable/recherche" style="display-flex">
+    <form method="get" action="/responsable/rechercheFournisseur" style="display-flex">
         @csrf
         <label for="nom">Nom :</label>
         <input type="checkbox" id="nom" name="nom"/>
-        <label for="adresse">Adresse :</label>
-        <input type="checkbox" id="adresse" name="adresse"/>
+        <label for="neq">NEQ :</label>
+        <input type="checkbox" id="neq" name="neq"/>
+        <label for="courriel">Courriel :</label>
+        <input type="checkbox" id="courriel" name="courriel"/>
 
 
         <input type="text" placeholder="Rechercher" id="recherche" name="recherche"/>

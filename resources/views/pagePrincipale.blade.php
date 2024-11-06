@@ -7,9 +7,9 @@
     <!-- tout le site ici -->
     @if (Auth::user()->role == 'responsable' || Auth::user()->role == 'commis')
         <h1>Page Index Responsables</h1>
-        <a href="{{route('Responsable.index')}}">Afficher les fournisseurs actifs</a>
+        <a href="{{route('Responsable.listeFournisseur')}}">Afficher les fournisseurs actifs</a>
         </br>
-        <a href="{{route('Fournisseur.listeInscripton')}}">Afficher la liste des inscriptions</a>
+        <a href="{{route('Responsable.listeInscripton')}}">Afficher la liste des inscriptions</a>
         </br>
 
     @elseif (Auth::user()->role == 'fournisseur')
