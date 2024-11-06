@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Models\Utilisateur;
 use App\Models\CodeUNSPSC;
 use App\Models\Contacts;
@@ -20,15 +23,16 @@ class FournisseursController extends Controller
     {
 
         //dd(auth()->user()->id);
-        $codeUNSPSC = CodeUNSPSC::all();
-
         //$codeUNSPSCnature = CodeUNSPSC::select('nature_contrat')->groupBy('nature_contrat')->get();
 
-        $codeUNSPSCunite = CodeUNSPSC::select('code_unspsc', 'desc_det_unspsc', 'nature_contrat')->paginate(25);
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
 
         //dd($codeUNSPSCunite);
 
-        return View('pagePrincipale', compact('codeUNSPSC', 'codeUNSPSCunite'));
+        //Seed pour voir si une page refresh
+        $randomId = rand(2,9999999);
+
+        return View('pagePrincipale', compact('codeUNSPSCunite','randomId'));
 
     }
 
@@ -55,8 +59,19 @@ class FournisseursController extends Controller
     {
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
+
         //dd($utilisateur);
-        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees'));
+
+        $codes = DB::table('utilisateur_unspsc')
+        ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+        ->where('utilisateur_unspsc.utilisateur_id', $utilisateur->id)
+        ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.desc_det_unspsc') // Select the needed fields
+        ->get();
+    
+        //dd($codes);
+
+        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','codes','codeUNSPSCunite'));
     }
 
 
@@ -118,8 +133,104 @@ class FournisseursController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    public function support()
+    {
+        return View('support');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Utilisateur $utilisateur)
     {
 
     }
+
+    public function recherche(Request $request)
+    {
+
+        if($request->recherche == ""){
+            $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')
+            ->orderBy('code_unspsc', 'asc')
+            ->paginate(10);
+
+            return view('pagePrincipale', compact('codeUNSPSCunite'));
+        }
+
+        $recherche = $request->recherche;
+
+        $query = CodeUNSPSC::query();
+
+        if($request->code_unspsc == "on"){
+            $query->whereAny(['code_unspsc'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->nature_contrat == "on"){
+            $query->whereAny(['nature_contrat'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->desc_det_unspsc == "on"){
+            $query->whereAny(['desc_det_unspsc'], 'LIKE' , "%$recherche%");
+        }
+        else{
+            $query->whereAny(['code_unspsc', 'desc_det_unspsc', 'nature_contrat'], 'LIKE' , "%$recherche%");
+        }
+
+        $codeUNSPSCunite = $query->paginate(10);
+
+
+        return view('pagePrincipale', compact('codeUNSPSCunite'));
+
+    }
+
+    
+    public function choisit(Request $request)
+    {
+        //dd($request->code_unspsc_choisit);
+        //dd($request->code_unspsc_choisit);
+
+        $selectedCodes = $request->code_unspsc_choisit;
+        $utilisateurId = auth()->id();
+
+        //dd($utilisateurId);
+        //dd($selectedCodes);
+        
+        if ($utilisateurId && !empty($selectedCodes)) {
+            foreach ($selectedCodes as $unspscId) {
+                // Regarde si il existe déjà
+                $exists = DB::table('utilisateur_unspsc')
+                    ->where('utilisateur_id', $utilisateurId)
+                    ->where('unspsc_id', $unspscId)
+                    ->exists();
+        
+                // Insertion
+                if (!$exists) {
+                    DB::table('utilisateur_unspsc')->insert([
+                        'utilisateur_id' => $utilisateurId,
+                        'unspsc_id' => $unspscId,
+                    ]);
+                }
+                else{
+                    //Mettre un message d'erreur
+                    //dd($exists);
+                }
+            }
+        }
+        
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')
+            ->orderBy('code_unspsc', 'asc')
+            ->paginate(10);
+    
+        return view('pagePrincipale', compact('codeUNSPSCunite'));
+    }
+
+
+    /*
+    Debug pour les codes unspsc
+        <!-- Debugging Section -->
+        <h4>Debugging Selected UNSPSC Codes:</h4>
+        @foreach (request('code_unspsc_choisit', []) as $selectedCode)
+            <input type="text" name="code_unspsc_choisit[]" value="{{ $selectedCode }}" />
+        @endforeach
+    */
+
+    
 }

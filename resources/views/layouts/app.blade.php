@@ -29,7 +29,7 @@
             @elseif (Auth::user()->role == 'fournisseur')
                 <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil</a></li>
                 <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.fiche', [auth()->user()->id])}}">Ma fiche</a></li>
-                <li class="soustitre"><a class="no-style-link">Contact support</a></li>
+                <li class="soustitre"><a class="no-style-link" href="{{route('support')}}">Contact support</a></li>
             @endif
             </ul>
 
