@@ -28,12 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
+
 Route::GET('/connexionEmail',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
 
 
-Route::POST('/',
-[UtilisateursController::class,'login'])->name('Connexion.connexion');
 
 Route::GET('/motPasseOublie',
 [UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
