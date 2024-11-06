@@ -99,7 +99,7 @@ class FournisseursController extends Controller
     {
         //Comment on supprime / met inactif les comptes
         // Ajouter une confirmation email pour la désactivation/supression du compte
-        $utilisateur->statut = 'inactif';
+        $utilisateur->statut = 'Inactif';
         $utilisateur->save();
         return View('pagePrincipale')->with('message', "Votre compte est rendu inactif");
 
@@ -109,7 +109,7 @@ class FournisseursController extends Controller
     {
         //Comment on supprime / met inactif les comptes
         // Ajouter une confirmation email pour la désactivation/supression du compte
-        $utilisateur->statut = 'actif';
+        $utilisateur->statut = 'Actif';
         $utilisateur->save();
         return View('pagePrincipale')->with('message', "Votre compte est rendu actif");
 

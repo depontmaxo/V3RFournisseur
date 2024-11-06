@@ -9,9 +9,6 @@ use App\Models\CandidatInscription;
 use Illuminate\Support\Facades\Http;
 class ResponsablesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         /*
@@ -42,7 +39,7 @@ class ResponsablesController extends Controller
         */
         
         $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
-        return View('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
+        return View('responsable.listeFournisseur', compact('utilisateurs'));
     }
 
     /*
@@ -86,60 +83,28 @@ class ResponsablesController extends Controller
 
     public function voirListeInscription()
     {
-        $candidats = CandidatInscription::all();
-        return view('responsable.listeRequeteInscription', compact('candidats'));
+        $candidats = Utilisateur::where('statut', 'En attente')->get();
+        return View('responsable.listeRequeteInscription', compact('candidats'));
     }
 
-    public function evaluerCandidat(CandidatInscription $candidat)
+    public function evaluerCandidat(Utilisateur $candidat)
     {
-        return View('responsable.formulaireCandidat', compact('candidat'));
+        $contacts = Contacts::where('utilisateur_id', $candidat->id)->firstOrFail();
+        $coordonnees = Coordonnees::where('utilisateur_id', $candidat->id)->firstOrFail();
+        return View('responsable.formulaireCandidat', compact('candidat', 'contacts', 'coordonnees'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function candidatAccepte(Utilisateur $candidat){
+        $candidat->statut = 'Actif';
+        $candidat->save();
+        return View('responsable.listeRequeteInscription')->with('message', "Le candidat est ajouté avec succès");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function candidatRefuse(Utilisateur $candidat){
+        $candidat->statut = 'Refusé';
+        $candidat->save();
+        return View('responsable.listeRequeteInscription')->with('message', "Le candidat a été refusé avec succès");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
 }

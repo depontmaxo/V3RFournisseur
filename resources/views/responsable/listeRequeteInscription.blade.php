@@ -9,9 +9,9 @@
             <thead>
                 <tr>
                 <th scope="col">#</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Nom</th>
                 <th scope="col">Entreprise</th>
+                <th scope="col">NEQ</th>
+                <th scope="col">Courriel</th>
                 <th scope="col">Visualiser</th>
                 </tr>
             </thead>
@@ -23,9 +23,9 @@
                     @foreach ($candidats as $candidat)
                     <tr>
                         <th>{{ $test++ }}</th>
-                        <td>{{ $candidat->prenom }}</td>
-                        <td>{{ $candidat->nom }}</td>
-                        <td>{{ $candidat->entreprise }}</td>
+                        <td>{{ $candidat->nom_entreprise }}</td>
+                        <td>{{ $candidat->neq }}</td>
+                        <td>{{ $candidat->email }}</td>
                         <td><a href="{{ route('Fournisseur.visualiserCandidat', [$candidat]) }}">Évaluer</a></td>
                     </tr>
                     

@@ -113,6 +113,11 @@ Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
 
 ##################################################################################
 
+
+
+
+#################################Responsable#########################################
+//Rendre compte actif/inactif
 Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
@@ -120,7 +125,6 @@ Route::GET('/actif/{utilisateur}/',
 [FournisseursController::class,'actif'])->name('Fournisseur.actif');
 
 
-#################################Responsable#########################################
 Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index')->middleware(CheckRole::class.':responsable');
 
@@ -135,6 +139,13 @@ Route::GET('/reponsableIndex',
 
 Route::GET('/responsableIndex/listeInscription/{candidat}',
 [ResponsablesController::class,'evaluerCandidat'])->name('Fournisseur.visualiserCandidat');
+
+//Accepté ou refusé candidat
+Route::GET('/accepte/{candidat}/',
+[FournisseursController::class,'candidatAccepte'])->name('Candidat.Accepte');
+
+Route::GET('/refuser/{candidat}/',
+[FournisseursController::class,'candidatRefuse'])->name('Candidat.Refuse');
 
 #################################Admin#########################################
 use App\Http\Controllers\UserController;
