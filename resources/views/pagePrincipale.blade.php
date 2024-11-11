@@ -48,10 +48,7 @@
             <p>{{ $unscpsc->nature_contrat }} / {{ $unscpsc->code_unspsc }} / {{ $unscpsc->desc_det_unspsc }}</p>
         @endforeach
         
-        <!-- Pagination Links -->
-        <div class="d-flex justify-content-between">
-            {{ $codeUNSPSCunite->links('vendor.pagination.bootstrap-4') }} 
-        </div>
+
 
     </body>   
     
