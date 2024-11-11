@@ -122,10 +122,10 @@ Route::GET('/actif/{utilisateur}/',
 
 #################################Responsable#########################################
 Route::GET('/reponsableIndex',
-[ResponsablesController::class,'index'])->name('Responsable.index')->middleware(CheckRole::class.':responsable');
+[ResponsablesController::class,'index'])->name('Responsable.index');
 
 Route::GET('/responsable/recherche',
-[ResponsablesController::class,'recherche'])->name('Responsable.recherche')->middleware(CheckRole::class.':responsable');
+[ResponsablesController::class,'recherche'])->name('Responsable.recherche');
 
 Route::GET('/responsableIndex/listeInscription',
 [ResponsablesController::class,'voirListeInscription'])->name('Fournisseur.listeInscripton');
@@ -152,10 +152,10 @@ Route::post('/users/update-roles', [UserController::class, 'updateRoles']);
 
 //Connexion de l'admin
 // Route pour afficher la page de connexion
-//Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
+Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
 
 // Route pour traiter la connexion
-//Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
+Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
 
 #######################EMAIL#################################################################################
 
