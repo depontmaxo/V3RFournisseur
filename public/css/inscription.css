@@ -55,6 +55,17 @@ input {
     padding: 10px;
 }
 
+body {
+    background-color: #0B2341;
+    color: #ffffff; /* Pour que le texte reste lisible */
+}
+
+
+body {
+    background-color: #0B2341;
+    color: #ffffff; /* Pour que le texte reste lisible */
+}
+
 .test{
     margin-top: 5%;
     padding-top: 80px;

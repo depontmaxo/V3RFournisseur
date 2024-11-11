@@ -11,10 +11,6 @@ class UserController extends Controller
 {
 
 
-    public function index()
-    {
-        return view('admin.index');  // Renvoie la vue d'index pour l'admin
-    }
 
     public function gestionUser()
     {
@@ -24,10 +20,6 @@ class UserController extends Controller
     
 
 
-    public function acceuilAdmin()
-    {
-        return view('admin.acceuilAdmin');
-    }
 
     // UserController.php
 public function destroy($id)
@@ -41,13 +33,6 @@ public function destroy($id)
     }
 }
 
-
-
-public function indexx()
-{
-    $users = User::all();
-    return view('admin.users', compact('users'));
-}
 public function store(Request $request)
 {
     $request->validate([
