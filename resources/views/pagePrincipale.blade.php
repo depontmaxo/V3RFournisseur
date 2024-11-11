@@ -20,8 +20,6 @@
     <a onclick="return confirm('Êtes-vous sûr de rendre votre compte inactif?')" href="{{ route('Fournisseur.inactif', [auth()->user()->id]) }}">
     Retirer sa fiche fournisseur
     </a>
-
-
-    
+    @endif
 @endif
 @endsection
