@@ -142,6 +142,12 @@ Route::GET('/responsable/rechercheFournisseur',
 Route::GET('/responsable/rechercheCandidat',
 [ResponsablesController::class,'rechercheCandidat'])->name('Responsable.rechercheCandidat')->middleware(CheckRole::class.':responsable');
 
+Route::GET('/index/unspsc/recherche',
+[FournisseursController::class,'recherche'])->name('Fournisseurs.recherche')->middleware(CheckRole::class.':responsable');
+
+Route::GET('/index/unspsc/choisit',
+[FournisseursController::class,'choisit'])->name('Fournisseurs.choisit')->middleware(CheckRole::class.':responsable');
+
 //Liste fournisseur et inscription
 Route::GET('/responsable/listeInscription',
 [ResponsablesController::class,'voirListeInscription'])->name('Responsable.listeInscripton');
@@ -187,4 +193,8 @@ Route::get('/forgot_password', [LoginController::class, 'forgotPassword'])->name
 // Route pour traiter la soumission du formulaire de récupération de mot de passe (POST)
 Route::post('/forgot_password', [LoginController::class, 'forgotPassword'])->name('app_forgotpassword');
 
+#######################Support#################################################################################
+
+// Route pour traiter la soumission du formulaire de récupération de mot de passe (POST)
+Route::get('/support', [FournisseursController::class, 'support'])->name('support');
 

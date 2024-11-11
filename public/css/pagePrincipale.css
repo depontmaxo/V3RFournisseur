@@ -16,9 +16,24 @@ body {
     border-style: solid;
 }
 
+.rechercheUNSPSC{
+    border-style: solid;
+    border-color: black;
+}
+
 .fournisseur{
     border-style: solid;
     border-color: black;
+}
+
+.decisionUNSPSC{
+    display: flex;
+    margin: 0 0 2px 8px;  
+}
+
+.pUNSPSC{
+    display: flex;
+    margin: 0 0 0 0;  /*sinon il y a un margin de 16 en dessous*/
 }
 
 .header{
@@ -73,6 +88,7 @@ ul{
     color: rgb(11, 35, 65);
 }
 
+
 ul li{
     margin: 30px 0;
     display: flex;
@@ -83,6 +99,15 @@ ul li{
 
 ul li a{
     white-space: nowrap;
+}
+
+.UNSPSC_list{
+    cursor: default;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
 }
 
 .no-style-link{
