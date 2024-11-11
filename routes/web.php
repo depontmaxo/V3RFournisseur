@@ -43,7 +43,9 @@ Route::GET('/motPasseOublie',
 //[UtilisateursController::class,'indexMotPasseOublie'])->name('Connexion.MotPasseoublie');
 
 
-##################################################################################
+##########################################Connexion Employé##########################
+Route::get('/connexionEmploye', [LoginController::class, 'index'])->name('connexionUser.index'); ##LoginPage pour employé
+Route::post('/employeConnecte', [LoginController::class, 'loginEmploye'])->name('employeConnecte'); ##Methode Post du log employe
 
 
 #################################Déconnexion#########################################
@@ -109,7 +111,7 @@ Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'edit'])->name('Fournisseur.modification');
 
 Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
-[FournisseursController::class,'update'])->name('Fournisseur.modification');
+[FournisseursController::class,'update'])->name('Fournisseur.modification1');
 
 ##################################################################################
 
@@ -132,15 +134,18 @@ Route::GET('/refuser/{candidat}/',
 [ResponsablesController::class,'candidatRefuse'])->name('Candidat.Refuse');
 
 
-
-
-
 //Faire la recherche de fournisseur et candidat
 Route::GET('/responsable/rechercheFournisseur',
 [ResponsablesController::class,'rechercheFournisseur'])->name('Responsable.rechercheFournisseur')->middleware(CheckRole::class.':responsable');
 
 Route::GET('/responsable/rechercheCandidat',
 [ResponsablesController::class,'rechercheCandidat'])->name('Responsable.rechercheCandidat')->middleware(CheckRole::class.':responsable');
+#################################Responsable#########################################
+Route::GET('/reponsableIndex',
+[ResponsablesController::class,'index'])->name('Responsable.index');
+
+Route::GET('/responsable/recherche',
+[ResponsablesController::class,'recherche'])->name('Responsable.recherche');
 
 Route::GET('/index/unspsc/recherche',
 [FournisseursController::class,'recherche'])->name('Fournisseurs.recherche')->middleware(CheckRole::class.':responsable');
@@ -171,9 +176,6 @@ Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
 
 Route::get('/gestion-users', [UserController::class, 'gestionUser'])->name('gestion.userAdmin');
 
-//Page acceuil avec tableau de bord
-Route::get('/acceuilAdmin', [UserController::class, 'acceuilAdmin'])->name('acceuilAdmin.index');
-
 //Supprimer un utilisateur
 Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
 
@@ -181,9 +183,11 @@ Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
 Route::post('/users/update-roles', [UserController::class, 'updateRoles']); 
 
 //Connexion de l'admin
-// Route pour afficher la page de connexion
-//Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
+//Route pour afficher la page de connexion
+Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
 
+// Route pour traiter la connexion
+Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
 
 #######################EMAIL#################################################################################
 
@@ -191,10 +195,9 @@ Route::post('/users/update-roles', [UserController::class, 'updateRoles']);
 Route::get('/forgot_password', [LoginController::class, 'forgotPassword'])->name('app_forgotpassword');
 
 // Route pour traiter la soumission du formulaire de récupération de mot de passe (POST)
-Route::post('/forgot_password', [LoginController::class, 'forgotPassword'])->name('app_forgotpassword');
+Route::post('/forgot_password', [LoginController::class, 'forgotPassword'])->name('app_forgotpassword1');
 
 #######################Support#################################################################################
-
 // Route pour traiter la soumission du formulaire de récupération de mot de passe (POST)
 Route::get('/support', [FournisseursController::class, 'support'])->name('support');
 

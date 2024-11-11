@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Services\EmailService;
+use App\Http\Controllers\Auth\LoginController;
 
 
 
@@ -79,4 +80,43 @@ class LoginController extends Controller
         }
         return view('auth.forgot_password');
     }
+
+
+
+    public function index()
+    {
+        return view('User.connexionUser');  // Renvoie la vue d'index pour l'admin
+    }
+
+
+    public function loginEmploye(Request $request)
+    {
+        // Valider les champs requis
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        // Rechercher l'utilisateur en fonction de l'adresse e-mail
+        $user = DB::table('users')->where('email', $request->email)->first();
+
+        // Vérification de l'existence de l'utilisateur
+        if ($user) {
+            if ($user->is_admin) {
+                // Rediriger vers la page admin si l'utilisateur est admin
+                return redirect()->route('gestion.userAdmin');
+            } else {
+                // Rediriger vers la page utilisateur si l'utilisateur n'est pas admin
+                return redirect()->route('Responsable.index');
+            }
+        } else {
+            // Retourner une erreur si l'utilisateur n'est pas trouvé
+            return redirect()->back()->withErrors(['error' => 'Les informations de connexion sont incorrectes.']);
+        }
+
+        dd($request->all());
+    }
+
+
+
+
 }
