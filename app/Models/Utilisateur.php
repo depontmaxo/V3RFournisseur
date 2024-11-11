@@ -18,37 +18,65 @@ class Utilisateur extends Authenticatable
     */
     protected $table = "utilisateur";
 
+    // Define your primary key if it's not the default 'id'
+    protected $primaryKey = 'id'; // Or whatever your primary key is
+
+    // If your primary key is not an auto-incrementing integer, set this
+    protected $keyType = 'string';  // For UUID or non-integer primary keys
+    public $incrementing = false;   // Disable auto-increment if using UUIDs
+
+
     protected $fillable = [
+        'id',
+        'nom_entreprise',
         'neq',
         'email',
         'password',
-        'nomFournisseur',
-        'adresse',
-        'noTelephone',
-        'personneRessource',
-        'emailPersonneRessource',
-        'licenceRBQ',
-        'posteOccupeEntreprise',
-        'siteWeb',
-        'produitOuService'
+        'role',
+        'statut',
+        'rbq'
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
-    protected $casts = [
-        'id' => 'string',
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+    // Mis en commentaire le temps de toute mettre en place
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+        protected $hidden = [
+            'password',
+            'remember_token',
+        ];
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+        protected $casts = [
+            'id' => 'string',
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
 
-        
-    ];
-
+     
     public function contacts()
     {
-        return $this->hasMany(Contacts::class);
+        return $this->hasMany(Contacts::class, 'utilisateur_id');
     }
 
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'utilisateur_id');
+    }
+
+    public function coordonnees()
+    {
+        return $this->hasOne(Coordonnees::class, 'utilisateur_id');
+    }
+    
+    public function codeUSCPSC()
+    {
+        return $this->hasMany(Coordonnees::class, 'utilisateur_id');
+    }
 }

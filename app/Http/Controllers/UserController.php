@@ -45,6 +45,7 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès.');
     }
+    
 
     public function edit(User $user)
     {
@@ -83,12 +84,7 @@ class UserController extends Controller
                 $user->save();
             }
         }
+        
         return response()->json(['message' => 'Rôles mis à jour avec succès.']);
     }
-
 }
-
-
-
-
-

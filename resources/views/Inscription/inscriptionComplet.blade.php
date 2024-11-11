@@ -34,7 +34,7 @@
                     <span class="sousTitres">Identification</span>      
                     <div class="mb-3 row">
                         <label for="entreprise" class="col-3" >Nom de l'entreprise :</label>
-                        <input type="text" class="col-9" id="entreprise" placeholder="Tech Innovators" name="entreprise" value="{{ old('entreprise', session('user_data.entreprise', '')) }}">
+                        <input type="text" class="col-9" id="entreprise" placeholder="Aucun" name="entreprise" value="{{ old('entreprise', session('user_data.entreprise', '')) }}">
                         
                         @error('entreprise')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -43,7 +43,7 @@
 
                         <div class="mb-3 row">
                             <label for="neq" class="col-3" >Numéro d'entreprise (NEQ) :</label>
-                            <input type="text" class="col-9" id="neq" placeholder="12345678910" name="neq" value="{{ old('neq', session('user_data.neq', '')) }}">
+                            <input type="text" class="col-9" id="neq" placeholder="Aucun" name="neq" value="{{ old('neq', session('user_data.neq', '')) }}">
                         
                             @error('neq')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -53,7 +53,7 @@
                         <span class="sousTitres">Authentification pour connexion</span> 
                         <div class="mb-3 row">
                             <label for="courrielConnexion" class="col-3" >Adresse courriel :</label>
-                            <input type="email" class="col-9" id="courrielConnexion" placeholder="example@courriel.com" name="courrielConnexion" value="{{ old('courrielConnexion', session('user_data.courrielConnexion', '')) }}">
+                            <input type="email" class="col-9" id="courrielConnexion" placeholder="Aucun" name="courrielConnexion" value="{{ old('courrielConnexion', session('user_data.courrielConnexion', '')) }}">
                         
                             @error('courrielConnexion')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -65,7 +65,7 @@
                         <span class="sousTitres">Produits ou services offerts</span>
                         <div class="mb-3 row">
                             <label for="services" class="col-3">Produits / Services :</label>
-                            <textarea placeholder="Description des produits/services offerts." class="col-9 description" id="services" name="services">{{ old('services', session('user_data.services', '')) }}</textarea>
+                            <textarea placeholder="Aucun" class="col-9 description" id="services" name="services">{{ old('services', session('user_data.services', '')) }}</textarea>
                         
                             @error('services')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -81,7 +81,7 @@
 
                        <div class="mb-3 row">
                            <label for="adresse" class="col-3" >Adresse :</label>
-                           <input type="text" class="col-9" id="adresse" placeholder="123 Street" name="adresse" value="{{ old('adresse', session('user_data.adresse', '')) }}">
+                           <input type="text" class="col-9" id="adresse" placeholder="Aucun" name="adresse" value="{{ old('adresse', session('user_data.adresse', '')) }}">
                        
                        
                            @error('adresse')
@@ -91,7 +91,7 @@
 
                        <div class="mb-3 row">
                            <label for="bureau" class="col-3" >Bureau (optionnel) : </label>
-                           <input type="text" class="col-9" id="bureau" placeholder="suite 103" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
+                           <input type="text" class="col-9" id="bureau" placeholder="Aucun" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
                        
                            @error('bureau')
                                <div class="alert alert-danger">{{ $message }}</div>
@@ -100,7 +100,7 @@
 
                        <div class="mb-3 row">
                            <label for="ville" class="col-3" >Ville :</label>
-                           <input type="text" class="col-9" id="ville" placeholder="Trois-Rivières" name="ville" value="{{ old('ville', session('user_data.ville')) }}">
+                           <input type="text" class="col-9" id="ville" placeholder="Aucun" name="ville" value="{{ old('ville', session('user_data.ville')) }}">
                        
                            @error('ville')
                                <div class="alert alert-danger">{{ $message }}</div>
@@ -109,7 +109,7 @@
 
                        <div class="mb-3 row">
                            <label for="province" class="col-3" >Province :</label>
-                           <input type="text" class="col-9" id="province" placeholder="Québec" name="province" value="{{ old('province', session('user_data.province')) }}">
+                           <input type="text" class="col-9" id="province" placeholder="Aucun" name="province" value="{{ old('province', session('user_data.province')) }}">
                        
                            @error('province')
                                <div class="alert alert-danger">{{ $message }}</div>
@@ -118,7 +118,7 @@
 
                        <div class="mb-3 row">
                            <label for="codePostal" class="col-3" >Code postal :</label>
-                           <input type="text" class="col-9" id="codePostal" placeholder="123 Street" name="codePostal" value="{{ old('codePostal', session('user_data.codePostal')) }}">
+                           <input type="text" class="col-9" id="codePostal" placeholder="Aucun" name="codePostal" value="{{ old('codePostal', session('user_data.codePostal')) }}">
                        
                            @error('codePostal')
                                <div class="alert alert-danger">{{ $message }}</div>
@@ -127,7 +127,7 @@
 
                        <div class="mb-3 row">
                            <label for="pays" class="col-3" >Pays :</label>
-                           <input type="text" class="col-9" id="pays" placeholder="123 Street" name="pays" value="{{ old('pays', session('user_data.pays')) }}">
+                           <input type="text" class="col-9" id="pays" placeholder="Aucun" name="pays" value="{{ old('pays', session('user_data.pays')) }}">
                        
                            @error('pays')
                                <div class="alert alert-danger">{{ $message }}</div>
@@ -137,7 +137,7 @@
                        <span class="sousTitres">Autres</span>
                        <div class="mb-3 row">
                            <label for="site" class="col-3" >Site web :</label>
-                           <input type="text" class="col-9" id="site" placeholder="Lien URL" name="site" value="{{ old('site', session('user_data.site')) }}">
+                           <input type="text" class="col-9" id="site" placeholder="Aucun" name="site" value="{{ old('site', session('user_data.site')) }}">
                        
                            @error('site')
                                <div class="alert alert-danger">{{ $message }}</div>
@@ -146,7 +146,7 @@
 
                        <div class="mb-3 row">
                            <label for="numTel" class="col-3">Numéro de téléphone :</label>
-                           <input type="text" class="col-9" id="numTel" placeholder="(819)123-4567" name="numTel" value="{{ old('numTel', session('user_data.numTel')) }}">
+                           <input type="text" class="col-9" id="numTel" placeholder="Aucun" name="numTel" value="{{ old('numTel', session('user_data.numTel')) }}">
                            
                            @error('numTel')
                                <div class="alert alert-danger">{{ $message }}</div>
@@ -161,7 +161,7 @@
                         <span class="sousTitres">Information contact</span>
                         <div class="mb-3 row">
                             <label for="prenom" class="col-3">Prénom : </label>
-                            <input type="text" class="col-9" id="prenom" placeholder="exemple: Connor" name="prenom" value="{{ old('prenom', session('user_data.prenom')) }}">
+                            <input type="text" class="col-9" id="prenom" placeholder="Aucun" name="prenom" value="{{ old('prenom', session('user_data.prenom')) }}">
                         
                             @error('prenom')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -171,7 +171,7 @@
 
                         <div class="mb-3 row">
                             <label for="nom" class="col-3">Nom : </label>
-                            <input type="text" class="col-9" id="nom" placeholder="exemple: McDavid" name="nom" value="{{ old('nom', session('user_data.nom')) }}">
+                            <input type="text" class="col-9" id="nom" placeholder="Aucun" name="nom" value="{{ old('nom', session('user_data.nom')) }}">
                         
                             @error('nom')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -181,7 +181,7 @@
 
                         <div class="mb-3 row">
                             <label for="poste" class="col-3">Poste/Fonction :</label>
-                            <input type="text" class="col-9" id="poste" placeholder="Chef administration" name="poste" value="{{ old('poste', session('user_data.poste')) }}">
+                            <input type="text" class="col-9" id="poste" placeholder="Aucun" name="poste" value="{{ old('poste', session('user_data.poste')) }}">
                         
                             @error('poste')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -191,7 +191,7 @@
 
                         <div class="mb-3 row">
                             <label for="courrielContact" class="col-3">Courriel :</label>
-                            <input type="email" class="col-9" id="courrielContact" placeholder="exemple@gmail.com" name="courrielContact" value="{{ old('courrielContact', session('user_data.courrielContact')) }}">
+                            <input type="email" class="col-9" id="courrielContact" placeholder="Aucun" name="courrielContact" value="{{ old('courrielContact', session('user_data.courrielContact')) }}">
                         
                             @error('courrielContact')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -201,7 +201,7 @@
 
                         <div class="mb-3 row">
                             <label for="numContact" class="col-3">Numéro de téléphone :</label>
-                            <input type="text" class="col-9" id="numContact" placeholder="(819)123-4567" name="numContact" value="{{ old('numContact', session('user_data.numContact')) }}">
+                            <input type="text" class="col-9" id="numContact" placeholder="Aucun" name="numContact" value="{{ old('numContact', session('user_data.numContact')) }}">
                         
                             @error('numContact')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -219,7 +219,7 @@
                                 <fieldset disabled>
                                     <div class="mb-3 row">
                                         <label for="prenom_{{ $index }}" class="col-3">Prénom :</label>
-                                        <input type="text" class="col-9" id="prenom_{{ $index }}" placeholder="exemple: Connor" name="prenom[]" value="{{ old('prenom.' . $index, $contact['prenom']) }}">
+                                        <input type="text" class="col-9" id="prenom_{{ $index }}" placeholder="Aucun" name="prenom[]" value="{{ old('prenom.' . $index, $contact['prenom']) }}">
                                         @error('prenom.' . $index)
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -227,7 +227,7 @@
 
                                     <div class="mb-3 row">
                                         <label for="nom_{{ $index }}" class="col-3">Nom :</label>
-                                        <input type="text" class="col-9" id="nom_{{ $index }}" placeholder="exemple: McDavid" name="nom[]" value="{{ old('nom.' . $index, $contact['nom']) }}">
+                                        <input type="text" class="col-9" id="nom_{{ $index }}" placeholder="Aucun" name="nom[]" value="{{ old('nom.' . $index, $contact['nom']) }}">
                                         @error('nom.' . $index)
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -235,7 +235,7 @@
 
                                     <div class="mb-3 row">
                                         <label for="poste_{{ $index }}" class="col-3">Poste/Fonction :</label>
-                                        <input type="text" class="col-9" id="poste_{{ $index }}" placeholder="Chef administration" name="poste[]" value="{{ old('poste.' . $index, $contact['poste']) }}">
+                                        <input type="text" class="col-9" id="poste_{{ $index }}" placeholder="Aucun" name="poste[]" value="{{ old('poste.' . $index, $contact['poste']) }}">
                                         @error('poste.' . $index)
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -243,7 +243,7 @@
 
                                     <div class="mb-3 row">
                                         <label for="courrielContact_{{ $index }}" class="col-3">Courriel :</label>
-                                        <input type="email" class="col-9" id="courrielContact_{{ $index }}" placeholder="exemple@gmail.com" name="courrielContact[]" value="{{ old('courrielContact.' . $index, $contact['courrielContact']) }}">
+                                        <input type="email" class="col-9" id="courrielContact_{{ $index }}" placeholder="Aucun" name="courrielContact[]" value="{{ old('courrielContact.' . $index, $contact['courrielContact']) }}">
                                         @error('courrielContact.' . $index)
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -251,7 +251,7 @@
 
                                     <div class="mb-3 row">
                                         <label for="numContact_{{ $index }}" class="col-3">Numéro de téléphone :</label>
-                                        <input type="text" class="col-9" id="numContact_{{ $index }}" placeholder="(819)123-4567" name="numContact[]" value="{{ old('numContact.' . $index, $contact['numContact']) }}">
+                                        <input type="text" class="col-9" id="numContact_{{ $index }}" placeholder="Aucun" name="numContact[]" value="{{ old('numContact.' . $index, $contact['numContact']) }}">
                                         @error('numContact.' . $index)
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -268,7 +268,7 @@
                     
                     <div class="row d-flex justify-content-center">
                         <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.RBQ') }}">Précédent</a>
-                        <button type="submit" class="btn btn-primary mb-3 col-auto">Confirmer et envoyer le formulaire</button>
+                        <button type="submit" class="btn btn-primary mb-3 mx-3 col-auto">Confirmer et envoyer le formulaire</button>
                     </div>
                 
                 </div>

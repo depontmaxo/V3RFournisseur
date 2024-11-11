@@ -28,8 +28,8 @@
                         </div>
 
                        <div class="mb-3 row">
-                           <label for="bureau" class="col-3" >Bureau (optionnel) : </label>
-                           <input type="text" class="col-9" id="bureau" placeholder="suite 103" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
+                           <label for="bureau" class="col-3" >Bureau : </label>
+                           <input type="text" class="col-9" id="bureau" placeholder="Optionnel" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
                        
                            @error('bureau')
                                <div class="alert alert-danger">{{ $message }}</div>
@@ -75,7 +75,7 @@
                        <span class="sousTitres">Autres</span>
                        <div class="mb-3 row">
                            <label for="site" class="col-3" >Site web :</label>
-                           <input type="text" class="col-9" id="site" placeholder="Lien URL" name="site" value="{{ old('site', session('user_data.site')) }}">
+                           <input type="text" class="col-9" id="site" placeholder="Optionnel" name="site" value="{{ old('site', session('user_data.site')) }}">
                        
                            @error('site')
                                <div class="alert alert-danger">{{ $message }}</div>
@@ -95,7 +95,7 @@
 
                        <div class="row d-flex justify-content-center">
                             <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.Produits') }}">Précédent</a>
-                           <button type="submit" class="btn btn-primary mb-3 col-auto">Suivant</button>
+                           <button type="submit" class="btn btn-primary mb-3 mx-3 col-auto">Suivant</button>
                        </div>
                     
                 </div>

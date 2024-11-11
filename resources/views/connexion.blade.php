@@ -120,7 +120,9 @@ body, html {
 
 
     </style>
+    <link rel="stylesheet" href="{{ asset('css/connexion.css') }}">
 </head>
+
 <body>
     <div class="container">
         <div class="login-box">

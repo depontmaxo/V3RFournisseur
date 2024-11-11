@@ -70,13 +70,11 @@
                         </div>
 
 
-                        <div class="row d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary mb-3 col-auto">Suivant</button>
 
-                            <p class="text-center"> Vous êtes déjà inscrit? 
-                                <a href="{{ route('Connexion.connexionEmail') }}">Se connecter</a> 
-                            </p>
-                        </div>
+                        <div class="row d-flex justify-content-center">
+                            <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Connexion.pageConnexion') }}">Annuler</a>
+                            <button type="submit" class="btn btn-primary mb-3 mx-3 col-auto">Suivant</button>
+                       </div>
                     
                 </div>
             </form>

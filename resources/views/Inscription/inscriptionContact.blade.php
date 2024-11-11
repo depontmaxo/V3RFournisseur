@@ -18,7 +18,7 @@
             <span class="sousTitres">Contact 1</span>
                 <div class="row">
                     <label for="prenom" class="col-3">Prénom :</label>
-                    <input type="text" class="col-9" name="prenom" placeholder="exemple: Connor" value="{{ old('prenom', session('user_data.prenom', '')) }}">
+                    <input type="text" class="col-9" name="prenom" placeholder="Connor" value="{{ old('prenom', session('user_data.prenom', '')) }}">
                     @error('prenom')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
@@ -26,7 +26,7 @@
                 
                 <div class="row">
                     <label for="nom" class="col-3">Nom :</label>
-                    <input type="text" class="col-9" name="nom" placeholder="exemple: McDavid" value="{{ old('nom', session('user_data.nom', '')) }}">
+                    <input type="text" class="col-9" name="nom" placeholder="McDavid" value="{{ old('nom', session('user_data.nom', '')) }}">
                     @error('nom')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
@@ -34,7 +34,7 @@
 
                 <div class="row">
                     <label for="poste" class="col-3">Poste/Fonction :</label>
-                    <input type="text" class="col-9" name="poste" placeholder="Chef administration" value="{{ old('poste', session('user_data.poste', '')) }}">
+                    <input type="text" class="col-9" name="poste" placeholder="Centre" value="{{ old('poste', session('user_data.poste', '')) }}">
                     @error('poste')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
@@ -64,7 +64,7 @@
 
         <div class="row d-flex justify-content-center">
             <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.Coordonnees') }}">Précédent</a>
-            <button type="submit" class="btn btn-primary mb-3 col-auto">Suivant</button>
+            <button type="submit" class="btn btn-primary mb-3 mx-3 col-auto">Suivant</button>
         </div>
     </div>
 </form>

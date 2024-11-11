@@ -1,32 +1,32 @@
 @extends('layouts.app')
  
-@section('titre', 'Formulaire inscription candidat')
+@section('titre', 'Page information')
   
 @section('contenu')
 <body>
+    <h1>{{ $candidat->nom_entreprise }}</h1>
     @if (isset( $candidat))
-        <p>Voici les information de votre compte</p>
-        <br>
-        <p>Entreprise : {{ $candidat->entreprise }}</p>
         <p>NEQ : {{ $candidat->neq }}</p>
-        <p>Email: {{ $candidat->courrielConnexion }}</p>
-        <p>Service: {{ $candidat->services }}</p>
-        <p>Adresse: {{ $candidat->adresse }}</p>
-        <p>Bureau: {{ $candidat->bureau }}</p>
-        <p>Ville: {{ $candidat->ville }}</p>
-        <p>Province: {{ $candidat->province }}</p>
-        <p>Code Postal: {{ $candidat->codePostal }}</p>
-        <p>Site web de votre entreprise: {{ $candidat->site }}</p>
-        <p>Numéro de téléphone: {{ $candidat->numTel }}</p>
-        <p>Prénom: {{ $candidat->prenom }}</p>
-        <p>Nom: {{ $candidat->nom }}</p>
-        <p>Poste: {{ $candidat->poste }}</p>
-        <p>Courriel contact: {{ $candidat->courrielContact }}</p>
-        <p>Numéro de contact: {{ $candidat->numContact }}</p>
-        <p>RBQ: {{ $candidat->rbq }}</p>
+        <p>Email: {{ $candidat->email }}</p>
+        <p>Adresse: {{ $coordonnees->adresse }}</p>
+        <p>Numero de téléphone: {{ $coordonnees->noTelephone }}</p>
+        <p>Personne ressource: {{ $contacts->prenom }} {{ $contacts->nom }}</p>
+        <p>Email de personne ressource: {{ $contacts->email_contact }}</p>
+        <p>LicenceRBQ: {{ $candidat->rbq }}</p>
+        <p>Poste occupé: {{ $contacts->poste }}</p>
+        <p>Site web de votre entreprise: {{ $coordonnees->siteweb }}</p>
+        <p>Services et/ou produits offerts : informations à venir</p>
+        <p>Statut de votre demande d'inscription : {{ $candidat->statut }}</p>
     @else
         <p>404 Erreur<p>
     @endif
-</body>
+    <br>
+    <a href="{{route('Fournisseur.modification', $candidat->id)}}">Modifier sa fiche fournisseur</a>
+    <br>
 
+    <a onclick="return confirm('Êtes-vous sûr de vouloir accepter ce candidat?')" href="{{ route('Candidat.Accepte', $candidat->id) }}">Accepter</a>
+
+    <a onclick="return confirm('Êtes-vous sûr de voulour refuser ce candidat?')" href="{{ route('Candidat.Refuse', $candidat->id) }}">Refuser</a>
+
+</body>
 @endsection

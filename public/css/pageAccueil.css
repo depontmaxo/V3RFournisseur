@@ -34,10 +34,12 @@
 }*/
 
 /*  body {
+body {
     margin: 0;
     height: 100vh;
     background: url('../images/bg_villeTR.jpg') no-repeat center center/cover;
     position: relative;
+    z-index: 0;
 }
 
 .parallelogram {
@@ -88,5 +90,18 @@ body {
     background-repeat: no-repeat;
     height: 100vh; /* Assure que le corps occupe toute la hauteur de la fenêtre */
     margin: 0; /* Supprime les marges par défaut */
+}
+
+
+
+.logo{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 4%;
+    height: auto;
+    z-index: 2;
+    background-color: white;
+    margin: 20px;
 }
 

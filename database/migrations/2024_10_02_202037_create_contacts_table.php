@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contacts', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('inscription_id'); // UUID ici
-            $table->foreign('inscription_id')->references('id')->on('inscriptions')->onDelete('cascade'); // Clé étrangère
+            $table->id()->primary();
+            $table->uuid('utilisateur_id');
+            $table->foreign('utilisateur_id')->references('id')->on('utilisateur')->onDelete('cascade'); // Clé étrangère
             $table->string('prenom', 255);
             $table->string('nom', 255);
             $table->string('poste', 255);
-            $table->string('courrielContact', 255);
-            $table->string('numContact', 255)->nullable();;
+            $table->string('email_contact', 255);
+            $table->string('num_contact', 255)->nullable();
             $table->timestamps();
         });
     }

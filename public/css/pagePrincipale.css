@@ -16,7 +16,105 @@ body {
     border-style: solid;
 }
 
+.rechercheUNSPSC{
+    border-style: solid;
+    border-color: black;
+}
+
 .fournisseur{
     border-style: solid;
     border-color: black;
+}
+
+.decisionUNSPSC{
+    display: flex;
+    margin: 0 0 2px 8px;  
+}
+
+.pUNSPSC{
+    display: flex;
+    margin: 0 0 0 0;  /*sinon il y a un margin de 16 en dessous*/
+}
+
+.header{
+    width: 100%;
+    height: 100vh;
+    /*background-image: url('../images/tourismeTR.jpg');
+    background-position: center;
+    background-size: cover;*/
+    z-index: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.side-nav{
+    width: 300px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 30px 15px;
+    background: rgba(99, 188, 85, 0.92);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+
+/*Si on veut avoir le logo --> enlever le commentaire et enlever commentaire dans app.blade dans layout
+.user{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    border-radius: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo{
+    width: 80px;
+    background-color: white;
+    margin: auto;
+}*/
+
+ul{
+    list-style: none;
+    padding: 0 15px;
+    color: rgb(11, 35, 65);
+}
+
+
+ul li{
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+ul li a{
+    white-space: nowrap;
+}
+
+.UNSPSC_list{
+    cursor: default;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.no-style-link{
+    text-decoration: none;
+}
+
+.contenu{
+    margin-left: 300px; /* Ajoute une marge à gauche pour éviter que le contenu soit caché */
+    padding: 30px;
 }

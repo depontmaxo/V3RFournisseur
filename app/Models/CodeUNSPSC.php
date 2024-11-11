@@ -20,4 +20,11 @@ class CodeUNSPSC extends Model
         'desc_det_unspsc',
         'code_full_cat',
     ];
+
+    /*À revoir et tester*/
+    public function fournisseur()
+    {
+        return $this->belongsTo(Coordonnees::class, 'utilisateur_id');
+    }
+
 }

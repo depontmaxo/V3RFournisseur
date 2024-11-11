@@ -15,7 +15,7 @@ require __DIR__.'/auth.php';
 
 
 Route::GET('/',
-[UtilisateursController::class,'index'])/*->middleware('role:admin,commis,responsable,fournisseur');*/;
+[UtilisateursController::class,'index'])->name('page.Accueil')/*->middleware('role:admin,commis,responsable,fournisseur');*/;
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {
@@ -28,12 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
+
 Route::GET('/connexionEmail',
-[UtilisateursController::class,'pageConnexion'])->name('Connexion.connexionEmail')->middleware(ClearSessionMiddleware::class);
+[UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
 
 
-Route::POST('/',
-[UtilisateursController::class,'login'])->name('Connexion.connexion');
 
 Route::GET('/motPasseOublie',
 [UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
@@ -49,12 +50,13 @@ Route::post('/employeConnecte', [LoginController::class, 'loginEmploye'])->name(
 
 #################################Déconnexion#########################################
 Route::POST('/logout', [UtilisateursController::class, 'logout'])->middleware('auth')->name('logout');
+Route::GET('/logout', [UtilisateursController::class, 'logout'])->middleware('auth')->name('logout.link');
 ##################################################################################
 
 
 #################################Inscription#########################################
 Route::GET('/formulaire/inscription',
-[InscriptionController::class,'identification'])->name('Inscription.Identification'); //Partie 1 inscription
+[InscriptionController::class,'identification'])->name('Inscription.Identification')->middleware(ClearSessionMiddleware::class); //Partie 1 inscription
 
 Route::GET('/formulaire/inscription/produits',
 [InscriptionController::class,'produits'])->name('Inscription.Produits'); //Partie 2 inscription
@@ -113,13 +115,31 @@ Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
 
 ##################################################################################
 
+
+
+
+#################################Responsable#########################################
+//Rendre compte actif/inactif
 Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
 
 Route::GET('/actif/{utilisateur}/',
 [FournisseursController::class,'actif'])->name('Fournisseur.actif');
 
+//Accepté ou refusé candidat
+Route::GET('/accepte/{candidat}/',
+[ResponsablesController::class,'candidatAccepte'])->name('Candidat.Accepte');
 
+Route::GET('/refuser/{candidat}/',
+[ResponsablesController::class,'candidatRefuse'])->name('Candidat.Refuse');
+
+
+//Faire la recherche de fournisseur et candidat
+Route::GET('/responsable/rechercheFournisseur',
+[ResponsablesController::class,'rechercheFournisseur'])->name('Responsable.rechercheFournisseur')->middleware(CheckRole::class.':responsable');
+
+Route::GET('/responsable/rechercheCandidat',
+[ResponsablesController::class,'rechercheCandidat'])->name('Responsable.rechercheCandidat')->middleware(CheckRole::class.':responsable');
 #################################Responsable#########################################
 Route::GET('/reponsableIndex',
 [ResponsablesController::class,'index'])->name('Responsable.index');
@@ -127,14 +147,26 @@ Route::GET('/reponsableIndex',
 Route::GET('/responsable/recherche',
 [ResponsablesController::class,'recherche'])->name('Responsable.recherche');
 
-Route::GET('/responsableIndex/listeInscription',
-[ResponsablesController::class,'voirListeInscription'])->name('Fournisseur.listeInscripton');
+Route::GET('/index/unspsc/recherche',
+[FournisseursController::class,'recherche'])->name('Fournisseurs.recherche')->middleware(CheckRole::class.':responsable');
 
-Route::GET('/reponsableIndex',
-[ResponsablesController::class,'index'])->name('Responsable.index');
+Route::GET('/index/unspsc/choisit',
+[FournisseursController::class,'choisit'])->name('Fournisseurs.choisit')->middleware(CheckRole::class.':responsable');
+
+//Liste fournisseur et inscription
+Route::GET('/responsable/listeInscription',
+[ResponsablesController::class,'voirListeInscription'])->name('Responsable.listeInscripton');
+
+Route::GET('/responsable/listeFournisseur',
+[ResponsablesController::class,'listeFournisseur'])->name('Responsable.listeFournisseur')->middleware(CheckRole::class.':responsable');
+
+/*Route::GET('/reponsableIndex',
+[ResponsablesController::class,'index'])->name('Responsable.index');*/
 
 Route::GET('/responsableIndex/listeInscription/{candidat}',
-[ResponsablesController::class,'evaluerCandidat'])->name('Fournisseur.visualiserCandidat');
+[ResponsablesController::class,'evaluerCandidat'])->name('Responsable.visualiserCandidat');
+
+
 
 #################################Admin#########################################
 use App\Http\Controllers\UserController;
@@ -151,7 +183,7 @@ Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
 Route::post('/users/update-roles', [UserController::class, 'updateRoles']); 
 
 //Connexion de l'admin
-// Route pour afficher la page de connexion
+//Route pour afficher la page de connexion
 Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
 
 // Route pour traiter la connexion
@@ -165,4 +197,7 @@ Route::get('/forgot_password', [LoginController::class, 'forgotPassword'])->name
 // Route pour traiter la soumission du formulaire de récupération de mot de passe (POST)
 Route::post('/forgot_password', [LoginController::class, 'forgotPassword'])->name('app_forgotpassword1');
 
+#######################Support#################################################################################
+// Route pour traiter la soumission du formulaire de récupération de mot de passe (POST)
+Route::get('/support', [FournisseursController::class, 'support'])->name('support');
 
