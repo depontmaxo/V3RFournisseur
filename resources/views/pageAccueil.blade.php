@@ -84,7 +84,7 @@
 
     <!-- Boutons en haut à droite -->
     <div class="top-right">
-        <a class="btn btn-custom" href="{{ route('Connexion.connexionEmail') }}">Se connecter</a>
+        <a class="btn btn-custom" href="{{ route('Connexion.pageConnexion') }}">Se connecter</a>
         <a class="btn btn-custom" href="{{ route('Inscription.Identification') }}">Inscription</a>
     </div>
 

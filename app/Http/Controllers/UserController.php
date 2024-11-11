@@ -87,4 +87,12 @@ class UserController extends Controller
         
         return response()->json(['message' => 'Rôles mis à jour avec succès.']);
     }
+
+
+
+    #Afficher la page de reglage systeme des admins
+    public function adminReglageIndex() {
+
+        return view('admin.parametreSystemeAdmin');
+    }
 }
