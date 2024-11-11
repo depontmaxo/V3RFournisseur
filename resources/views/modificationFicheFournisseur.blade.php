@@ -28,20 +28,26 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
             </div>
-
-
             <div class="form-group pt-2">
                 <label for="NEQ">NEQ :</label>
                 <input type="text" class="form-control" id="neq" placeholder="NEQ (10 chiffres)" name="neq" value="{{$utilisateur->neq}}">
+                @error('neq')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
-
             <div class="form-group pt-2">
                 <label for="Email">Email :</label>
                 <input type="text" class="form-control" id="email" placeholder="email@email.com" name="email" value="{{ $utilisateur->email }}">
+                @error('email')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group pt-2">
                 <label for="rbq">Licence(s) RBQ :</label>
                 <input type="text" class="form-control" id="rbq" placeholder="Licence(s) RBQ" name="rbq" value="{{ $utilisateur->rbq }}">
+                @error('rbq')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <!--SECTIONS COORDONNÉES-->
