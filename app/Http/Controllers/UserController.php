@@ -88,8 +88,3 @@ class UserController extends Controller
         return response()->json(['message' => 'Rôles mis à jour avec succès.']);
     }
 }
-
-
-
-
-
