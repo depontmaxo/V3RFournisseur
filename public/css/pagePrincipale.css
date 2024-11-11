@@ -118,3 +118,11 @@ ul li a{
     margin-left: 300px; /* Ajoute une marge à gauche pour éviter que le contenu soit caché */
     padding: 30px;
 }
+
+
+.sections{
+    font-family: 'Poppins-Light';
+    font-size: 15pt;
+    color: gray;
+}
+
