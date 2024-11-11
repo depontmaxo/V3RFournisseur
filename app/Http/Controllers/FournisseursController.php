@@ -74,12 +74,12 @@ class FournisseursController extends Controller
      */
 
     public function update(Request $request, Utilisateur $utilisateur)
-    {
+    {    
         $validated = $request->validate(
             array_merge(
-                $this->reglesValidationsIdentification(),
-                $this->reglesValidationsCoordonnees(),
-                $this->reglesValidationsContacts()
+                $this->reglesValidationsIdentification($utilisateur),
+                $this->reglesValidationsCoordonnees($utilisateur),
+                $this->reglesValidationsContacts($utilisateur)
             ),
             array_merge(
                 $this->messagesValidationIdentification(),
@@ -87,6 +87,8 @@ class FournisseursController extends Controller
                 $this->messagesValidationContacts()
             )
         );
+
+        session()->flash('previous_url', url()->previous());
 
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
@@ -114,12 +116,6 @@ class FournisseursController extends Controller
             $contact->num_contact = $request->input("num_contact.{$index}");
             $contact->save();
         }
-
-        /*$contacts->prenom = $request->prenom;
-        $contacts->nom = $request->nom;
-        $contacts->poste = $request->poste;
-        $contacts->email_contact = $request->email_contact;
-        $contacts->num_contact = $request->num_contact;*/
         
         $utilisateur->save();
         $coordonnees->save();
@@ -233,6 +229,7 @@ class FournisseursController extends Controller
     }
 
 
+
     /*
     Debug pour les codes unspsc
         <!-- Debugging Section -->
@@ -245,7 +242,7 @@ class FournisseursController extends Controller
 
 
     //RÈGLES VALIDATION POUR LES UPDATES
-    protected function reglesValidationsIdentification()
+    protected function reglesValidationsIdentification(Utilisateur $utilisateur)
     {
         return [
             'nom_entreprise' => [
@@ -253,14 +250,14 @@ class FournisseursController extends Controller
                 'min:5', 
                 'max:75', 
                 'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', //Vérifie qu'il n'y a plusieurs espaces un après l'autre
-                'unique:utilisateur,nom_entreprise'
+                'unique:utilisateur,nom_entreprise,' . $utilisateur->id
             ],
 
             'neq' => [
                 'required', 
-                'digits:10', 
+                #'digits:10', 
                 'integer', 
-                'unique:utilisateur,neq'
+                'unique:utilisateur,neq,' . $utilisateur->id
             ],
 
             'email' => [
@@ -268,7 +265,7 @@ class FournisseursController extends Controller
                 'min:5', 
                 'max:75', 
                 'regex:/^[^\s]*$/', 
-                'unique:utilisateur,email'
+                'unique:utilisateur,email,' . $utilisateur->id
             ],
 
             /*'password' => [
@@ -290,7 +287,7 @@ class FournisseursController extends Controller
         ];
     }
     
-    protected function reglesValidationsCoordonnees()
+    protected function reglesValidationsCoordonnees(Utilisateur $utilisateur)
     {
         return [
             'adresse' => [
@@ -345,7 +342,7 @@ class FournisseursController extends Controller
         ];
     }
 
-    protected function reglesValidationsContacts()
+    protected function reglesValidationsContacts(Utilisateur $utilisateur)
     {
         return [
             'prenom.*' => [
@@ -374,7 +371,7 @@ class FournisseursController extends Controller
                 'min:5', 
                 'max:75', 
                 'regex:/^[^\s]*$/',
-                'unique:contacts,email_contact'
+                'unique:contacts,email_contact,' . $utilisateur->id. ',utilisateur_id' //cette logique permet que 2 utilisateurs utilise le meme email, mais il ne peuvent pas avoir le email d'un contact avec un utilisateur différent
             ],
 
             'num_contact.*' => [
@@ -474,30 +471,30 @@ class FournisseursController extends Controller
     protected function messagesValidationContacts()
     {
         return [
-            'prenom.required' => 'Ce champ est obligatoire.',
-            'prenom.regex' => 'Le prénom ne doit pas contenir d\'espaces.',
-            'prenom.min' => 'Le prénom doit contenir au moins :min caractères.',
-            'prenom.max' => 'Le prénom ne peut pas dépasser :max caractères.',
+            'prenom.*.required' => 'Ce champ est obligatoire.',
+            'prenom.*.regex' => 'Le prénom ne doit pas contenir d\'espaces.',
+            'prenom.*.min' => 'Le prénom doit contenir au moins :min caractères.',
+            'prenom.*.max' => 'Le prénom ne peut pas dépasser :max caractères.',
     
-            'nom.required' => 'Ce champ est obligatoire.',
-            'nom.regex' => 'Le nom ne doit pas contenir d\'espaces.',
-            'nom.min' => 'Le nom doit contenir au moins :min caractères.',
-            'nom.max' => 'Le nom ne peut pas dépasser :max caractères.',
+            'nom.*.required' => 'Ce champ est obligatoire.',
+            'nom.*.regex' => 'Le nom ne doit pas contenir d\'espaces.',
+            'nom.*.min' => 'Le nom doit contenir au moins :min caractères.',
+            'nom.*.max' => 'Le nom ne peut pas dépasser :max caractères.',
     
-            'poste.required' => 'Ce champ est obligatoire.',
-            'poste.regex' => 'Le format du poste est invalide.',
-            'poste.min' => 'Le poste doit contenir au moins :min caractères.',
-            'poste.max' => 'Le poste ne peut pas dépasser :max caractères.',
+            'poste.*.required' => 'Ce champ est obligatoire.',
+            'poste.*.regex' => 'Le format du poste est invalide.',
+            'poste.*.min' => 'Le poste doit contenir au moins :min caractères.',
+            'poste.*.max' => 'Le poste ne peut pas dépasser :max caractères.',
     
-            'email_contact.required' => 'Ce champ est obligatoire.',
-            'email_contact.min' => 'Le courriel doit contenir au moins :min caractères.',
-            'email_contact.max' => 'Le courriel ne peut pas dépasser :max caractères.',
-            'email_contact.regex' => 'Le courriel ne doit pas contenir d\'espaces.',
-            'email_contact.unique' => 'Ce courriel est déjà utilisé',
+            'email_contact.*.required' => 'Ce champ est obligatoire.',
+            'email_contact.*.min' => 'Le courriel doit contenir au moins :min caractères.',
+            'email_contact.*.max' => 'Le courriel ne peut pas dépasser :max caractères.',
+            'email_contact.*.regex' => 'Le courriel ne doit pas contenir d\'espaces.',
+            'email_contact.*.unique' => 'Ce courriel est déjà utilisé',
     
-            'num_contact.required' => 'Ce champ est obligatoire.',
-            'num_contact.digits' => 'Le numéro de contact doit contenir exactement :digits chiffres.',
-            'num_contact.integer' => 'Le numéro de contact doit être un entier.',
+            'num_contact.*.required' => 'Ce champ est obligatoire.',
+            'num_contact.*.digits' => 'Le numéro de contact doit contenir exactement :digits chiffres.',
+            'num_contact.*.integer' => 'Le numéro de contact doit être un entier.',
         ];
     }
 
