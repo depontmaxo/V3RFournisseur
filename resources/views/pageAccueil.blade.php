@@ -60,7 +60,7 @@
         }
 
         body{
-        background-color:  #0B2341;
+        background-color: #0B2341;
        }
 
        .welcome-message {
@@ -78,9 +78,9 @@
 </head>
 <body>
     <!-- Logo en haut à gauche entouré d'un carré blanc -->
-    <div class="logo-container">
+ <!--   <div class="logo-container">
         <img src="{{ asset('images/v3r-logo-seul.svg') }}" alt="Logo V3R" width="80">
-    </div>
+    </div>  -->
 
     <!-- Boutons en haut à droite -->
     <div class="top-right">

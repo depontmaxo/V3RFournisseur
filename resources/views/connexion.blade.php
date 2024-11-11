@@ -46,7 +46,7 @@
 
         /* Style des champs de saisie */
         .form-control {
-            background-color: #0B2341;
+            background-color: #78C6E0;
             border-radius: 0;
             border: 1px solid #ddd;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Ombre autour du formulaire */
