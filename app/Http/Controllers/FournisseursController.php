@@ -80,29 +80,31 @@ class FournisseursController extends Controller
      */
     public function edit(Utilisateur $utilisateur)
     {
-        //
-        return View('modificationFicheFournisseur', compact('utilisateur'));
+        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+
+        return View('modificationFicheFournisseur', compact('utilisateur', 'contacts', 'coordonnees'));
     }
 
     /**
      * Updater le compte avec les nouvelles informations
      */
-    public function update(Request $request, Utilisateur $utilisateur)
+    public function update(Request $request, Utilisateur $utilisateur, Coordonnees $coordonnees, Contacts $contacts)
     {
-
         //Vérification modifs?
+        $utilisateur->nom_entreprise = $request->nom_entreprise;
         $utilisateur->neq = $request->neq;
         $utilisateur->email = $request->email;
-        $utilisateur->nomFournisseur = $request->nomFournisseur;
-        $utilisateur->adresse = $request->adresse;
-        $utilisateur->noTelephone = $request->noTelephone;
-        $utilisateur->personneRessource = $request->personneRessource;
-        $utilisateur->emailPersonneRessource = $request->emailPersonneRessource;
-        $utilisateur->licenceRBQ = $request->licenceRBQ;
-        $utilisateur->posteOccupeEntreprise = $request->posteOccupeEntreprise;
-        $utilisateur->siteWeb = $request->siteWeb;
-        $utilisateur->produitOuService = $request->produitOuService;
+        $utilisateur->rbq = $request->rbq;
 
+        $coordonnees->adresse = $request->adresse;
+        $coordonnees->bureau = $request->bureau;
+        $coordonnees->ville = $request->ville;
+        $coordonnees->province = $request->province;
+        $coordonnees->code_postal = $request->code_postal;
+        $coordonnees->pays = $request->pays;
+        $coordonnees->siteweb = $request->siteweb;
+        $coordonnees->num_telephone = $request->num_telephone;
         
         $utilisateur->save();
         return redirect()->route('Fournisseur.index')->with('message', "Modification de " . $utilisateur->nom . " réussi!");
@@ -136,14 +138,6 @@ class FournisseursController extends Controller
     public function support()
     {
         return View('support');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Utilisateur $utilisateur)
-    {
-
     }
 
     public function recherche(Request $request)
@@ -188,7 +182,7 @@ class FournisseursController extends Controller
         //dd($request->code_unspsc_choisit);
 
         $selectedCodes = $request->code_unspsc_choisit;
-        $utilisateurId = auth()->id();
+        $utilisateurId = auth()->id;
 
         //dd($utilisateurId);
         //dd($selectedCodes);

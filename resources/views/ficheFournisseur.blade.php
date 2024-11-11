@@ -35,7 +35,7 @@
     <!-- Caché par défaut -->
     <div class="rechercheUNSPSC hidden">
         <!-- Search Form -->
-        <form method="get" action="/index/unspsc/recherche" style="display-flex">
+        <form method="get" action="/index/unspsc/recherche" style="display: display-flex;">
             @csrf
             <label for="nature_contrat">Nature :</label>
             <input type="checkbox" id="nature_contrat" name="nature_contrat" {{ request()->has('nature_contrat') ? 'checked' : '' }} />
@@ -51,7 +51,7 @@
         </form>
 
         <!-- Selection Form -->
-        <form method="get" action="/index/unspsc/choisit" style="display-flex">
+        <form method="get" action="/index/unspsc/choisit" style="display: display-flex;">
             @csrf
             <p>Nature / Code UNSPSC / Description</p>
 
