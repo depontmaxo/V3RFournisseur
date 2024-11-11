@@ -27,24 +27,7 @@ class UserController extends Controller
             return response()->json(['success' => false], 404);
         }
     }
-    public function destroy($id)
-    {
-        $user = User::find($id);
-        if ($user) {
-            $user->delete();
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json(['success' => false], 404);
-        }
-    }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
     public function store(Request $request)
     {
         $request->validate([
@@ -59,22 +42,11 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
             'is_admin' => $request->is_admin ?? false,
         ]);
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'is_admin' => $request->is_admin ?? false,
-        ]);
 
         return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès.');
     }
-        return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès.');
-    }
+    
 
-    public function edit(User $user)
-    {
-        return view('users.edit', compact('user'));
-    }
     public function edit(User $user)
     {
         return view('users.edit', compact('user'));
@@ -86,31 +58,11 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
         ]);
-    public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-        ]);
 
         $user->update($request->all());
         return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
-        $user->update($request->all());
-        return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
-    }
 
-    ##Suppresion d'un utilisateur
-    public function deleteUser($id)
-    {
-        $user = User::find($id);
-        if ($user) {
-            $user->delete();
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json(['success' => false], 404);
-        }
-    }
     ##Suppresion d'un utilisateur
     public function deleteUser($id)
     {
