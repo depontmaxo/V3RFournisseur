@@ -107,11 +107,11 @@ Route::middleware('auth')->group(function () {
 Route::GET('/ficheUtilisateur/{utilisateur}/',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
 
-Route::GET('/modificationFicheUtilisateur/{utilisateur}/',
+Route::GET('/ficheUtilisateur/modifier/{utilisateur}/',
 [FournisseursController::class,'edit'])->name('Fournisseur.modification');
 
-Route::PATCH('/modificationFicheUtilisateur/{utilisateur}/',
-[FournisseursController::class,'update'])->name('Fournisseur.modification1');
+Route::PATCH('/ficheUtilisateur/modifier/{utilisateur}/',
+[FournisseursController::class,'update'])->name('Fournisseur.appliqueModification');
 
 ##################################################################################
 

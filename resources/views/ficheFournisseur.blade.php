@@ -1,22 +1,40 @@
 @extends('layouts.app')
  
-@section('titre', 'Page information')
+@section('titre', 'Votre fiche')
   
 @section('contenu')
 <body>
-    <h1>{{ $utilisateur->nom_entreprise }}</h1>
+<?php
+    $nbFournisseur = 1;
+?>
+    <h1>Votre fiche fournisseur - {{ $utilisateur->nom_entreprise }}</h1>
     @if (isset( $utilisateur))
-        <p>NEQ : {{ $utilisateur->neq }}</p>
-        <p>Email: {{ $utilisateur->email }}</p>
-        <p>Adresse: {{ $coordonnees->adresse }}</p>
-        <p>Numero de téléphone: {{ $coordonnees->noTelephone }}</p>
-        <p>Personne ressource: {{ $contacts->prenom }} {{ $contacts->nom }}</p>
-        <p>Email de personne ressource: {{ $contacts->email_contact }}</p>
-        <p>LicenceRBQ: {{ $utilisateur->rbq }}</p>
-        <p>Poste occupé: {{ $contacts->poste }}</p>
-        <p>Site web de votre entreprise: {{ $coordonnees->siteweb }}</p>
-        <p>Services et/ou produits offerts : informations à venir</p>
-        <p>Statut de votre demande d'inscription : {{ $utilisateur->statut }}</p>
+        <div class="sections pt-3">Information de votre compte</div>
+        <p><span class="soustitre-bold">NEQ: </span>{{ $utilisateur->neq }}</p>
+        <p><span class="soustitre-bold">Email: </span>{{ $utilisateur->email }}</p>
+        <p><span class="soustitre-bold">Licence RBQ: </span>{{ $utilisateur->rbq }}</p>
+        <p><span class="soustitre-bold">Services et/ou produits offerts: </span>informations à venir</p>
+        <p><span class="soustitre-bold">Statut de votre demande d'inscription: </span>{{ $utilisateur->statut }}</p>
+
+        <div class="sections pt-3">Coordonnées de votre entreprise</div>
+        <p><span class="soustitre-bold">Adresse: </span>{{ $coordonnees->adresse }}</p>
+        <p><span class="soustitre-bold">Bureau/suite: </span>{{ $coordonnees->bureau }}</p>
+        <p><span class="soustitre-bold">Pays: </span>{{ $coordonnees->pays }}</p>
+        <p><span class="soustitre-bold">Province: </span>{{ $coordonnees->provicne }}</p>
+        <p><span class="soustitre-bold">Ville: </span>{{ $coordonnees->ville }}</p>
+        <p><span class="soustitre-bold">Code postal: </span>{{ $coordonnees->code_postal }}</p>
+        <p><span class="soustitre-bold">Numero de téléphone: </span>{{ $coordonnees->num_telephone }}</p>
+        <p><span class="soustitre-bold">Site web de votre entreprise: </span>{{ $coordonnees->siteweb }}</p>
+        
+        <div class="sections pt-3">Information contact(s)</div>
+        @foreach ($contacts as $index => $contact)
+            <h5>Contact {{$index + 1}}</h5>
+            <p><span class="soustitre-bold">Nom complet: </span>{{ $contact->prenom }} {{ $contact->nom }}</p>
+            <p><span class="soustitre-bold">Poste occupé: </span>{{ $contact->poste }}</p>
+            <p><span class="soustitre-bold">Courriel: </span>{{ $contact->email_contact }}</p>
+            <p><span class="soustitre-bold">Numéro rejoignable: </span>{{ $contact->num_contact }}</p>
+            
+        @endforeach
     @else
         <p>404 Erreur<p>
     @endif
