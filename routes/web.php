@@ -159,8 +159,8 @@ Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
 Route::post('/users/update-roles', [UserController::class, 'updateRoles']); 
 
 //Connexion de l'admin
-// Route pour afficher la page de connexion
-//Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
+//Route pour afficher la page de connexion
+Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
 
 // Route pour traiter la connexion
 //Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
