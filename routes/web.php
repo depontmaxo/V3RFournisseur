@@ -36,7 +36,6 @@ Route::GET('/connexionEmail',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
 
 
-
 Route::GET('/motPasseOublie',
 [UtilisateursController::class,'ShowMotPasseOublieForm'])->name('ShowMotPasseOublie');
 
@@ -113,9 +112,6 @@ Route::GET('/ficheUtilisateur/{utilisateur}/modifier',
 
 Route::PATCH('/ficheUtilisateur/{utilisateur}/modifier',
 [FournisseursController::class,'update'])->name('Fournisseur.appliqueModification');
-
-Route::GET('/index',
-[FournisseursController::class,'index'])->name('Fournisseur.index');
 
 Route::GET('/ficheUtilisateur/document/{id}/download',
 [DocumentController::class,'telechargerDocument'])->name('Document.download');

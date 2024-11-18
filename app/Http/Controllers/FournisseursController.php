@@ -19,7 +19,7 @@ class FournisseursController extends Controller
     /**
      * Index du site web.
      */
-    public function index()
+    public function index(Utilisateur $utilisateur)
     {
 
         //dd(auth()->user()->id);
@@ -32,7 +32,7 @@ class FournisseursController extends Controller
         //Seed pour voir si une page refresh
         $randomId = rand(2,9999999);
 
-        return View('pagePrincipale', compact('codeUNSPSCunite','randomId'));
+        return View('pagePrincipale', compact('codeUNSPSCunite','randomId', 'utilisateur'));
 
     }
 
