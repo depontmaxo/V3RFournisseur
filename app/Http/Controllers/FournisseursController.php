@@ -152,6 +152,7 @@ class FournisseursController extends Controller
 
     public function afficherStatut(Utilisateur $utilisateur)
     {
+        //$utilisateur = Utilisateur::where('id', $utilisateur->id)->firstOrFail();
         return View('statutDemande', compact('utilisateur'));
     }
 

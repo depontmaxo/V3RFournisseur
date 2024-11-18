@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="{{ asset('css/pagePrincipale.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fontStyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/statutDemande.css') }}">
@@ -34,7 +35,7 @@
                     <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
                     <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.fiche', [auth()->user()->id])}}"><i class="fa fa-id-card"></i> Ma fiche</a></li>
                     <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.statut', [auth()->user()->id])}}"><i class="fa fa-check-circle"></i> Statut demande</a></li>
-                    <li class="soustitre"><a class="no-style-link" href="https://www.v3r.net/nous-joindre"><i class="fa fa-headset"></i> Contact support</a></li>
+                    <li class="soustitre"><a class="no-style-link" href="https://www.v3r.net/nous-joindre"><i class="fa fa-headset"></i> Contacter support</a></li>
                 @endif
             </ul>
 
@@ -86,7 +87,7 @@
                         <div class="contact-info">
                             <p class="texte"><strong>Ville de Trois-Rivières</strong></p>
                             <p class="texte">1325, place de l'Hôtel-de-Ville, C.P. 368</p>
-                            <a class="texte no-color-link" href="https://www.google.ca/maps/place/H%C3%B4tel+de+ville/@46.3430042,-72.545511,17z/data=!4m12!1m6!3m5!1s0x41aa0c6a9ae1712b:0xc5f7bf52c7282858!2sH%C3%B4tel+de+ville!8m2!3d46.3430005!4d-72.5433223!3m4!1s0x41aa0c6a9ae1712b:0xc5f7bf52c7282858!8m2!3d46.3430005!4d-72.5433223">Trois-Rivières, QC G9A 5H3</p>
+                            <a class="texte no-color-link" href="https://www.google.ca/maps/place/H%C3%B4tel+de+ville/@46.3430042,-72.545511,17z/data=!4m12!1m6!3m5!1s0x41aa0c6a9ae1712b:0xc5f7bf52c7282858!2sH%C3%B4tel+de+ville!8m2!3d46.3430005!4d-72.5433223!3m4!1s0x41aa0c6a9ae1712b:0xc5f7bf52c7282858!8m2!3d46.3430005!4d-72.5433223">Trois-Rivières, QC G9A 5H3</a>
                             <p class="texte">Téléphone : 311 ou 819 374-2002</p>
                             <p class="texte">Canada ou États-Unis : 1 833 374-2002</p>
                             <p class="texte">Courriel : <a href="mailto:311@v3r.net">311@v3r.net</a></p>
