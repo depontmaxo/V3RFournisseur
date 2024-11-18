@@ -1,0 +1,121 @@
+/* Footer container to hold all the columns */
+.footer {
+    background-color: #f4f4f9; /* Same grey color */
+    color: #333;
+    padding: 20px 20px 10px; /* Reduced height */
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px; /* Space between footer and content above */
+}
+
+/* Main footer container for the 3 columns */
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    flex-wrap: wrap; /* Allow columns to stack on smaller screens */
+}
+
+/* Footer columns */
+.footer-column {
+    flex: 1;
+    padding: 10px;
+    margin: 0 10px;
+}
+
+/* Left Column - Contact Info and Logo */
+.left-column {
+    display: flex;
+    align-items: flex-start; /* Align items to the start of the column */
+}
+
+.left-column .logo img {
+    width: 100px; /* Adjust logo size */
+    height: auto;
+    margin-right: 20px; /* Space between logo and text */
+}
+
+.left-column .contact-info p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.left-column .contact-info p a {
+    color: #333;
+    text-decoration: none;
+}
+
+.left-column .contact-info p a:hover {
+    color: #3498db;
+}
+
+/* Center Column - Useful Links */
+.center-column{
+    display: flex;
+    justify-content: center;
+}
+
+.center-column ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+}
+
+.center-column ul li {
+    margin-bottom: 10px;
+}
+
+.center-column ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.center-column ul li a:hover {
+    color: #3498db;
+}
+
+.right-column{
+    display: flex;
+    justify-content: center;
+}
+
+/* Right Column - Copyright */
+.right-column p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Make the columns responsive */
+@media screen and (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-column {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .left-column, .center-column, .right-column {
+        margin: 20px 0;
+    }
+
+    .left-column {
+        align-items: center;
+        text-align: center;
+    }
+
+    .left-column .logo {
+        margin-bottom: 10px;
+    }
+
+    .left-column .contact-info {
+        text-align: center;
+    }
+
+}

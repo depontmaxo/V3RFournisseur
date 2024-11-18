@@ -43,9 +43,8 @@ class FournisseursController extends Controller
     {
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
-
-        //dd($utilisateur);
 
         $codes = DB::table('utilisateur_unspsc')
         ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
@@ -55,7 +54,7 @@ class FournisseursController extends Controller
     
         //dd($codes);
 
-        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','codes','codeUNSPSCunite'));
+        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','codes','codeUNSPSCunite', 'documents'));
     }
 
 
@@ -88,7 +87,6 @@ class FournisseursController extends Controller
             )
         );
 
-        session()->flash('previous_url', url()->previous());
 
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
@@ -150,6 +148,11 @@ class FournisseursController extends Controller
     public function support()
     {
         return View('support');
+    }
+
+    public function afficherStatut(Utilisateur $utilisateur)
+    {
+        return View('statutDemande', compact('utilisateur'));
     }
 
     public function recherche(Request $request)
