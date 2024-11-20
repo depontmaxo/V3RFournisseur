@@ -16,23 +16,17 @@ use App\Models\Document;
 
 class FournisseursController extends Controller
 {
+    protected $redirectTo = '/';
+
     /**
      * Index du site web.
      */
     public function index()
     {
-
-        //dd(auth()->user()->id);
-        //$codeUNSPSCnature = CodeUNSPSC::select('nature_contrat')->groupBy('nature_contrat')->get();
-
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
-
         //dd($codeUNSPSCunite);
 
-        //Seed pour voir si une page refresh
-        $randomId = rand(2,9999999);
-
-        return View('pagePrincipale', compact('codeUNSPSCunite','randomId'));
+        return View('pagePrincipale', compact('codeUNSPSCunite'));
 
     }
 

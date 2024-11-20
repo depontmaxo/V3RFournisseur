@@ -10,7 +10,9 @@ use App\Models\Coordonnees;
 use Illuminate\Support\Facades\Http;
 class ResponsablesController extends Controller
 {
-    public function listeFournisseur(Request $request)
+    protected $redirectTo = '/';
+
+    public function index(Request $request)
     {
         /*
             ///////////////////////////////Check API pour NEQ valid////////////////////////////////////////////////////////////////
@@ -40,10 +42,11 @@ class ResponsablesController extends Controller
         */
         
         $utilisateurs = Utilisateur::where('role', 'fournisseur')
-            ->where('statut', 'Actif')
-            ->get();
-        return View('responsable.listeFournisseur', compact('utilisateurs'));
+        ->where('statut', 'Actif')
+        ->get();
+        return View('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
     }
+
 
     /*
     Fonction: Recherche
@@ -51,6 +54,39 @@ class ResponsablesController extends Controller
         -Nom
         -Adresse
     */
+    public function recherche(Request $request)
+    {
+        //dd($request->adresse);
+
+        if($request->recherche == ""){
+            $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
+
+            return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
+        }
+
+        $recherche = $request->recherche;
+
+        $query = Utilisateur::query();
+
+        if($request->nom == "on"){
+            $query->where('role', 'fournisseur');
+            $query->whereAny(['nomFournisseur'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->adresse == "on"){
+            $query->where('role', 'fournisseur');
+            $query->whereAny(['adresse'], 'LIKE' , "%$recherche%");
+        }
+        else{
+            $query->where('role', 'fournisseur');
+            $query->whereAny(['nomFournisseur', 'adresse'], 'LIKE' , "%$recherche%");
+        }
+
+        $utilisateurs = $query->get();
+
+        return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
+
+    }
+
 
     public function voirListeInscription()
     {

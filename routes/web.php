@@ -15,7 +15,9 @@ require __DIR__.'/auth.php';
 
 
 Route::GET('/',
-[UtilisateursController::class,'index'])->name('page.Accueil')/*->middleware('role:admin,commis,responsable,fournisseur');*/;
+[UtilisateursController::class,'index'])->name('page.Accueil')/*->middleware('role:admin,commis,responsable');*/;
+Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
+
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {
@@ -28,8 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
 
 Route::GET('/connexionEmail',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
@@ -96,7 +96,7 @@ Route::POST('/envoyer',
 
 #################################Fournisseur#########################################
 Route::GET('/index',
-[FournisseursController::class,'index'])->name('Fournisseur.index');
+[FournisseursController::class,'index'])->name('Fournisseur.index')->middleware(CheckRole::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

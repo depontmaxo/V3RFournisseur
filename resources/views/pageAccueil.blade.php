@@ -77,6 +77,7 @@
     </style>
 </head>
 <body>
+
     <!-- Logo en haut à gauche entouré d'un carré blanc -->
     <div class="logo-container">
         <img src="{{ asset('images/v3r-logo-seul.svg') }}" alt="Logo V3R" width="80">
@@ -84,7 +85,7 @@
 
     <!-- Boutons en haut à droite -->
     <div class="top-right">
-        <a class="btn btn-custom" href="{{ route('Connexion.connexionEmail') }}">Se connecter</a>
+        <a class="btn btn-custom" href="{{ route('Connexion.pageConnexion') }}">Se connecter</a>
         <a class="btn btn-custom" href="{{ route('Inscription.Identification') }}">Inscription</a>
     </div>
 

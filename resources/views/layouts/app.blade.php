@@ -11,25 +11,26 @@
 
 
 <body>
-    @if (auth()->user() != null) 
+    @if (auth()->user() != null || auth()->guard('user')->user() != null) 
     <div class="header">
         <div class="side-nav">
             <!--<div class="user">
                 <img class="logo" src="../images/logoVilleTR.png" alt="logo-ville-TR">
             </div>-->
             <ul>
-            @if (Auth::user()->role == 'responsable')
-                <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil</a></li>
-                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}">Fournisseur actif</a></li>
-                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}">Demandes inscriptions</a></li>
-            @elseif (Auth::user()->role == 'commis')
-                <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil</a></li>
-                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}">Fournisseur actif</a></li>
-                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}">Demandes inscriptions</a></li>
-            @elseif (Auth::user()->role == 'fournisseur')
-                <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil</a></li>
+            @if (Auth::guard('web'))
+                <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil 66</a></li>
                 <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.fiche', [auth()->user()->id])}}">Ma fiche</a></li>
                 <li class="soustitre"><a class="no-style-link" href="{{route('support')}}">Contact support</a></li>
+            @elseif (Auth::guard('user') && Auth::guard('user')->user()->role == 'responsable')
+                <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil 234</a></li>
+                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}">Fournisseur actif</a></li>
+                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}">Demandes inscriptions</a></li>
+            @elseif (Auth::guard('user') && Auth::guard('user')->user()->role == 'commis')
+                <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}">Accueil 432</a></li>
+                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}">Fournisseur actif</a></li>
+                <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}">Demandes inscriptions</a></li>
+            @else
             @endif
             </ul>
 
@@ -49,10 +50,7 @@
     @else
         <p>Accès non authorisé</p>
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Redirige vers la route Laravel
-            window.location.href = "{{ route('Connexion.connexion') }}";
-        });
+            window.location.href = '{{ route("page.Accueil") }}'; // Redirect to a specific route
         </script>
     @endif
     
