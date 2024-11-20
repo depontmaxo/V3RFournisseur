@@ -4,9 +4,6 @@
   
 @section('contenu')
 <body>
-<?php
-    $nbFournisseur = 1;
-?>
     <h1>Votre fiche fournisseur - {{ $utilisateur->nom_entreprise }}</h1>
     @if (isset( $utilisateur))
         <div class="sections pt-3">Information de votre compte</div>
@@ -33,19 +30,29 @@
             <p><span class="soustitre-bold">Poste occupé: </span>{{ $contact->poste }}</p>
             <p><span class="soustitre-bold">Courriel: </span>{{ $contact->email_contact }}</p>
             <p><span class="soustitre-bold">Numéro rejoignable: </span>{{ $contact->num_contact }}</p>
+            <!--<i class="fa-solid fa-file-excel fa-4x"></i>
+            <i class="fa-solid fa-file-word fa-4x"></i>
+            <i class="fa-solid fa-file-image fa-4x"></i>-->
             
         @endforeach
+
+        @if (count($documents) != 0)
+            <div class="sections pt-3">Vos fichier(s) joint(s)</div>
+            @foreach ($documents as $index => $document)
+                <div class="">
+                    <a href="{{ route('Document.download', $document->id) }}" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-file fa-4x"></i>
+                        <p>{{ $document->file_name }}</p>
+                    </a>
+                </div>
+            @endforeach
+        @endif
+
+    <a href="{{route('Fournisseur.modification', [$utilisateur])}}" class="btn btn-success my-3">Modifier</a>
     @else
         <p>404 Erreur<p>
     @endif
-    <br>
-    <a href="{{route('Fournisseur.modification', $utilisateur->id)}}">Modifier sa fiche fournisseur</a>
-    <br>
-    @if ($utilisateur->statut == 'actif')
-    <a onclick="return confirm('Êtes-vous sûr de rendre votre compte inactif?')" href="{{ route('Fournisseur.inactif', $utilisateur->id) }}">Rendre le compte inactif</a>
-    @else
-    <a onclick="return confirm('Êtes-vous sûr de rendre votre compte actif?')" href="{{ route('Fournisseur.actif', $utilisateur->id) }}">Rendre le compte actif</a>
-    @endif
+
 
     <h2>Liste des codes UNSPSC</h2>
     <button class="btn btn-outline-primary" onclick="toggleDiv()">Ajouter un code UNSPSC</button>
@@ -104,6 +111,8 @@
     @endif
 
     <script src="{{ asset('js/unspscToggle.js') }}"></script>
+
+    
 </body>
 
 @endsection

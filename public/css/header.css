@@ -1,0 +1,105 @@
+.side-nav {
+    width: 300px;
+    height: 100vh; /* Ensure it takes up the full viewport height */
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 30px 15px;
+    background: rgba(99, 188, 85, 0.92);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: space-between;
+    z-index: 2;
+    transition: width 0.3s ease;
+    overflow-y: auto; /* Add scrolling for content that overflows */
+}
+
+.side-nav ul {
+    list-style: none;
+    padding: 0;
+    color: rgb(11, 35, 65);
+}
+
+.side-nav ul li {
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.side-nav ul li a {
+    white-space: nowrap;
+}
+
+/* Hide menu initially when collapsed */
+.side-nav.collapsed {
+    width: 0;
+}
+
+.side-nav.collapsed .menuList {
+    display: none;
+}
+
+/* Content area */
+.contenu {
+    margin-left: 300px;
+    padding: 30px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Mobile menu styling */
+.mobile-nav {
+    display: none; /* Hidden by default */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(99, 188, 85, 0.92);
+    backdrop-filter: blur(5px);
+    padding: 10px 0;
+}
+
+.mobile-nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav ul li {
+    margin: 0;
+}
+
+.no-style-link {
+    text-decoration: none;
+}
+
+.no-color-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.mobile-nav ul li a {
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+}
+
+/* Show the mobile-nav on small screens */
+@media (max-width: 768px) {
+    .side-nav {
+        display: none; /* Hide sidebar on mobile */
+    }
+
+    .mobile-nav {
+        display: block; /* Show horizontal menu at the bottom on mobile */
+    }
+
+    .contenu {
+        margin-left: 0; /* Full width content */
+    }
+}

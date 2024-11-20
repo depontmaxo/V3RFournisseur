@@ -1,0 +1,301 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+.dashboard-header {
+    background-color: #5cb85c;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.dashboard-header p {
+    font-size: 1.1rem;
+}
+
+/* Status Card */
+.status-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease;
+}
+
+.dashboard-container .status-card {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.status-card .status-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.status-card .status-header h2 {
+    font-size: 1.8rem;
+    color: #5cb85c; /* Vert pour le titre du statut */
+}
+
+.status-card .status-header p {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #5cb85c; /* Vert pour le statut */
+}
+
+.status-card .status-details p {
+    font-size: 1rem;
+    color: #555; /* Gris foncé pour les détails */
+}
+
+.status-card .btn {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.status-card .btn:hover {
+    background-color: #4cae4c;
+}
+
+.status-card .status-details a {
+    color: #5cb85c;
+    font-weight: bold;
+}
+
+/* Next Steps Section */
+.next-steps {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    animation: fadeInUp 1s ease;
+}
+
+.next-steps h3 {
+    font-size: 1.6rem;
+    color: #5cb85c;
+    margin-bottom: 15px;
+}
+
+.next-steps ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.next-steps ul li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.next-steps ul li::before {
+    content: "\f00c"; /* Font Awesome check icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 10px;
+    color: #5cb85c;
+}
+
+/* Actions Section */
+.actions {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    animation: fadeInUp 1s ease;
+}
+
+.actions h3 {
+    font-size: 1.6rem;
+    color: #5cb85c;
+    margin-bottom: 15px;
+}
+
+.actions ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.actions ul li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.actions ul li a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #5cb85c;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.actions ul li a:hover {
+    background-color: #4cae4c;
+}
+
+.actions ul li a::before {
+    content: "\f040"; /* Font Awesome edit icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 10px;
+}
+
+/* Resources Section */
+.resources {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    animation: fadeInUp 1s ease;
+}
+
+.resources h3 {
+    font-size: 1.6rem;
+    color: #5cb85c;
+    margin-bottom: 15px;
+}
+
+.resources ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.resources ul li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.resources ul li a {
+    color: #5cb85c;
+    text-decoration: none;
+}
+
+.resources ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Testimonials Section */
+.testimonials {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    animation: fadeInUp 1s ease;
+}
+
+.testimonials h3 {
+    font-size: 1.6rem;
+    color: #5cb85c;
+    margin-bottom: 15px;
+}
+
+.testimonials blockquote {
+    font-style: italic;
+    font-size: 1.2rem;
+    margin: 20px 0;
+    border-left: 5px solid #5cb85c;
+    padding-left: 20px;
+}
+
+.testimonials blockquote::before {
+    content: "\f10d"; /* Font Awesome quote icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 10px;
+    color: #5cb85c;
+}
+
+/* Header Image */
+.header-image {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 10px;
+    }
+
+    .status-card,
+    .next-steps,
+    .actions,
+    .resources,
+    .testimonials {
+        margin-bottom: 20px;
+    }
+
+    .status-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .status-details p {
+        font-size: 1rem;
+    }
+
+    .next-steps h3,
+    .actions h3,
+    .resources h3,
+    .testimonials h3 {
+        font-size: 1.3rem;
+    }
+}

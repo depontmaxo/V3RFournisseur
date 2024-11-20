@@ -9,6 +9,7 @@ use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\ClearSessionMiddleware;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DocumentController;
 
 
 require __DIR__.'/auth.php';
@@ -33,7 +34,6 @@ Route::middleware('auth')->group(function () {
 
 Route::GET('/connexionEmail',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
-
 
 
 Route::GET('/motPasseOublie',
@@ -104,14 +104,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::GET('/ficheUtilisateur/{utilisateur}/',
+Route::GET('/ficheUtilisateur/{utilisateur}',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
 
-Route::GET('/ficheUtilisateur/modifier/{utilisateur}/',
+Route::GET('/ficheUtilisateur/{utilisateur}/modifier',
 [FournisseursController::class,'edit'])->name('Fournisseur.modification');
 
-Route::PATCH('/ficheUtilisateur/modifier/{utilisateur}/',
+Route::PATCH('/ficheUtilisateur/{utilisateur}/modifier',
 [FournisseursController::class,'update'])->name('Fournisseur.appliqueModification');
+
+Route::GET('/ficheUtilisateur/document/{id}/download',
+[DocumentController::class,'telechargerDocument'])->name('Document.download');
+
+Route::GET('/ficheUtilisateur/{utilisateur}/statut',
+[FournisseursController::class,'afficherStatut'])->name('Fournisseur.statut');
 
 ##################################################################################
 

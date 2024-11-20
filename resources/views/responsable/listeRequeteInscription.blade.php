@@ -37,7 +37,7 @@
                 <?php
                 $test = 1;
                 ?>
-                @if (count($candidats))
+                @if (isset($candidats))
                     @foreach ($candidats as $candidat)
                     <tr>
                         <th>{{ $test++ }}</th>

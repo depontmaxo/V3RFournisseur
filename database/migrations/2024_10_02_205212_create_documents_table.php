@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('file_name');
             $table->integer('file_size');
             $table->string('file_type');
-            $table->binary('file_stream'); // Stockage en Filestream
+            $table->longText('file_stream');
             $table->timestamps();
         });
     }
