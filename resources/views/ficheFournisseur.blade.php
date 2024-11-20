@@ -4,7 +4,12 @@
   
 @section('contenu')
 <body>
+    @if (Auth::guard('web'))
     <h1>Votre fiche fournisseur - {{ $utilisateur->nom_entreprise }}</h1>
+    @else
+    <h1>La fiche du fournisseur - {{ $utilisateur->nom_entreprise }}</h1>
+    @endif
+
     @if (isset( $utilisateur))
         <div class="sections pt-3">Information de votre compte</div>
         <p><span class="soustitre-bold">NEQ: </span>{{ $utilisateur->neq }}</p>
