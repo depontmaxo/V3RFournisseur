@@ -43,10 +43,12 @@
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Ombre autour du formulaire */
     padding: 10px;
     font-size: 1rem;
+    color: white !important;
 }
 .form-control:focus {
     border-color: #d63384;
     box-shadow: none;
+    background-color: #0B2341;
 }
 
 .txtPop {

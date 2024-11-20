@@ -31,27 +31,11 @@ class FournisseursController extends Controller
     }
 
     /**
-     * Pas utiliser car il y a une vérification qui n'est pas compléter 16/09/2024
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Pas utiliser car il y a une vérification qui n'est pas compléter 16/09/2024
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Laisse le fournisseur voir les infomation de sa fiche
      */
     public function show(Utilisateur $utilisateur)
     {
-        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
 
@@ -74,31 +58,61 @@ class FournisseursController extends Controller
      */
     public function edit(Utilisateur $utilisateur)
     {
-        //
-        return View('modificationFicheFournisseur', compact('utilisateur'));
+        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
+        $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        return View('modificationFicheFournisseur', compact('utilisateur', 'contacts', 'coordonnees'));
     }
 
     /**
      * Updater le compte avec les nouvelles informations
      */
+
     public function update(Request $request, Utilisateur $utilisateur)
-    {
+    {    
+        $validated = $request->validate(
+            array_merge(
+                $this->reglesValidationsIdentification($utilisateur),
+                $this->reglesValidationsCoordonnees($utilisateur),
+                $this->reglesValidationsContacts($utilisateur)
+            ),
+            array_merge(
+                $this->messagesValidationIdentification(),
+                $this->messagesValidationCoordonnees(),
+                $this->messagesValidationContacts()
+            )
+        );
+
+        session()->flash('previous_url', url()->previous());
+
+        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
+        $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
 
         //Vérification modifs?
+        $utilisateur->nom_entreprise = $request->nom_entreprise;
         $utilisateur->neq = $request->neq;
         $utilisateur->email = $request->email;
-        $utilisateur->nomFournisseur = $request->nomFournisseur;
-        $utilisateur->adresse = $request->adresse;
-        $utilisateur->noTelephone = $request->noTelephone;
-        $utilisateur->personneRessource = $request->personneRessource;
-        $utilisateur->emailPersonneRessource = $request->emailPersonneRessource;
-        $utilisateur->licenceRBQ = $request->licenceRBQ;
-        $utilisateur->posteOccupeEntreprise = $request->posteOccupeEntreprise;
-        $utilisateur->siteWeb = $request->siteWeb;
-        $utilisateur->produitOuService = $request->produitOuService;
+        $utilisateur->rbq = $request->rbq;
 
+        $coordonnees->adresse = $request->adresse;
+        $coordonnees->bureau = $request->bureau;
+        $coordonnees->ville = $request->ville;
+        $coordonnees->province = $request->province;
+        $coordonnees->code_postal = $request->code_postal;
+        $coordonnees->pays = $request->pays;
+        $coordonnees->siteweb = $request->siteweb;
+        $coordonnees->num_telephone = $request->num_telephone;
+
+        foreach ($contacts as $index => $contact) {
+            $contact->prenom = $request->input("prenom.{$index}");
+            $contact->nom = $request->input("nom.{$index}");
+            $contact->poste = $request->input("poste.{$index}");
+            $contact->email_contact = $request->input("email_contact.{$index}");
+            $contact->num_contact = $request->input("num_contact.{$index}");
+            $contact->save();
+        }
         
         $utilisateur->save();
+        $coordonnees->save();
         return redirect()->route('Fournisseur.index')->with('message', "Modification de " . $utilisateur->nom . " réussi!");
     }
     /**
@@ -130,14 +144,6 @@ class FournisseursController extends Controller
     public function support()
     {
         return View('support');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Utilisateur $utilisateur)
-    {
-
     }
 
     public function recherche(Request $request)
@@ -182,7 +188,7 @@ class FournisseursController extends Controller
         //dd($request->code_unspsc_choisit);
 
         $selectedCodes = $request->code_unspsc_choisit;
-        $utilisateurId = auth()->id();
+        $utilisateurId = auth()->id;
 
         //dd($utilisateurId);
         //dd($selectedCodes);
@@ -217,6 +223,7 @@ class FournisseursController extends Controller
     }
 
 
+
     /*
     Debug pour les codes unspsc
         <!-- Debugging Section -->
@@ -226,5 +233,277 @@ class FournisseursController extends Controller
         @endforeach
     */
 
+
+
+    //RÈGLES VALIDATION POUR LES UPDATES
+    protected function reglesValidationsIdentification(Utilisateur $utilisateur)
+    {
+        return [
+            'nom_entreprise' => [
+                'required', 
+                'min:5', 
+                'max:75', 
+                'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', //Vérifie qu'il n'y a plusieurs espaces un après l'autre
+                'unique:utilisateur,nom_entreprise,' . $utilisateur->id
+            ],
+
+            'neq' => [
+                'required', 
+                #'digits:10', 
+                'integer', 
+                'unique:utilisateur,neq,' . $utilisateur->id
+            ],
+
+            'email' => [
+                'required', 
+                'min:5', 
+                'max:75', 
+                'regex:/^[^\s]*$/', 
+                'unique:utilisateur,email,' . $utilisateur->id
+            ],
+
+            /*'password' => [
+                'required', 
+                'min:3', 
+                'max:15', 
+                'confirmed',
+                'regex:/^[^\s]*$/' //Vérifie qu'il ne contient aucun espace dans le string
+                ]
+            'password' => [
+                'required', 
+                'min:8', 
+                'max:15', 
+                'regex:/[!@#$%^&*(),.?":{}|<>]/', // au moins un caractère spécial
+                'regex:/.*\d.*\d.*$/', // au moins deux chiffres
+                'confirmed',
+                'regex:/^[^\s]*$/' //Vérifie qu'il ne contient aucun espace dans le string
+                ]*/
+        ];
+    }
+    
+    protected function reglesValidationsCoordonnees(Utilisateur $utilisateur)
+    {
+        return [
+            'adresse' => [
+                'required', 
+                'regex:/^\d+\s+[A-Za-zÀ-ÿ0-9\s\-]+/', // Acceptation des lettres accentuées et des espaces
+                'min:5', 
+                'max:50'
+            ], 
+
+            'bureau' => [
+                'nullable', 
+                'regex:/^(?! )[A-Za-z0-9\s\-]+( [A-Za-z0-9\s\-]+)*(?<! )$/', // Acceptation des espaces et tirets
+                'max:15'
+            ], 
+
+            'ville' => [
+                'required', 
+                'regex:/^[A-Za-zÀ-ÿ0-9]+(?:[- ][A-Za-zÀ-ÿ0-9]+)*$/', // Acceptation des lettres accentuées
+                'min:3', 
+                'max:30'
+            ], 
+
+            'province' => [
+                'required', 
+                'min:3', 
+                'max:25', 
+                'regex:/^[A-Za-zÀ-ÿ0-9\s\-]*$/' // Acceptation des lettres accentuées, espaces et tirets
+            ], 
+
+            'code_postal' => [
+                'required', 
+                'regex:/^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/'
+            ],
+
+            'pays' => [
+                'required', 
+                'regex:/^[A-Za-zÀ-ÿ0-9\s\-]*$/', // Acceptation des lettres accentuées, espaces et tirets
+                'min:3', 
+                'max:35'
+            ],
+
+            'siteweb' => [
+                'nullable', 
+                'url'
+            ],
+
+            'num_telephone' => [
+                'required', 
+                'digits:10', 
+                'integer'
+            ],
+        ];
+    }
+
+    protected function reglesValidationsContacts(Utilisateur $utilisateur)
+    {
+        return [
+            'prenom.*' => [
+                'required', 
+                'regex:/^[^\s]*$/', 
+                'min:3', 
+                'max:20'
+            ],
+
+            'nom.*' => [
+                'required', 
+                'regex:/^[^\s]*$/', 
+                'min:3', 
+                'max:50'
+            ],
+
+            'poste.*' => [
+                'required', 
+                'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 
+                'min:3', 
+                'max:30'
+            ],
+
+            'email_contact.*' => [
+                'required', 
+                'min:5', 
+                'max:75', 
+                'regex:/^[^\s]*$/',
+                'unique:contacts,email_contact,' . $utilisateur->id. ',utilisateur_id' //cette logique permet que 2 utilisateurs utilise le meme email, mais il ne peuvent pas avoir le email d'un contact avec un utilisateur différent
+            ],
+
+            'num_contact.*' => [
+                'required', 
+                'digits:10', 
+                'integer'
+            ],
+        ];
+    }
+
+    /*protected function reglesValidationsRBQ()
+    {
+        return [
+            'rbq' => [
+                'nullable'
+            ],
+
+            'documents' => [
+                'required', 
+                'array'
+            ],
+
+            'documents.*' => [
+                'file', 
+                'mimes:docx,doc,pdf,jpg,jpeg,xls,xlsx', 
+                'max:75000'
+            ],
+        ];
+    }*/
+
+    //==============Messages personnalisés==============
+    protected function messagesValidationIdentification()
+    {
+        return [
+            'nom_entreprise.required' => 'Ce champ est obligatoire',
+            'nom_entreprise.min' => 'Le champ entreprise doit contenir au moins :min caractères.',
+            'nom_entreprise.max' => 'Le champ entreprise ne peut pas dépasser :max caractères.',
+            'nom_entreprise.regex' => 'Le champ entreprise ne doit pas contenir d\'espaces consécutifs.',
+            'nom_entreprise.unique' => 'Ce nom d\'entreprise est déjà utilisé',
+    
+            'neq.required' => 'Ce champ est obligatoire',
+            'neq.digits' => 'Le champ neq doit contenir exactement :digits chiffres.',
+            'neq.integer' => 'Le champ neq doit contenir uniquement des chiffres entiers.',
+            'neq.unique' => 'Ce code NEQ est déjà utilisé',
+    
+            'email.required' => 'Ce champ est obligatoire',
+            'email.min' => 'Le champ courriel doit contenir au moins :min caractères.',
+            'email.max' => 'Le champ courriel ne peut pas dépasser :max caractères.',
+            'email.regex' => 'Le champ courriel ne doit pas contenir d\'espaces.',
+            'email.unique' => 'Ce courriel est déjà utilisé',
+    
+            /*'password.required' => 'Ce champ est obligatoire',
+            'password.min' => 'Le mot de passe doit contenir au moins :min caractères.',
+            'password.max' => 'Le mot de passe ne peut pas dépasser :max caractères.',
+            'password.confirmed' => 'Les mots de passe ne correspondent pas.',
+            'password.regex' => 'Le mot de passe ne doit pas contenir d\'espaces.',*/
+        ];
+    }
+
+    protected function messagesValidationCoordonnees()
+    {
+        return [
+            'adresse.required' => 'Ce champ est obligatoire.',
+            'adresse.regex' => 'Le format de l\'adresse est invalide.',
+            'adresse.min' => 'L\'adresse doit contenir au moins :min caractères.',
+            'adresse.max' => 'L\'adresse ne peut pas dépasser :max caractères.',
+    
+            'bureau.regex' => 'Le format du bureau est invalide.',
+            'bureau.max' => 'Le bureau ne peut pas dépasser :max caractères.',
+    
+            'ville.required' => 'Ce champ est obligatoire.',
+            'ville.regex' => 'Le format de la ville est invalide.',
+            'ville.min' => 'La ville doit contenir au moins :min caractères.',
+            'ville.max' => 'La ville ne peut pas dépasser :max caractères.',
+    
+            'province.required' => 'Ce champ est obligatoire.',
+            'province.min' => 'La province doit contenir au moins :min caractères.',
+            'province.max' => 'La province ne peut pas dépasser :max caractères.',
+            'province.regex' => 'Le format de la province est invalide.',
+    
+            'code_postal.required' => 'Ce champ est obligatoire.',
+            'code_postal.regex' => 'Le format du code postal est invalide.',
+    
+            'pays.required' => 'Ce champ est obligatoire.',
+            'pays.regex' => 'Le format du pays est invalide.',
+            'pays.min' => 'Le pays doit contenir au moins :min caractères.',
+            'pays.max' => 'Le pays ne peut pas dépasser :max caractères.',
+    
+            'siteweb.url' => 'Le champ site doit être une URL valide.',
+    
+            'num_telephone.required' => 'Ce champ est obligatoire.',
+            'num_telephone.digits' => 'Le numéro de téléphone doit contenir exactement :digits chiffres.',
+            'num_telephone.integer' => 'Le numéro de téléphone doit être un entier.',
+        ];
+    }
+
+    protected function messagesValidationContacts()
+    {
+        return [
+            'prenom.*.required' => 'Ce champ est obligatoire.',
+            'prenom.*.regex' => 'Le prénom ne doit pas contenir d\'espaces.',
+            'prenom.*.min' => 'Le prénom doit contenir au moins :min caractères.',
+            'prenom.*.max' => 'Le prénom ne peut pas dépasser :max caractères.',
+    
+            'nom.*.required' => 'Ce champ est obligatoire.',
+            'nom.*.regex' => 'Le nom ne doit pas contenir d\'espaces.',
+            'nom.*.min' => 'Le nom doit contenir au moins :min caractères.',
+            'nom.*.max' => 'Le nom ne peut pas dépasser :max caractères.',
+    
+            'poste.*.required' => 'Ce champ est obligatoire.',
+            'poste.*.regex' => 'Le format du poste est invalide.',
+            'poste.*.min' => 'Le poste doit contenir au moins :min caractères.',
+            'poste.*.max' => 'Le poste ne peut pas dépasser :max caractères.',
+    
+            'email_contact.*.required' => 'Ce champ est obligatoire.',
+            'email_contact.*.min' => 'Le courriel doit contenir au moins :min caractères.',
+            'email_contact.*.max' => 'Le courriel ne peut pas dépasser :max caractères.',
+            'email_contact.*.regex' => 'Le courriel ne doit pas contenir d\'espaces.',
+            'email_contact.*.unique' => 'Ce courriel est déjà utilisé',
+    
+            'num_contact.*.required' => 'Ce champ est obligatoire.',
+            'num_contact.*.digits' => 'Le numéro de contact doit contenir exactement :digits chiffres.',
+            'num_contact.*.integer' => 'Le numéro de contact doit être un entier.',
+        ];
+    }
+
+    protected function messagesValidationRBQ()
+    {
+        return [
+            'rbq.nullable' => 'Le champ RBQ est facultatif.',
+            
+            /*'documents.required' => 'Veuillez fournir au moins 1 document pour prouver l\'existence de votre entreprise.',
+            'documents.array' => 'Les documents doivent être un tableau.',
+    
+            'documents.*.file' => 'Chaque document doit être un fichier valide.',
+            'documents.*.mimes' => 'Chaque document doit être de type :values.',
+            'documents.*.max' => 'Chaque document ne peut pas dépasser :max Ko.',*/
+        ];
+    }
     
 }
