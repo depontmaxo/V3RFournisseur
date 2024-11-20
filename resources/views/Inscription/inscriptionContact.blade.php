@@ -60,7 +60,6 @@
 
         <button type="button" onclick="addContact off()">Ajouter un autre contact</button>
         <button type="button" onclick="removeContact off()">Retirer un contact</button>
-        <button type="button" onclick="info off()">Voire info fournit</button>
 
         <div class="row d-flex justify-content-center">
             <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.Coordonnees') }}">Précédent</a>

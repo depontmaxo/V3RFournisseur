@@ -227,10 +227,35 @@ class InscriptionController extends Controller
             ],
 
             'neq' => [
-                'required', 
+                /*'required', 
                 'digits:10', 
                 'integer', 
-                'unique:utilisateur,neq'
+                'unique:utilisateur,neq',
+                'regex:/^(11|22|33|88)\d{8}$/', // Validation du début et des chiffres sans espaces
+                'regex:/^(11|22|33|88)\s?\d{2}(\s?\d{2}){4}$/', // Validation avec espaces entre les groupes
+                'regex:/^\s*(11|22|33|88)\s*\d{10}\s*$/', // Validation avec espaces avant et aprè<s></s>*/
+
+                'required', // La valeur est obligatoire.
+                'string',   // La valeur doit être une chaîne de caractères.
+                'unique:utilisateur,neq',
+                
+                function ($attribute, $value, $fail) {
+                    // Suppression des espaces pour valider le contenu réel
+                    $cleanedValue = preg_replace('/\s+/', '', $value);
+        
+                    // Vérification : le champ est-il bien de 10 chiffres, commence-t-il par 11, 22, 33 ou 88 ?
+                    if (!preg_match('/^(11|22|33|88)\d{8}$/', $cleanedValue)) {
+                        if (!preg_match('/^\d+$/', $cleanedValue)) {
+                            $fail('Le champ NEQ ne doit contenir que des caractères numériques.');
+                        } elseif (strlen($cleanedValue) !== 10) {
+                            $fail('Le champ NEQ doit être composé exactement de 10 caractères numériques.');
+                        } elseif (!preg_match('/^(11|22|33|88)/', $cleanedValue)) {
+                            $fail('Le champ NEQ doit commencer par 11, 22, 33 ou 88.');
+                        } else {
+                            $fail('Le champ NEQ n’est pas conforme.');
+                        }
+                    }
+                },
             ],
 
             'courrielConnexion' => [
@@ -397,9 +422,13 @@ class InscriptionController extends Controller
             'entreprise.unique' => 'Ce nom d\'entreprise est déjà utilisé',
     
             'neq.required' => 'Ce champ est obligatoire',
-            'neq.digits' => 'Le champ neq doit contenir exactement :digits chiffres.',
-            'neq.integer' => 'Le champ neq doit contenir uniquement des chiffres entiers.',
             'neq.unique' => 'Ce code NEQ est déjà utilisé',
+            'neq.regex' => 'Le code NEQ doit être composé de 10 caractères numériques et commencer par 11, 22, 33 ou 88.',
+            'neq.numeric' => 'Le code NEQ ne doit contenir que des chiffres.',
+            'neq.invalid_format' => 'Le code NEQ n’est pas valide. Assurez-vous qu’il est au bon format et sans caractères spéciaux.',
+            'neq.no_spaces' => 'Le code NEQ ne doit pas contenir d’espaces inutiles.',
+            'neq.invalid_prefix' => 'Le code NEQ doit commencer par 11, 22, 33 ou 88.',
+            'neq.length' => 'Le code NEQ doit être exactement composé de 10 caractères.',
     
             'courrielConnexion.required' => 'Ce champ est obligatoire',
             'courrielConnexion.min' => 'Le champ courriel doit contenir au moins :min caractères.',
