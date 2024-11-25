@@ -119,6 +119,15 @@ Route::GET('/ficheUtilisateur/document/{id}/download',
 Route::GET('/ficheUtilisateur/{utilisateur}/statut',
 [FournisseursController::class,'afficherStatut'])->name('Fournisseur.statut');
 
+Route::GET('/unspsc/recherche',
+[FournisseursController::class,'recherche'])->name('Fournisseurs.recherche');
+
+Route::GET('/unspsc/choisit',
+[FournisseursController::class,'choisit'])->name('Fournisseurs.choisit');
+
+Route::DELETE('/unspsc/supprimer',
+[FournisseursController::class, 'supprimerCodeUnspsc'])->name('Fournisseurs.supprimer');
+
 ##################################################################################
 
 
@@ -142,7 +151,7 @@ Route::GET('/refuser/{candidat}/',
 
 //Faire la recherche de fournisseur et candidat
 Route::GET('/responsable/rechercheFournisseur',
-[ResponsablesController::class,'rechercheFournisseur'])->name('Responsable.rechercheFournisseur')->middleware(CheckRole::class.':responsable');
+[ResponsablesController::class,'rechercheFournisseur'])->name('Responsable.rechercheFournisseur');
 
 Route::GET('/responsable/rechercheCandidat',
 [ResponsablesController::class,'rechercheCandidat'])->name('Responsable.rechercheCandidat')->middleware(CheckRole::class.':responsable');
@@ -153,11 +162,6 @@ Route::GET('/reponsableIndex',
 Route::GET('/responsable/recherche',
 [ResponsablesController::class,'recherche'])->name('Responsable.recherche');
 
-Route::GET('/index/unspsc/recherche',
-[FournisseursController::class,'recherche'])->name('Fournisseurs.recherche')->middleware(CheckRole::class.':responsable');
-
-Route::GET('/index/unspsc/choisit',
-[FournisseursController::class,'choisit'])->name('Fournisseurs.choisit')->middleware(CheckRole::class.':responsable');
 
 //Liste fournisseur et inscription
 Route::GET('/responsable/listeInscription',

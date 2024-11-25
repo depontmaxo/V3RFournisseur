@@ -23,11 +23,10 @@ class FournisseursController extends Controller
      */
     public function index(Utilisateur $utilisateur)
     {
-        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
         //dd($codeUNSPSCunite);
 
         return View('pagePrincipale', compact('codeUNSPSCunite'));
-
     }
 
     /**
@@ -35,17 +34,16 @@ class FournisseursController extends Controller
      */
     public function show(Utilisateur $utilisateur)
     {
-        //dd($utilisateur);
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
-        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
 
         $codes = DB::table('utilisateur_unspsc')
-        ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
-        ->where('utilisateur_unspsc.utilisateur_id', $utilisateur->id)
-        ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.desc_det_unspsc') // Select the needed fields
-        ->get();
+            ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+            ->where('utilisateur_unspsc.utilisateur_id',  $utilisateur->id)
+            ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
+            ->get();
     
         //dd($codes);
 
@@ -123,8 +121,23 @@ class FournisseursController extends Controller
         // Ajouter une confirmation email pour la désactivation/supression du compte
         $utilisateur->statut = 'Inactif';
         $utilisateur->save();
-        return View('pagePrincipale')->with('message', "Votre compte est rendu inactif");
+        
+        /*Reprence ce qu'il y a dans la page du fournisseur*/
+        $utilisateur = Utilisateur::where( 'id', $utilisateur->id)->first();
+        $contacts = Contacts::where('utilisateur_id',  $utilisateur->id)->get();
+        $coordonnees = Coordonnees::where('utilisateur_id',  $utilisateur->id)->firstOrFail();
+        $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')
+            ->orderBy('code_unspsc', 'asc')
+            ->paginate(10);
 
+            $codes = DB::table('utilisateur_unspsc')
+            ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+            ->where('utilisateur_unspsc.utilisateur_id',  $utilisateur->id)
+            ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
+            ->get();
+
+        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents'))->with('message', "Votre compte est rendu inactif");
     }
 
     public function actif(Utilisateur $utilisateur)
@@ -133,7 +146,24 @@ class FournisseursController extends Controller
         // Ajouter une confirmation email pour la désactivation/supression du compte
         $utilisateur->statut = 'Actif';
         $utilisateur->save();
-        return View('pagePrincipale')->with('message', "Votre compte est rendu actif");
+        
+        /*Reprence ce qu'il y a dans la page du fournisseur*/
+        $utilisateur = Utilisateur::where( 'id', $utilisateur->id)->first();
+        $contacts = Contacts::where('utilisateur_id',  $utilisateur->id)->get();
+        $coordonnees = Coordonnees::where('utilisateur_id',  $utilisateur->id)->firstOrFail();
+        $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')
+            ->orderBy('code_unspsc', 'asc')
+            ->paginate(10);
+
+        $codes = DB::table('utilisateur_unspsc')
+            ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+            ->where('utilisateur_unspsc.utilisateur_id',  $utilisateur->id)
+            ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
+            ->get();
+        
+
+        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents'))->with('message', "Votre compte est rendu actif");
 
     }
 
@@ -155,11 +185,25 @@ class FournisseursController extends Controller
     {
 
         if($request->recherche == ""){
-            $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')
+            $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')
             ->orderBy('code_unspsc', 'asc')
             ->paginate(10);
 
-            return view('pagePrincipale', compact('codeUNSPSCunite'));
+            /*Reprence ce qu'il y a dans la page du fournisseur*/
+            $utilisateurId = $request->fiche_utilisateur_id;
+
+            $coordonnees = Coordonnees::where('utilisateur_id', $request->fiche_utilisateur_id)->firstOrFail();
+            $utilisateur = Utilisateur::where( 'id', $request->fiche_utilisateur_id)->first();
+            $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
+            $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
+
+            $codes = DB::table('utilisateur_unspsc')
+                ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+                ->where('utilisateur_unspsc.utilisateur_id',  $request->fiche_utilisateur_id)
+                ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
+                ->get();
+
+            return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents','codeUNSPSCunite'));
         }
 
         $recherche = $request->recherche;
@@ -175,15 +219,28 @@ class FournisseursController extends Controller
         else if($request->desc_det_unspsc == "on"){
             $query->whereAny(['desc_det_unspsc'], 'LIKE' , "%$recherche%");
         }
+        else if($request->desc_cat == "on"){
+            $query->whereAny(['desc_cat'], 'LIKE' , "%$recherche%");
+        }
         else{
-            $query->whereAny(['code_unspsc', 'desc_det_unspsc', 'nature_contrat'], 'LIKE' , "%$recherche%");
+            $query->whereAny(['code_unspsc', 'desc_det_unspsc', 'nature_contrat' ,'desc_cat'], 'LIKE' , "%$recherche%");
         }
 
         $codeUNSPSCunite = $query->paginate(10);
 
+        /*Reprence ce qu'il y a dans la page du fournisseur*/
+        $utilisateur = Utilisateur::where( 'id', $request->fiche_utilisateur_id)->first();
+        $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
+        $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
+        $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
 
-        return view('pagePrincipale', compact('codeUNSPSCunite'));
+        $codes = DB::table('utilisateur_unspsc')
+            ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+            ->where('utilisateur_unspsc.utilisateur_id',  $request->fiche_utilisateur_id)
+            ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
+            ->get();
 
+        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents'));
     }
 
     
@@ -225,22 +282,32 @@ class FournisseursController extends Controller
         $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
-        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
         
-        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')
-            ->orderBy('code_unspsc', 'asc')
-            ->paginate(10);
-
         $codes = DB::table('utilisateur_unspsc')
             ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
             ->where('utilisateur_unspsc.utilisateur_id',  $request->fiche_utilisateur_id)
-            ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.desc_det_unspsc') // Select the needed fields
+            ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
             ->get();
+
 
         return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents'));
     }
 
+    public function supprimerCodeUnspsc(Request $request)
+    {
+        $unspscId = $request->unspsc_id;
+        $utilisateurId = $request->utilisateur_id;
 
+        if ($unspscId && $utilisateurId) {
+            DB::table('utilisateur_unspsc')
+                ->where('unspsc_id', $unspscId)
+                ->where('utilisateur_id', $utilisateurId)
+                ->delete();
+        }
+
+        return redirect()->back()->with('success', 'Code UNSPSC supprimé avec succès.');
+    }
 
     /*
     Debug pour les codes unspsc

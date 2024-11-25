@@ -71,34 +71,39 @@
         <!-- Caché par défaut -->
         <div class="rechercheUNSPSC hidden">
             <!-- Search Form -->
-            <form method="get" action="/index/unspsc/recherche" style="display: display-flex;">
+            <form method="get" action="/unspsc/recherche" style="display: display-flex;">
                 @csrf
                 <label for="nature_contrat">Nature :</label>
                 <input type="checkbox" id="nature_contrat" name="nature_contrat" {{ request()->has('nature_contrat') ? 'checked' : '' }} />
                 
+                <label for="desc_cat">Catégorie :</label>
+                <input type="checkbox" id="desc_cat" name="desc_cat" {{ request()->has('desc_cat') ? 'checked' : '' }} />
+
                 <label for="code_unspsc">Code UNSPSC :</label>
                 <input type="checkbox" id="code_unspsc" name="code_unspsc" {{ request()->has('code_unspsc') ? 'checked' : '' }} />
                 
                 <label for="desc_det_unspsc">Description :</label>
                 <input type="checkbox" id="desc_det_unspsc" name="desc_det_unspsc" {{ request()->has('desc_det_unspsc') ? 'checked' : '' }} />
 
+                <input type="hidden" name="fiche_utilisateur_id" value="{{ $utilisateur->id }}">
+
                 <input type="text" placeholder="Rechercher" id="recherche" name="recherche" value="{{ request('recherche') }}" />
                 <button class="btn btn-primary no-border-button" type="submit">Rechercher</button>
             </form>
 
             <!-- Selection Form -->
-            <form method="get" action="/index/unspsc/choisit" style="display: display-flex;">
+            <form method="get" action="/unspsc/choisit" style="display: display-flex;">
                 @csrf
-                <p>Nature / Code UNSPSC / Description</p>
+                <p>Nature / Catégorie / Code UNSPSC / Description</p>
 
                 <!-- Display the List of UNSPSC Codes with Their Selection State Preserved -->
-                @foreach ($codeUNSPSCunite as $unscpsc)
+                @foreach ($codeUNSPSCunite as $unspsc)
                     <div class="decisionUNSPSC">
                         <input type="checkbox" 
-                            id="code_unspsc_choisit_{{ $unscpsc->code_unspsc }}" 
+                            id="code_unspsc_choisit_{{ $unspsc->code_unspsc }}" 
                             name="code_unspsc_choisit[]" 
-                            value="{{ $unscpsc->code_unspsc }}"> 
-                        <p class="pUNSPSC">{{ $unscpsc->nature_contrat }} / {{ $unscpsc->code_unspsc }} / {{ $unscpsc->desc_det_unspsc }}</p>
+                            value="{{ $unspsc->code_unspsc }}"> 
+                        <p class="pUNSPSC">{{ $unspsc->nature_contrat }} / {{ $unspsc->desc_cat }} / {{ $unspsc->code_unspsc }} / {{ $unspsc->desc_det_unspsc }}</p>
                     </div>
                 @endforeach
 
@@ -115,9 +120,22 @@
 
         @if ($codes && $codes->count() > 0)
             <ul>
-            @foreach ($codes as $code)
-                <li class="UNSPSC_list">{{ $code->unspsc_id }} - {{ $code->desc_det_unspsc }}</li>
-            @endforeach
+                @foreach ($codes as $code)
+                    <li class="UNSPSC_list">
+                        {{ $code->nature_contrat }} / {{ $code->desc_cat }} / {{ $code->unspsc_id }} / {{ $code->desc_det_unspsc }}
+                        
+                        <!-- Remove Code Form -->
+                        <form action="{{ route('Fournisseurs.supprimer') }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="unspsc_id" value="{{ $code->unspsc_id }}">
+                            <input type="hidden" name="utilisateur_id" value="{{ $utilisateur->id }}">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce code ?')">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </li>
+                @endforeach
             </ul>
         @else
             <p>Il n'y a pas de codes associés</p>

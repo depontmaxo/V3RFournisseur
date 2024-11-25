@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Utilisateur;
 use App\Models\User;
 use App\Models\Contacts;
@@ -44,7 +45,23 @@ class ResponsablesController extends Controller
 
         $utilisateurs = Utilisateur::where('role', 'fournisseur')
         ->where('statut', 'Actif')
+        ->with('coordonnees')
         ->get();
+
+        foreach ($utilisateurs as $utilisateur) {
+            $mostCommonCategory = DB::table('utilisateur_unspsc')
+                ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+                ->select('code_unspsc.desc_cat', DB::raw('COUNT(code_unspsc.desc_cat) as count'))
+                ->where('utilisateur_unspsc.utilisateur_id', $utilisateur->id)
+                ->groupBy('code_unspsc.desc_cat')
+                ->orderByDesc('count')
+                ->first();
+        
+            $utilisateur->most_common_category = $mostCommonCategory;
+        }
+
+        //dd($utilisateur);
+
         return View('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
     }
 
@@ -70,15 +87,15 @@ class ResponsablesController extends Controller
         $query = Utilisateur::query();
 
         if($request->nom == "on"){
-            $query->where('role', 'fournisseur');
             $query->whereAny(['nomFournisseur'], 'LIKE' , "%$recherche%");
         }
         else if($request->adresse == "on"){
-            $query->where('role', 'fournisseur');
             $query->whereAny(['adresse'], 'LIKE' , "%$recherche%");
         }
+        else if($request->categorie == "on"){
+            $query->whereAny(['categorie'], 'LIKE' , "%$recherche%");
+        }
         else{
-            $query->where('role', 'fournisseur');
             $query->whereAny(['nomFournisseur', 'adresse'], 'LIKE' , "%$recherche%");
         }
 
@@ -130,7 +147,7 @@ class ResponsablesController extends Controller
             ->where('statut', 'Actif')
             ->get();
 
-            return view('responsable.listeFournisseur', compact('utilisateurs'));
+            return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
         }
 
         $recherche = $request->recherche;
@@ -160,7 +177,7 @@ class ResponsablesController extends Controller
 
         $utilisateurs = $query->get();
 
-        return view('responsable.listeFournisseur', compact('utilisateurs'));
+        return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
 
     }
 

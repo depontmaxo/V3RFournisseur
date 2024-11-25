@@ -26,12 +26,15 @@
 
         <div class="container-fluid">
             <table class="table">
+                <!-- Rechercher, trier et sélectionner des fiches de fournisseurs par ville, région, produits et services -->
                 <thead>
                     <tr>
                     <th scope="col">#</th>
                     <th scope="col">Entreprise</th>
-                    <th scope="col">NEQ</th>
                     <th scope="col">Courriel</th>
+                    <th scope="col">Ville</th>
+                    <th scope="col">Province</th>
+                    <th scope="col">Catégorie de production</th>
                     <th scope="col">Visualiser</th>
                     </tr>
                 </thead>
@@ -44,8 +47,10 @@
                         <tr>
                             <th>{{ $test++ }}</th>
                             <td>{{ $utilisateur->nom_entreprise }}</td>
-                            <td>{{ $utilisateur->neq }}</td>
                             <td>{{ $utilisateur->email }}</td>
+                            <td>{{ $utilisateur->coordonnees->ville ?? 'N/A' }}</td></td>
+                            <td>{{ $utilisateur->coordonnees->province ?? 'N/A' }}</td></td>
+                            <td>{{ $utilisateur->most_common_category->desc_cat ?? 'N/A' }}</td></td>
                             <td><a href="{{ route('Fournisseur.fiche', [$utilisateur]) }}">Ouvrir</a></td>
                         </tr>
                         
