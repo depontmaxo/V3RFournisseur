@@ -19,9 +19,9 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">  
             <h1>Modifier fiche fournisseur</h1>
                 @if ($utilisateur->statut == 'Actif')
-                    <a onclick="return confirm('Êtes-vous sûr de rendre votre compte inactif?')" href="{{ route('Fournisseur.inactif', $utilisateur->id) }}" style="position:absolute; right:0;" class="btn btn-danger mx-3">Rendre compte inactif</a>
+                    <a onclick="return confirm('Êtes-vous sûr de rendre le compte inactif?')" href="{{ route('Fournisseur.inactif', $utilisateur->id) }}" style="position:absolute; right:0;" class="btn btn-danger mx-3">Rendre compte inactif</a>
                 @elseif ($utilisateur->statut == 'Inactif')
-                    <a onclick="return confirm('Êtes-vous sûr de rendre votre compte actif?')" href="{{ route('Fournisseur.actif', $utilisateur->id) }}" style="position:absolute; right:0;" class="btn btn-success mx-3">Rendre compte actif</a>
+                    <a onclick="return confirm('Êtes-vous sûr de rendre le compte actif?')" href="{{ route('Fournisseur.actif', $utilisateur->id) }}" style="position:absolute; right:0;" class="btn btn-success mx-3">Rendre compte actif</a>
                 @endif
             </div>
         @endif

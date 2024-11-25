@@ -89,6 +89,10 @@
     text-decoration: none;
 }
 
+.message{
+    text-align: center;
+}
+
 /* Show the mobile-nav on small screens */
 @media (max-width: 768px) {
     .side-nav {

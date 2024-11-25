@@ -20,6 +20,14 @@
 
 <body>
     @if (auth()->user() != null || auth()->guard('user')->user() != null) 
+
+    
+    @if(session('message'))
+        <div class="alert alert-success message">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <div class="header">
         <!-- Sidebar Menu (default for large screens) -->
         <div class="side-nav" id="sideNav">

@@ -20,7 +20,7 @@
             <p><span class="soustitre-bold">Licence RBQ: </span>{{ $utilisateur->rbq }}</p>
             <p><span class="soustitre-bold">Services et/ou produits offerts: </span>informations à venir</p>
             <p><span class="soustitre-bold">Statut de votre demande d'inscription: </span>{{ $utilisateur->statut }}</p>
-
+    
             <div class="sections pt-3">Coordonnées de votre entreprise</div>
             <p><span class="soustitre-bold">Adresse: </span>{{ $coordonnees->adresse }}</p>
             <p><span class="soustitre-bold">Bureau/suite: </span>{{ $coordonnees->bureau }}</p>
@@ -106,6 +106,8 @@
                 <div class="d-flex justify-content-between custom-pagination">
                     {{ $codeUNSPSCunite->withQueryString()->links('pagination::bootstrap-4') }}
                 </div>
+
+                <input type="hidden" name="fiche_utilisateur_id" value="{{ $utilisateur->id }}">
 
                 <button class="btn btn-primary no-border-button" type="submit">Complété sélection de mes codes UNSPSC</button>
             </form>

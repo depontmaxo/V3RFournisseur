@@ -35,6 +35,7 @@ class FournisseursController extends Controller
      */
     public function show(Utilisateur $utilisateur)
     {
+        //dd($utilisateur);
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
@@ -111,7 +112,7 @@ class FournisseursController extends Controller
         
         $utilisateur->save();
         $coordonnees->save();
-        return redirect()->route('Fournisseur.index')->with('message', "Modification de " . $utilisateur->nom . " réussi!");
+        return redirect()->route('Fournisseur.fiche', [$utilisateur])->with('message', "Modification de " . $utilisateur->nom . " réussi!");
     }
     /**
      * Rendre le compte inactif.
@@ -188,12 +189,12 @@ class FournisseursController extends Controller
     
     public function choisit(Request $request)
     {
+        
         //dd($request->code_unspsc_choisit);
-        //dd($request->code_unspsc_choisit);
-
+        //dd($request->fiche_utilisateur_id);
+        
         $selectedCodes = $request->code_unspsc_choisit;
-        $utilisateurId = auth()->id;
-
+        $utilisateurId = $request->fiche_utilisateur_id;
         //dd($utilisateurId);
         //dd($selectedCodes);
         
@@ -218,12 +219,25 @@ class FournisseursController extends Controller
                 }
             }
         }
+
+        /*Reprence ce qu'il y a dans la page du fournisseur*/
+        $utilisateur = Utilisateur::where( 'id', $request->fiche_utilisateur_id)->first();
+        $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
+        $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
+        $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
+        $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
         
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'code_unspsc', 'desc_det_unspsc')
             ->orderBy('code_unspsc', 'asc')
             ->paginate(10);
-    
-        return view('pagePrincipale', compact('codeUNSPSCunite'));
+
+        $codes = DB::table('utilisateur_unspsc')
+            ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+            ->where('utilisateur_unspsc.utilisateur_id',  $request->fiche_utilisateur_id)
+            ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.desc_det_unspsc') // Select the needed fields
+            ->get();
+
+        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents'));
     }
 
 
