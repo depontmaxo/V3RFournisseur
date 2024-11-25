@@ -128,6 +128,13 @@ Route::GET('/unspsc/choisit',
 Route::DELETE('/unspsc/supprimer',
 [FournisseursController::class, 'supprimerCodeUnspsc'])->name('Fournisseurs.supprimer');
 
+Route::GET('/ficheUtilisateur/{utilisateur}/nouveau_contact',
+[FournisseursController::class,'nouveauContact'])->name('Fournisseur.nouveauContact');
+
+Route::POST('/ficheUtilisateur/{utilisateur}/nouveau_contact/save', 
+[FournisseursController::class, 'nouveauContactUpdate'])->name('Fournisseur.nouveauContactUpdate');
+
+
 ##################################################################################
 
 

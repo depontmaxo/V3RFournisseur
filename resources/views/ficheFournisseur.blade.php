@@ -59,6 +59,9 @@
             @endif
 
             @if (Auth::guard('web')->check() || (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable'))
+            <a href="{{route('Fournisseur.nouveauContact', [$utilisateur])}}" class="btn btn-success my-3">Ajouter contact</a>
+
+            <div class="sections pt-3">Modification de la fiche</div>
             <a href="{{route('Fournisseur.modification', [$utilisateur])}}" class="btn btn-success my-3">Modifier</a>
             @endif
 

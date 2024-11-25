@@ -318,9 +318,43 @@ class FournisseursController extends Controller
         @endforeach
     */
 
+    public function nouveauContact(Utilisateur $utilisateur)
+    {
+        return view('nouveauContact', compact('utilisateur'));
+    }
 
+    public function nouveauContactUpdate(Request $request, Utilisateur $utilisateur)
+    {
+        $validated = $request->validate([
+            'prenom' => 'required|string|max:255',
+            'nom' => 'required|string|max:255',
+            'poste' => 'nullable|string|max:255',
+            'email_contact' => 'required|email|max:255',
+            'num_contact' => 'nullable|string|max:20',
+        ]);
+    
+        try {
+            // Create new contact
+            $contact = new Contacts();
+            $contact->prenom = ucfirst($validated['prenom']);
+            $contact->nom = ucfirst($validated['nom']);
+            $contact->poste = $validated['poste'];
+            $contact->email_contact = $validated['email_contact'];
+            $contact->num_contact = $validated['num_contact'];
+            $contact->utilisateur_id = $utilisateur->id;
+            $contact->save();
+    
+            return redirect()->route('Fournisseur.fiche', ['utilisateur' => $utilisateur->id])
+                             ->with('success', 'Contact ajouté avec succès!');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return back()->withErrors(['error' => 'Une erreur est survenue.']);
+        }
+    }
 
-    //RÈGLES VALIDATION POUR LES UPDATES
+    //////////////////////////////////////
+    //RÈGLES VALIDATION POUR LES UPDATES//
+    //////////////////////////////////////
     protected function reglesValidationsIdentification(Utilisateur $utilisateur)
     {
         return [
