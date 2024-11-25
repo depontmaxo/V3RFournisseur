@@ -76,12 +76,16 @@ class UtilisateursController extends Controller
     }
 
     public function logout(Request $request) {
-        Auth::logout();
+        Auth::guard('user')->logout();
+        Auth::guard('web')->logout();
         return redirect()->route('Connexion.pageConnexion');
     }
 
-
     public function ShowMotPasseOublieForm(){
         return view('MotPasseOublie');
+    }
+
+    public function RefusAccess(){
+        return view('RefusAccess');
     }
 }

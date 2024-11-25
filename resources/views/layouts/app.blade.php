@@ -29,14 +29,13 @@
                     <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.fiche', [auth()->user()->id])}}"><i class="fa fa-id-card"></i> Ma fiche</a></li>
                     <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.statut', [auth()->user()->id])}}"><i class="fa fa-check-circle"></i> Statut demande</a></li>
                     <li class="soustitre"><a class="no-style-link" href="https://www.v3r.net/nous-joindre"><i class="fa fa-headset"></i> Contacter support</a></li>
-                @elseif (Auth::guard('user') && Auth::guard('user')->user()->role == 'responsable')
+                @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable')
                     <li class="soustitre"><a class="no-style-link" href="{{ route('Responsable.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
                     <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i> Fournisseur actif</a></li>
                     <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i> Demandes inscriptions</a></li>
-                @elseif (Auth::guard('user') && Auth::guard('user')->user()->role == 'commis')
+                @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'commis')
                     <li class="soustitre"><a class="no-style-link" href="{{ route('Responsable.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
                     <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i> Fournisseur actif</a></li>
-                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i> Demandes inscriptions</a></li>
                 @endif
             </ul>
 
@@ -55,14 +54,13 @@
                     <li><a class="no-style-link" href="{{route('Fournisseur.fiche', [auth()->user()->id])}}"><i class="fa fa-id-card"></i></a></li>
                     <li><a class="no-style-link" href="{{route('Fournisseur.statut', [auth()->user()->id])}}"><i class="fa fa-check-circle"></i></a></li>
                     <li><a class="no-style-link" href="https://www.v3r.net/nous-joindre"><i class="fa fa-headset"></i></a></li>
-                @elseif (Auth::guard('user') && Auth::guard('user')->user()->role == 'responsable')
+                @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable')
                     <li><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i></a></li>
                     <li><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i></a></li>
                     <li><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i></a></li>
-                @elseif (Auth::guard('user') && Auth::guard('user')->user()->role == 'commis')
+                @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'commis')
                     <li><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i></a></li>
                     <li><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i></a></li>
-                    <li><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i></a></li>
                 @endif
                 <li><a class="no-style-link" href="{{ route('logout.link')}}"><i class="fa fa-sign-out-alt"></i></a></li>
             </ul>

@@ -195,6 +195,11 @@ Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('
 // Route pour traiter la connexion
 Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
 
+######################REFUS ACCESS##########################################################
+
+// Route pour traiter la connexion
+Route::get('/RefusAccess', [UtilisateursController::class, 'RefusAccess'])->name('RefusAccess');
+
 #######################EMAIL#################################################################################
 
 // Route pour afficher le formulaire de récupération de mot de passe (GET)

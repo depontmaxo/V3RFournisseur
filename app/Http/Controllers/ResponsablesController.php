@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Utilisateur;
+use App\Models\User;
 use App\Models\Contacts;
 use App\Models\Coordonnees;
 use Illuminate\Support\Facades\Http;
@@ -40,7 +41,7 @@ class ResponsablesController extends Controller
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         */
-        
+
         $utilisateurs = Utilisateur::where('role', 'fournisseur')
         ->where('statut', 'Actif')
         ->get();
