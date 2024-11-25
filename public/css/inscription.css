@@ -26,9 +26,6 @@
     src: url('../fonts/Poppins-Bold.ttf') format('truetype');
 }
 
-
-
-
 .titre{
     background-color:rgb(99, 188, 85);
     font-family: 'AlumniSans-Medium';
@@ -38,10 +35,6 @@
 label{
     font-family: 'Poppins-Medium';
     font-size: 12pt;
-}
-
-input {
-    height: 10%;
 }
 
 .sousTitres{
@@ -55,41 +48,92 @@ input {
     padding: 10px;
 }
 
+/* Style global */
 body {
     background-color: #0B2341;
-    color: #ffffff; /* Pour que le texte reste lisible */
+    margin: 0;
+    padding-top: 100px; /* Ajustez cette valeur pour tenir compte de la hauteur du header */
+    font-family: 'AlumniSans-ExtraBold', sans-serif;
+}
+
+/* Logo dans le coin supérieur gauche */
+.logo-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+/* Boutons dans le coin supérieur droit */
+.top-right {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 9999;
+}
+
+/* Centrage du texte dans la page */
+.header-center {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'TT Hoves Light', sans-serif;
+    color: #0B2341;
+    z-index: 9999;
 }
 
 
-body {
+/* Positionnement du contenu principal pour qu'il ne se superpose pas avec le header et footer */
+.contenu {
+    padding-top: 100px; /* Commence après le header */
+}
+
+/* Message de bienvenue */
+.welcome-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: white;
+    text-align: center;
+}
+
+/* Styles des boutons personnalisés */
+.btn-custom {
     background-color: #0B2341;
-    color: #ffffff; /* Pour que le texte reste lisible */
+    color: white;
+    font-family: 'TT Hoves Light', sans-serif;
+    border: none;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: 2px solid white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.test{
-    margin-top: 5%;
-    padding-top: 80px;
-    padding-bottom: 80px;
-    /*border: solid 1px lightgray;*/
+.btn-custom:hover {
+    background-color: #78C6E0;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
 }
 
-/*
-.a{
-    font-family: 'AlumniSans-Medium';
-}
 
-.b{
-    font-family: 'AlumniSans-ExtraBold';
+.login-box {
+    background-color: #0B2341; /* Couleur de fond mise à jour */
+    padding: 10px;
+    border:2px solid #0B2341;
+    border-radius: 0;
+    box-shadow:  0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
 }
-
-.c{
-    font-family: 'Poppins-Light';
-}
-
-.d{
-    font-family: 'Poppins-Medium';
-}
-
-.e{
-    font-family: 'Poppins-Bold';
-}*/

@@ -18,15 +18,65 @@
                        <span class="sousTitres">Coordonnées</span>
 
                        <div class="mb-3 row">
+                            <!-- N° Civique -->
+                            <div class="col-12 col-md-4 mb-2">
+                                <label for="Ncivique" class="form-label">N° Civique</label>
+                                <input type="text" class="form-control" id="Ncivique" placeholder="123 Street" name="Ncivique" value="{{ old('Ncivique', session('user_data.Ncivique', '')) }}">
+                                
+                                <!-- Erreur N° Civique -->
+                                @error('Ncivique')
+                                    <div class="alert alert-danger d-flex align-items-center mt-2">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <!-- Rue -->
+                            <div class="col-12 col-md-4 mb-2">
+                                <label for="rue" class="form-label">Rue :</label>
+                                <input type="text" class="form-control" id="rue" placeholder="123 Street" name="rue" value="{{ old('rue', session('user_data.rue', '')) }}">
+                                
+                                <!-- Erreur Rue -->
+                                @error('rue')
+                                    <div class="alert alert-danger d-flex align-items-center mt-2">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+                            
+                            <!-- Bureau -->
+                            <div class="col-12 col-md-4 mb-2">
+                                <label for="bureau" class="form-label">Bureau :</label>
+                                <input type="text" class="form-control" id="bureau" placeholder="Optionnel" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
+                                
+                                <!-- Erreur Bureau -->
+                                @error('bureau')
+                                    <div class="alert alert-danger d-flex align-items-center mt-2">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <!-- Erreurs -->
+                            @error('adresse')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!--<div class="mb-3 row">
                            <label for="adresse" class="col-3" >Adresse :</label>
                            <input type="text" class="col-9" id="adresse" placeholder="123 Street" name="adresse" value="{{ old('adresse', session('user_data.adresse', '')) }}">
-                       
                        
                            @error('adresse')
                                <div class="alert alert-danger">{{ $message }}</div>
                            @enderror
-                        </div>
+                        </div>-->
 
+
+                        <!--Bureau
                        <div class="mb-3 row">
                            <label for="bureau" class="col-3" >Bureau : </label>
                            <input type="text" class="col-9" id="bureau" placeholder="Optionnel" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
@@ -34,7 +84,7 @@
                            @error('bureau')
                                <div class="alert alert-danger">{{ $message }}</div>
                            @enderror
-                        </div>
+                        </div>-->
 
                        <div class="mb-3 row">
                            <label for="ville" class="col-3" >Ville :</label>

@@ -14,8 +14,8 @@
                         <p class="col-12 text-center my-3 titre">Brochures et cartes d'affaires</p>
                         <span class="sousTitres">Licence(s)</span>
                         <div class="mb-3 row">
-                            <label for="rbq" class="col-3">Licence(s) RBQ valide(s) :</label>
-                            <input type="text" class="col-9" id="rbq" placeholder="truc rbq" name="rbq" value="{{ old('rbq', session('user_data.rbq')) }}">
+                            <label for="rbq" class="col-3">Licence(s) RBQ valide(s) (optionnel):</label>
+                            <input type="text" class="col-9" id="rbq" placeholder="####-####-##" name="rbq" value="{{ old('rbq', session('user_data.rbq')) }}">
                         
                             @error('rbq')
                                 <div class="alert alert-danger">{{ $message }}</div>

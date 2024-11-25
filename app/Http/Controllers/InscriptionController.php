@@ -227,15 +227,8 @@ class InscriptionController extends Controller
             ],
 
             'neq' => [
-                /*'required', 
-                'digits:10', 
-                'integer', 
-                'unique:utilisateur,neq',
-                'regex:/^(11|22|33|88)\d{8}$/', // Validation du début et des chiffres sans espaces
-                'regex:/^(11|22|33|88)\s?\d{2}(\s?\d{2}){4}$/', // Validation avec espaces entre les groupes
-                'regex:/^\s*(11|22|33|88)\s*\d{10}\s*$/', // Validation avec espaces avant et aprè<s></s>*/
-
-                'required', // La valeur est obligatoire.
+                'nullable',
+                'required_without:courrielConnexion', // La valeur est obligatoire.
                 'string',   // La valeur doit être une chaîne de caractères.
                 'unique:utilisateur,neq',
                 
@@ -259,29 +252,32 @@ class InscriptionController extends Controller
             ],
 
             'courrielConnexion' => [
-                'required', 
-                'min:5', 
-                'max:75', 
-                'regex:/^[^\s]*$/', 
+                'nullable',
+                'required_without:neq',
+                'email',
+                'max:64', 
+                'regex:/^[^\s\-\.](?!.*\.\.)(?!.*--)(?!.*\.\-|-\.).*[^-\.\s]$/u', // Empêche doubles points, tirets mal placés
+                'regex:/^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$/', // S'assure que le courriel a une extension valide
+                'regex:/^[^-@]+@[^-@]+$/', // Empêche un tiret juste avant ou après le @
                 'unique:utilisateur,email'
             ],
 
-            'password' => [
+            /*'password' => [
                 'required', 
                 'min:3', 
                 'max:15', 
                 'confirmed',
                 'regex:/^[^\s]*$/' //Vérifie qu'il ne contient aucun espace dans le string
-                ]
-            /*'password' => [
+                ]*/
+            'password' => [
                 'required', 
-                'min:8', 
-                'max:15', 
-                'regex:/[!@#$%^&*(),.?":{}|<>]/', // au moins un caractère spécial
-                'regex:/.*\d.*\d.*$/', // au moins deux chiffres
+                'string',
+                'min:7', 
+                'max:12', 
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{7,12}$/',
                 'confirmed',
                 'regex:/^[^\s]*$/' //Vérifie qu'il ne contient aucun espace dans le string
-                ]*/
+                ]
         ];
     }
 
@@ -299,17 +295,22 @@ class InscriptionController extends Controller
     protected function reglesValidationsCoordonnees()
     {
         return [
-            'adresse' => [
-                'required', 
-                'regex:/^\d+\s+[A-Za-zÀ-ÿ0-9\s\-]+/', // Acceptation des lettres accentuées et des espaces
-                'min:5', 
-                'max:50'
+            'Ncivique' => [
+                'required',
+                'max:8',
+                'regex:/^[a-zA-Z0-9]+$/', // Alphanumérique (lettres et chiffres uniquement)
+            ], 
+
+            'rue' => [
+                'required',
+                'max:64',
+                'regex:/^[a-zA-Z0-9\s\-.,;:!()&]*$/', // Alphanumérique et certains caractères spéciaux
             ], 
 
             'bureau' => [
                 'nullable', 
                 'regex:/^(?! )[A-Za-z0-9\s\-]+( [A-Za-z0-9\s\-]+)*(?<! )$/', // Acceptation des espaces et tirets
-                'max:15'
+                'max:8'
             ], 
 
             'ville' => [
@@ -395,7 +396,8 @@ class InscriptionController extends Controller
     {
         return [
             'rbq' => [
-                'nullable'
+                'nullable',
+                'digits:10',
             ],
 
             'documents' => [
@@ -415,14 +417,14 @@ class InscriptionController extends Controller
     protected function messagesValidationIdentification()
     {
         return [
-            'entreprise.required' => 'Ce champ est obligatoire',
+            'entreprise.required' => 'Ce champ est obligatoire.',
             'entreprise.min' => 'Le champ entreprise doit contenir au moins :min caractères.',
             'entreprise.max' => 'Le champ entreprise ne peut pas dépasser :max caractères.',
             'entreprise.regex' => 'Le champ entreprise ne doit pas contenir d\'espaces consécutifs.',
-            'entreprise.unique' => 'Ce nom d\'entreprise est déjà utilisé',
+            'entreprise.unique' => 'Ce nom d\'entreprise est déjà utilisé.',
     
-            'neq.required' => 'Ce champ est obligatoire',
-            'neq.unique' => 'Ce code NEQ est déjà utilisé',
+            'neq.required_without' => 'Le champ NEQ est obligatoire si le champ courriel n\'est pas renseigné.',
+            'neq.unique' => 'Ce code NEQ est déjà utilisé.',
             'neq.regex' => 'Le code NEQ doit être composé de 10 caractères numériques et commencer par 11, 22, 33 ou 88.',
             'neq.numeric' => 'Le code NEQ ne doit contenir que des chiffres.',
             'neq.invalid_format' => 'Le code NEQ n’est pas valide. Assurez-vous qu’il est au bon format et sans caractères spéciaux.',
@@ -430,17 +432,17 @@ class InscriptionController extends Controller
             'neq.invalid_prefix' => 'Le code NEQ doit commencer par 11, 22, 33 ou 88.',
             'neq.length' => 'Le code NEQ doit être exactement composé de 10 caractères.',
     
-            'courrielConnexion.required' => 'Ce champ est obligatoire',
-            'courrielConnexion.min' => 'Le champ courriel doit contenir au moins :min caractères.',
-            'courrielConnexion.max' => 'Le champ courriel ne peut pas dépasser :max caractères.',
-            'courrielConnexion.regex' => 'Le champ courriel ne doit pas contenir d\'espaces.',
-            'courrielConnexion.unique' => 'Ce courriel est déjà utilisé',
+            'courrielConnexion.required_without' => 'L’adresse courriel est obligatoire si le champ NEQ n\'est pas renseigné.',
+            'courrielConnexion.email' => 'L’adresse courriel est invalide. Assurez-vous qu’elle respecte les règles.',
+            'courrielConnexion.max' => 'L’adresse courriel ne peut pas dépasser :max caractères.',
+            'courrielConnexion.regex' => 'L’adresse courriel est invalide. Assurez-vous qu’elle respecte les règles.',
+            'courrielConnexion.unique' => 'L’adresse courriel est déjà utilisé.',
     
-            'password.required' => 'Ce champ est obligatoire',
+            'password.required' => 'Ce champ est obligatoire.',
             'password.min' => 'Le mot de passe doit contenir au moins :min caractères.',
             'password.max' => 'Le mot de passe ne peut pas dépasser :max caractères.',
             'password.confirmed' => 'Les mots de passe ne correspondent pas.',
-            'password.regex' => 'Le mot de passe ne doit pas contenir d\'espaces.',
+            'password.regex' => 'Le mot de passe n’est pas valide.',
         ];
     }
 
@@ -455,10 +457,13 @@ class InscriptionController extends Controller
     protected function messagesValidationCoordonnees()
     {
         return [
-            'adresse.required' => 'Ce champ est obligatoire.',
-            'adresse.regex' => 'Le format de l\'adresse est invalide.',
-            'adresse.min' => 'L\'adresse doit contenir au moins :min caractères.',
-            'adresse.max' => 'L\'adresse ne peut pas dépasser :max caractères.',
+            'rue.required' => 'Le nom de la est obligatoire.',
+            'rue.max' => 'Le nom de la rue ne peut pas dépasser 64 caractères.',
+            'rue.regex' => 'Le nom de la rue peut contenir uniquement des lettres, des chiffres, des espaces et certains caractères spéciaux (comme - . , ; : ! () &).',
+
+            'Ncivique.required' => 'Le numéro civique est obligatoire.',
+            'Ncivique.max' => 'Le numéro civique ne peut pas dépasser 8 caractères.',
+            'Ncivique.regex' => 'Le numéro civique doit contenir uniquement des lettres et des chiffres.',
     
             'bureau.regex' => 'Le format du bureau est invalide.',
             'bureau.max' => 'Le bureau ne peut pas dépasser :max caractères.',
@@ -522,7 +527,7 @@ class InscriptionController extends Controller
     protected function messagesValidationRBQ()
     {
         return [
-            'rbq.nullable' => 'Le champ RBQ est facultatif.',
+            'rbq.digits' => 'La licence RBQ doit contenir exactement 10 chiffres.',
             
             'documents.required' => 'Veuillez fournir au moins 1 document pour prouver l\'existence de votre entreprise.',
             'documents.array' => 'Les documents doivent être un tableau.',
