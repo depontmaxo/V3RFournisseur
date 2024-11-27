@@ -10,6 +10,8 @@ use App\Models\Coordonnees;
 use App\Models\Contacts;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\welcomeUserMail;
+
 
 class InscriptionController extends Controller
 {
