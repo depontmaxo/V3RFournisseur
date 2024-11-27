@@ -26,22 +26,31 @@
     src: url('../fonts/Poppins-Bold.ttf') format('truetype');
 }
 
-
-
+.critere{
+    font-family: 'Poppins-Light';
+    font-size: 12pt;
+}
 
 .titre{
-    background-color:rgb(99, 188, 85);
     font-family: 'AlumniSans-Medium';
     font-size: 21pt;
+
 }
+
+.bg-titre{
+    background-color:rgb(99, 188, 85);
+    position:relative;
+    top:0;
+    height:70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 label{
     font-family: 'Poppins-Medium';
     font-size: 12pt;
-}
-
-input {
-    height: 10%;
 }
 
 .sousTitres{
@@ -55,41 +64,185 @@ input {
     padding: 10px;
 }
 
+/* Style global */
 body {
     background-color: #0B2341;
-    color: #ffffff; /* Pour que le texte reste lisible */
+    margin: 0;
+    padding-top: 100px; /* Ajustez cette valeur pour tenir compte de la hauteur du header */
+    font-family: 'AlumniSans-ExtraBold', sans-serif;
 }
 
+/* Logo dans le coin supérieur gauche */
+.logo-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
 
-body {
+/* Boutons dans le coin supérieur droit */
+.top-right {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 9999;
+}
+
+/* Positionnement du contenu principal pour qu'il ne se superpose pas avec le header et footer */
+.contenu {
+    padding-top: 50px; /* Commence après le header */
+    width: 80%;
+}
+
+/* Message de bienvenue */
+.welcome-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: white;
+    text-align: center;
+}
+
+/* Styles des boutons personnalisés */
+.btn-custom {
     background-color: #0B2341;
-    color: #ffffff; /* Pour que le texte reste lisible */
+    color: white;
+    font-family: 'TT Hoves Light', sans-serif;
+    border: none;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: 2px solid white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.test{
-    margin-top: 5%;
-    padding-top: 80px;
-    padding-bottom: 80px;
-    /*border: solid 1px lightgray;*/
+.btn-custom:hover {
+    background-color: #78C6E0;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
 }
 
-/*
-.a{
-    font-family: 'AlumniSans-Medium';
+
+.login-box {
+    background-color: #0B2341; /* Couleur de fond mise à jour */
+    padding: 10px;
+    border:2px solid #0B2341;
+    border-radius: 0;
+    box-shadow:  0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
 }
 
-.b{
-    font-family: 'AlumniSans-ExtraBold';
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.c{
-    font-family: 'Poppins-Light';
+.form-box{
+    color:white;
+    background-color: #0B2341; /* Couleur de fond mise à jour */
+    padding:0;
+    border:1px solid black;
+    border-radius: 1;
+    box-shadow:  0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
 }
 
-.d{
-    font-family: 'Poppins-Medium';
+.txtPop {
+    font-family:'Poppins-Light', 'sans-serif';
+    color:white;
 }
 
-.e{
-    font-family: 'Poppins-Bold';
-}*/
+/* Style des champs de saisie */
+.form-control {
+    background-color: #0B2341;
+    border-radius: 0;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Ombre autour du formulaire */
+    padding: 10px;
+    font-size: 1rem;
+    color: white !important;
+}
+.form-control:focus {
+    border-color: #d63384;
+    box-shadow: none;
+    background-color: #0B2341;
+}
+
+.form{
+    padding: 10px;
+}
+
+/* Tooltip Container */
+.custom-tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%; /* Position the tooltip above the icon */
+    left: 50%; /* Center the tooltip horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background for the tooltip */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Ensure it appears above other elements */
+    white-space: nowrap; /* Prevent text wrapping */
+    font-size: 0.9rem; /* Adjust font size */
+    text-align: left; /* Align text */
+}
+
+.custom-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 100%; /* Place the arrow at the bottom of the tooltip */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px; /* Adjust arrow size */
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; /* Arrow color */
+}
+
+/* Tooltip List */
+.custom-tooltip ul {
+    margin: 0;
+    padding: 0;
+    list-style: disc;
+}
+
+.custom-tooltip ul li {
+    margin-left: 20px;
+}
+
+/* Info Icon */
+.info-icon {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Tooltip Placement */
+.info-icon:hover + .custom-tooltip {
+    display: block;
+    top: 20px; /* Adjust positioning relative to the info icon */
+    left: 10px;
+    position: absolute;
+}
+
+
+@media (max-width: 480px) { /* Smartphones */
+    .critere {
+        font-size: 8pt;
+    }
+}

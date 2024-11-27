@@ -1,106 +1,172 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>@yield("title", "Inscription")</title>
-        <link rel="stylesheet" href="{{ asset('css/inscription.css') }}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    </head>
-    <body>
+@extends('layouts.inscriptionLayout')
+ 
+@section('titre', 'Coordonnées')
+
+@section('contenu')
+<body>
+    <div class="container form-box">
+        <div class="bg-titre">
+            <div class="titre">Coordonnées de votre entreprise</div>
+        </div>
+
+        <div class="form">
             <form method="post" action="{{ route('Inscription.verificationCoordonnees') }}">
                 @csrf
                 <div class="container-fluid">
-                    <!--Si on a le temps, essaye de le faire recherche sur google map pour autoremplir infos-->
+                    <span class="sousTitres">Emplacement de l'entreprise</span>
 
-                    <p class="col-12 text-center my-3 titre">Coordonnées de votre entreprise</p>
-                       
-                       <span class="sousTitres">Coordonnées</span>
+                    <div class="mb-3 row" style="position:relative;">
+                        <div class="col-12 col-md-4 mb-2">
+                            <label for="Ncivique" class="form-label txtPop"><span class="text-danger">* </span>N° Civique :</label>
+                            <input type="text" class="form-control" id="Ncivique" placeholder="123" name="Ncivique" value="{{ old('Ncivique', session('user_data.Ncivique', '')) }}">
 
-                       <div class="mb-3 row">
-                           <label for="adresse" class="col-3" >Adresse :</label>
-                           <input type="text" class="col-9" id="adresse" placeholder="123 Street" name="adresse" value="{{ old('adresse', session('user_data.adresse', '')) }}">
-                       
-                       
-                           @error('adresse')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
+                            @error('Ncivique')
+                                <div class="text-danger d-flex align-items-center mt-2">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
 
-                       <div class="mb-3 row">
-                           <label for="bureau" class="col-3" >Bureau : </label>
-                           <input type="text" class="col-9" id="bureau" placeholder="Optionnel" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
-                       
-                           @error('bureau')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
+                        <div class="col-12 col-md-4 mb-2">
+                            <label for="rue" class="form-label txtPop"><span class="text-danger">* </span>Rue :</label>
+                            <input type="text" class="form-control" id="rue" placeholder="Street" name="rue" value="{{ old('rue', session('user_data.rue', '')) }}">
+                            
+
+                            @error('rue')
+                                <div class="text-danger d-flex align-items-center mt-2">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
 
-                       <div class="mb-3 row">
-                           <label for="ville" class="col-3" >Ville :</label>
-                           <input type="text" class="col-9" id="ville" placeholder="Trois-Rivières" name="ville" value="{{ old('ville', session('user_data.ville')) }}">
-                       
-                           @error('ville')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
+
+                        <div class="col-12 col-md-4 mb-2" style="position:relative;">
+                            <label for="bureau" class="form-label txtPop">Bureau :</label>
+                            <input type="text" class="form-control" id="bureau" placeholder="Optionnel" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
+                            
+
+                            @error('bureau')
+                                <div class="text-danger d-flex align-items-center mt-2">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
 
-                       <div class="mb-3 row">
-                           <label for="province" class="col-3" >Province :</label>
-                           <input type="text" class="col-9" id="province" placeholder="Québec" name="province" value="{{ old('province', session('user_data.province')) }}">
-                       
-                           @error('province')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
+                    </div>
 
-                       <div class="mb-3 row">
-                           <label for="codePostal" class="col-3" >Code postal :</label>
-                           <input type="text" class="col-9" id="codePostal" placeholder="A1A 1A1" name="codePostal" value="{{ old('codePostal', session('user_data.codePostal')) }}">
+                    <div class="mb-3" style="position:relative;">
+                        <label for="pays" class="form-label txtPop"><span class="text-danger">* </span>Pays :</label>
+                        <input type="text" class="form-control" id="pays" placeholder="Canada" name="pays" value="{{ old('pays', session('user_data.pays')) }}">
                        
-                           @error('codePostal')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
+                        @error('pays')
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+        
 
-                       <div class="mb-3 row">
-                           <label for="pays" class="col-3" >Pays :</label>
-                           <input type="text" class="col-9" id="pays" placeholder="Canada" name="pays" value="{{ old('pays', session('user_data.pays')) }}">
+                    <div class="mb-3" style="position:relative;">
+                        <label for="ville" class="form-label txtPop" ><span class="text-danger">* </span>Ville :</label>
+                        <input type="text" class="form-control" id="ville" placeholder="Trois-Rivières" name="ville" value="{{ old('ville', session('user_data.ville')) }}">
                        
-                           @error('pays')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
-                       
-                       <span class="sousTitres">Autres</span>
-                       <div class="mb-3 row">
-                           <label for="site" class="col-3" >Site web :</label>
-                           <input type="text" class="col-9" id="site" placeholder="Optionnel" name="site" value="{{ old('site', session('user_data.site')) }}">
-                       
-                           @error('site')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
+                        @error('ville')
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
 
-                       <div class="mb-3 row">
-                           <label for="numTel" class="col-3">Numéro de téléphone :</label>
-                           <input type="text" class="col-9" id="numTel" placeholder="(819)123-4567" name="numTel" value="{{ old('numTel', session('user_data.numTel')) }}">
+                    <div class="mb-3" style="position:relative;">
+                        <label for="province" class="form-label txtPop" ><span class="text-danger">* </span>Province :</label>
+                        <input type="text" class="form-control" id="province" placeholder="Québec" name="province" value="{{ old('province', session('user_data.province')) }}">
+                       
+                        @error('province')
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3" style="position:relative;">
+                        <label for="codePostal" class="form-label txtPop" ><span class="text-danger">* </span>Code postal 
+                            <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
+                                <i class="fa-sharp fa-regular fa-circle-question"></i>
+                            </span> :
+                        </label>
+                        <div class="custom-tooltip">
+                            <ul class="critere">
+                                <li>Obligatoire.</li>
+                                <li>Doit contenir entre 7 et 12 caractères.</li>
+                                <li>Doit inclure au moins</li>
+                            </ul>
+                        </div>
+                        <input type="text" class="form-control" id="codePostal" placeholder="A1A 1A1" name="codePostal" value="{{ old('codePostal', session('user_data.codePostal')) }}">
+                       
+                        @error('codePostal')
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <span class="sousTitres">Autres</span>
+                       <div class="mb-3" style="position:relative;">
+                           <label for="numTel" class="form-label txtPop"><span class="text-danger">* </span>Numéro de téléphone :</label>
+                           <input type="text" class="form-control" id="numTel" placeholder="(819)123-4567" name="numTel" value="{{ old('numTel', session('user_data.numTel')) }}">
                            
                            @error('numTel')
-                               <div class="alert alert-danger">{{ $message }}</div>
+                               <div class="text-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                               </div>
                            @enderror
                        
                        </div>
 
+                       <div class="mb-3" style="position:relative;">
+                           <label for="site" class="form-label txtPop" >Site web :</label>
+                           <input type="text" class="form-control" id="site" placeholder="Optionnel" name="site" value="{{ old('site', session('user_data.site')) }}">
+                       
+                           @error('site')
+                               <div class="text-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                               </div>
+                           @enderror
+                        </div>
 
-                       <div class="row d-flex justify-content-center">
-                            <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.Produits') }}">Précédent</a>
-                           <button type="submit" class="btn btn-primary mb-3 mx-3 col-auto">Suivant</button>
-                       </div>
-                    
+
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-custom mx-3" href="{{ route('Inscription.Produits') }}">Précédent</a>
+                        <button type="submit" class="btn btn-custom mx-3">Suivant</button>
+                    </div>
                 </div>
             </form>
+        </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    </body>
-</html>
+    </div>
+    
+    <script>
+        function showTooltip(icon) {
+            const tooltip = icon.parentNode.nextElementSibling;
+            if (tooltip && tooltip.classList.contains('custom-tooltip')) {
+                tooltip.style.display = 'block';
+            }
+        }
+
+        function hideTooltip(icon) {
+            const tooltip = icon.parentNode.nextElementSibling;
+            if (tooltip && tooltip.classList.contains('custom-tooltip')) {
+                tooltip.style.display = 'none';
+            }
+        }
+    </script>
+</body>

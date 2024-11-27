@@ -33,7 +33,9 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::GET('/connexionEmail',
+Route::POST('/login', [UtilisateursController::class,'login'])->name('Connexion.connexion');
+
+Route::GET('/',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
 
 
@@ -57,7 +59,7 @@ Route::GET('/logout', [UtilisateursController::class, 'logout'])->middleware('au
 
 #################################Inscription#########################################
 Route::GET('/formulaire/inscription',
-[InscriptionController::class,'identification'])->name('Inscription.Identification')->middleware(ClearSessionMiddleware::class); //Partie 1 inscription
+[InscriptionController::class,'identification'])->name('Inscription.Identification'); //Partie 1 inscription
 
 Route::GET('/formulaire/inscription/produits',
 [InscriptionController::class,'produits'])->name('Inscription.Produits'); //Partie 2 inscription
