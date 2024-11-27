@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -11,19 +12,19 @@
             <form method="post" action="{{ route('Inscription.verificationCoordonnees') }}">
                 @csrf
                 <div class="container-fluid">
-                    <!--Si on a le temps, essaye de le faire recherche sur google map pour autoremplir infos-->
+
 
                     <p class="col-12 text-center my-3 titre">Coordonnées de votre entreprise</p>
                        
                        <span class="sousTitres">Coordonnées</span>
 
                        <div class="mb-3 row">
-                            <!-- N° Civique -->
+
                             <div class="col-12 col-md-4 mb-2">
                                 <label for="Ncivique" class="form-label">N° Civique</label>
                                 <input type="text" class="form-control" id="Ncivique" placeholder="123 Street" name="Ncivique" value="{{ old('Ncivique', session('user_data.Ncivique', '')) }}">
                                 
-                                <!-- Erreur N° Civique -->
+
                                 @error('Ncivique')
                                     <div class="alert alert-danger d-flex align-items-center mt-2">
                                         <i class="fas fa-exclamation-circle me-2"></i>
@@ -32,12 +33,12 @@
                                 @enderror
                             </div>
 
-                            <!-- Rue -->
+
                             <div class="col-12 col-md-4 mb-2">
                                 <label for="rue" class="form-label">Rue :</label>
                                 <input type="text" class="form-control" id="rue" placeholder="123 Street" name="rue" value="{{ old('rue', session('user_data.rue', '')) }}">
                                 
-                                <!-- Erreur Rue -->
+
                                 @error('rue')
                                     <div class="alert alert-danger d-flex align-items-center mt-2">
                                         <i class="fas fa-exclamation-circle me-2"></i>
@@ -46,12 +47,12 @@
                                 @enderror
                             </div>
                             
-                            <!-- Bureau -->
+
                             <div class="col-12 col-md-4 mb-2">
                                 <label for="bureau" class="form-label">Bureau :</label>
                                 <input type="text" class="form-control" id="bureau" placeholder="Optionnel" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
                                 
-                                <!-- Erreur Bureau -->
+
                                 @error('bureau')
                                     <div class="alert alert-danger d-flex align-items-center mt-2">
                                         <i class="fas fa-exclamation-circle me-2"></i>
@@ -60,12 +61,12 @@
                                 @enderror
                             </div>
 
-                            <!-- Erreurs -->
+
                             @error('adresse')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-
+-->
                         <!--<div class="mb-3 row">
                            <label for="adresse" class="col-3" >Adresse :</label>
                            <input type="text" class="col-9" id="adresse" placeholder="123 Street" name="adresse" value="{{ old('adresse', session('user_data.adresse', '')) }}">
@@ -85,7 +86,7 @@
                                <div class="alert alert-danger">{{ $message }}</div>
                            @enderror
                         </div>-->
-
+<!--
                        <div class="mb-3 row">
                            <label for="ville" class="col-3" >Ville :</label>
                            <input type="text" class="col-9" id="ville" placeholder="Trois-Rivières" name="ville" value="{{ old('ville', session('user_data.ville')) }}">
@@ -154,3 +155,108 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 </html>
+-->
+
+
+
+@extends('layouts.inscriptionLayout')
+ 
+@section('titre', 'Coordonnées')
+
+@section('contenu')
+<body>
+    <div class="container form-box">
+        <div class="bg-titre">
+            <div class="titre">Coordonnées de votre entreprise</div>
+        </div>
+
+        <div class="form">
+            <form method="post" action="{{ route('Inscription.verificationCoordonnees') }}">
+                @csrf
+                <div class="container-fluid">
+                    <span class="sousTitres">Emplacement de l'entreprise</span>
+
+                    <div class="mb-3" style="position:relative;">
+
+                        <!--<label for="entreprise" class="form-label txtPop">
+                            Produits / Services
+                            <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
+                                <i class="fa-sharp fa-regular fa-circle-question"></i>
+                            </span> :
+                        </label>
+                        <div class="custom-tooltip">
+                            <ul>
+                                <li>Obligatoire.</li>
+                                <li>Maximum 64 caractères</li>
+                                <li>Doit être le nom officiel de votre entreprise.</li>
+                                <li>Ne peut pas contenir de caractères spéciaux.</li>
+                            </ul>
+                        </div>
+
+                        <textarea placeholder="Description des produits/services offerts." class="form-control description" id="services" name="services">{{ old('services', session('user_data.services', '')) }}</textarea>
+                                        
+                        @error('services')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror-->
+
+                        <div class="col-12 col-md-4 mb-2">
+                            <label for="Ncivique" class="form-label">N° Civique</label>
+                            <input type="text" class="form-control" id="Ncivique" placeholder="123 Street" name="Ncivique" value="{{ old('Ncivique', session('user_data.Ncivique', '')) }}">
+                            
+
+                            @error('Ncivique')
+                                <div class="alert alert-danger d-flex align-items-center mt-2">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+
+
+                        <div class="col-12 col-md-4 mb-2">
+                            <label for="rue" class="form-label">Rue :</label>
+                            <input type="text" class="form-control" id="rue" placeholder="123 Street" name="rue" value="{{ old('rue', session('user_data.rue', '')) }}">
+                            
+
+                            @error('rue')
+                                <div class="alert alert-danger d-flex align-items-center mt-2">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+
+
+                        <div class="col-12 col-md-4 mb-2">
+                            <label for="bureau" class="form-label">Bureau :</label>
+                            <input type="text" class="form-control" id="bureau" placeholder="Optionnel" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
+                            
+
+                            @error('bureau')
+                                <div class="alert alert-danger d-flex align-items-center mt-2">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+
+
+                        @error('adresse')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        </div>
+                    
+
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-custom" href="{{ route('Inscription.Produits') }}">Précédent</a>
+                        <button type="submit" class="btn btn-custom">Suivant</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>

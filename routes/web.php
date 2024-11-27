@@ -15,7 +15,7 @@ use App\Http\Controllers\DocumentController;
 require __DIR__.'/auth.php';
 
 
-Route::GET('/',
+/*Route::GET('/',
 [UtilisateursController::class,'index'])->name('page.Accueil')->middleware(ClearSessionMiddleware::class);/*->middleware('role:admin,commis,responsable,fournisseur');*/;
 
 #################################Connexion#########################################
@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 
 Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
 
-Route::GET('/connexionEmail',
+Route::GET('/',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
 
 

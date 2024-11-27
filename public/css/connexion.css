@@ -26,6 +26,18 @@
     text-align: center;
 }
 
+.close{
+    text-align: end;
+    color:white;
+    background: none;
+	border: none;
+	margin-left: 330;
+    padding:0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
 /* Style des champs de saisie */
 .form-control {
     background-color: #0B2341;
@@ -98,4 +110,8 @@ body, html {
     background-size: cover; /* Ajuste l’image pour qu’elle couvre toute la page */
     background-position: center; /* Centre l’image */
     background-repeat: no-repeat; /* Évite la répétition de l’image */
+}
+
+.login-form{
+    display: none;
 }

@@ -1,86 +1,4 @@
-/*body {
-    margin: 0;
-    height: 100vh;
-    background: url('../images/bg_villeTR.jpg') no-repeat center center/cover;
-    position: relative;
-}*/
 
-/*.overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60%;  
-    height: 100%;
-    background-color: rgb(99, 188, 85); 
-    opacity: 92%;
-    clip-path: polygon(100% 0, 45% 0, 15% 100%, 100% 100%);
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    overflow: hidden;
-}*/
-
-/*.test{
-    border: solid 4px red;
-    position: relative;
-    width: 100%; 
-    height: 100%; 
-    clip-path: inherit; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    color: white;
-    font-size: 24px; 
-}*/
-
-/*  body {
-body {
-    margin: 0;
-    height: 100vh;
-    background: url('../images/bg_villeTR.jpg') no-repeat center center/cover;
-    position: relative;
-    z-index: 0;
-}
-
-.parallelogram {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60%; 
-    height: 100%; /* Full height */
-  /*  background-color: rgba(99, 188, 85, 0.92); /* Change to your desired color with opacity */
-  /*  transform: skew(-15deg); /* Adjust the skew angle */
-  /*  transform-origin: top right; /* Skew from the top right */
-  /*  overflow: hidden; /* Hide overflow */
-/*}
-
-.message{
-    transform: skew(15deg);
-    transform-origin: top right;
-    /*padding-left: 20px;*/
-   /* font-size: 40pt;
-    color: rgb(11, 35, 65);
-    
-}
-
-.info{
-    transform: skew(15deg);
-    transform-origin: top right;
-    color: rgb(11, 35, 65);
-    font-size: 11pt;
-    /*padding-left: 40px;*/
-    
-/*}
-
-a{
-    transform: skew(15deg);
-    transform-origin: top right;
-}
-
-.container{
-    padding-top: 25%;
-}
-*/
 /*--------------------------------Css page acceueil #Yohann------------*/
   
 body {
@@ -90,6 +8,7 @@ body {
     background-repeat: no-repeat;
     height: 100vh; /* Assure que le corps occupe toute la hauteur de la fenêtre */
     margin: 0; /* Supprime les marges par défaut */
+    height: 100%;
 }
 
 
@@ -105,3 +24,66 @@ body {
     margin: 20px;
 }
 
+.btn-custom2 {
+    background-color: #0B2341;
+    color: white;
+    font-family: 'TT Hoves Light', sans-serif;
+    border: none;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: 2px solid white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Ombre légère */
+}
+.btn-custom2:hover {
+    background-color: #78C6E0;
+    color: white;
+    transform: translateY(-2px); /* Légère remontée au survol */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5); /* Ombre plus marquée */
+}
+
+/* Positionnement du logo en haut à gauche avec un carré blanc autour */
+.logo-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: white; /* Fond blanc */
+    padding: 10px; /* Espace autour du logo */
+    border-radius: 5px; /* Coins légèrement arrondis */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Légère ombre pour le relief */
+}
+
+/* Positionnement des boutons en haut à droite */
+.top-right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Centrage du texte en haut de la page */
+.header-center {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'TT Hoves Light', sans-serif;
+    color: #0B2341;
+}
+
+body{
+background-color:  #0B2341;
+}
+
+.welcome-message {
+    position: absolute;
+    top: 50%; /* Centre verticalement */
+    left: 50%; /* Centre horizontalement */
+    transform: translate(-50%, -50%); /* Ajuste la position */
+    font-family: 'AlumniSans-ExtraBold', sans-serif;
+    font-size: 2rem; /* Taille de la police */
+    color: white; /* Couleur du texte */
+    text-align: center; /* Centre le texte */
+}
