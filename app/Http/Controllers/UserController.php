@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use App\Models\EmailTemplate;
+
 
 
 class UserController extends Controller
@@ -13,8 +16,11 @@ class UserController extends Controller
     public function gestionUser()
     {
         $users = User::all();
+
         return view('admin.GestionUsers', compact ('users')) ;
     }
+
+    
 
     // UserController.php
     public function destroy($id)
@@ -28,25 +34,29 @@ class UserController extends Controller
         }
     }
 
+
+
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'email' => 'required|email|unique:users,email',
+            'role' => 'required|in:admin,responsable,commis',
+            'password' => 'required|min:8', // Optionnel : validation du mot de passe
         ]);
-
-        User::create([
-            'name' => $request->name,
+    
+        $user = User::create([
             'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'is_admin' => $request->is_admin ?? false,
+            'password' => Hash::make($request->password), // Hachage du mot de passe
+            'role' => $request->role,
+            'is_admin' => $request->role === 'admin', // Détermine automatiquement is_admin
         ]);
-
-        return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès.');
+    
+        return response()->json(['success' => true, 'id' => $user->id], 201);
     }
     
 
+
+    
     public function edit(User $user)
     {
         return view('users.edit', compact('user'));
@@ -64,9 +74,9 @@ class UserController extends Controller
     }
 
     ##Suppresion d'un utilisateur
-    public function deleteUser($id)
+    public function deleteUser($uid)
     {
-        $user = User::find($id);
+        $user = User::find($uid);
         if ($user) {
             $user->delete();
             return response()->json(['success' => true]);
@@ -95,4 +105,20 @@ class UserController extends Controller
 
         return view('admin.parametreSystemeAdmin');
     }
+
+    public function index(){
+
+        return view('admin.acceuilAdmin');
+    }
+
+    public function GestionCourriel(){
+        // Récupérer tous les modèles depuis la base de données
+        $templates = EmailTemplate::all();
+
+        // Passer la variable à la vue
+        return view('admin.GestionCourrielAdmin', compact('templates'));
+
+    }
+
+        
 }

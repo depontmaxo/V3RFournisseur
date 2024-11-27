@@ -9,6 +9,7 @@ use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\ClearSessionMiddleware;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SettingController;
 
 
 require __DIR__.'/auth.php';
@@ -170,24 +171,43 @@ Route::GET('/responsableIndex/listeInscription/{candidat}',
 
 #################################Admin#########################################
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmailTemplateController;
 
 Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
 
+Route::get('/adminGestionCourriel', [UserController::class, 'GestionCourriel'])->name('GestionCourriel');
 
 Route::get('/gestion-users', [UserController::class, 'gestionUser'])->name('gestion.userAdmin');
 
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+
 //Supprimer un utilisateur
-Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
+Route::delete('/users/{uid}', [UserController::class, 'deleteUser']);
 
 //Modifier le role d'un utilisateur
 Route::post('/users/update-roles', [UserController::class, 'updateRoles']); 
 
 //Connexion de l'admin
 //Route pour afficher la page de connexion
-Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
+#Route::get('/loginAdmin', [AuthController::class, 'showAdminLoginForm'])->name('loginAdmin');
 
 // Route pour traiter la connexion
-Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
+#Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
+
+//Parametre gestion de courriel admin
+Route::get('/admin/email-templates', [EmailTemplateController::class, 'index'])->name('email.templates.index');
+Route::post('/email-templates', [EmailTemplateController::class, 'store'])->name('email.templates.store'); // Ajouter un modèle
+Route::delete('/email-templates/{id}', [EmailTemplateController::class, 'destroy'])->name('email.templates.destroy'); // Supprimer un modèle
+#Route::get('/email-templates/{id}', [EmailTemplateController::class, 'show']); // Pour récupérer un modèle spécifique
+
+Route::post('/email-templates/{id}', [EmailTemplateController::class, 'update'])->name('email.templates.update');
+
+
+Route::post('/users', [UserController::class, 'store']);
+
+//Settings admin
+Route::get('/ParametreAdmin', [SettingController::class, 'index'])->name('settings.index');
+Route::post('/update', [SettingController::class, 'updateSettings'])->name('settings.update');
 
 
 
@@ -198,6 +218,13 @@ Route::get('/forgot_password', [LoginController::class, 'forgotPassword'])->name
 
 // Route pour traiter la soumission du formulaire de récupération de mot de passe (POST)
 Route::post('/forgot_password', [LoginController::class, 'forgotPassword'])->name('app_forgotpassword1');
+
+// Route pour afficher le formulaire (GET)
+Route::get('/changePassword/{token}', [LoginController::class, 'changePassword'])->name('app_changepassword');
+
+// Route pour soumettre le formulaire (POST)
+Route::post('/changePassword/{token}', [LoginController::class, 'changePassword'])->name('app_changepassword.submit');
+
 
 #######################Support#################################################################################
 // Route pour traiter la soumission du formulaire de récupération de mot de passe (POST)

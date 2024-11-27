@@ -3,70 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire Amélioré</title>
-    <!-- Lien vers Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b70424hT7SYkC1OgzlSRP+IlRH9sENBO0LR" crossorigin="anonymous">
+    <title>Page d'Accueil Admin</title>
+    <!-- Import Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Import Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/fontStyle.css') }}">
     <style>
         body {
-            background-color: #f8f9fa; /* Couleur de fond légère */
+            background-color: #0B2341; /* Couleur de fond */
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
 
-        .form-container {
-            border: 2px solid red; /* Bordures rouges */
-            padding: 40px; /* Plus d'espace interne */
-            border-radius: 15px; /* Arrondir encore plus les coins */
-            max-width: 500px;
-            margin: 100px auto;
-            background-color: white; /* Fond blanc pour contraste */
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile */
-        }
-
-        .form-container h2 {
+        .container-cadre {
+            background-color: #0B2341; /* Même couleur que le fond */
+            padding: 40px;
+            border: 3px solid #007bff; /* Bordure bleue */
+            border-radius: 0px; /* Coins carrés */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 500px;
             text-align: center;
-            margin-bottom: 20px;
-            color: #dc3545; /* Rouge Bootstrap */
         }
 
         .btn-custom {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            color: white;
+            width: 100%;
+            font-family: 'Poppins-Light', sans-serif;
+            margin: 15px 0;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 0px; /* Coins carrés */
+            transition: all 0.3s ease;
         }
 
         .btn-custom:hover {
-            background-color: #c82333;
-            border-color: #bd2130;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon {
+            margin-right: 10px;
+        }
+
+        .txtMaj {
+            font-family: 'AlumniSans-ExtraBold', sans-serif;
+            color: white; 
+            margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
+    <div class="container-cadre">
+        <h2 class="txtMaj">Bienvenue Admin!</h2>
 
-    <div class="container">
-        <div class="form-container">
-            <h2>Inscription</h2>
-            <form>
-                <div class="mb-3">
-                    <label for="nom" class="form-label">Nom</label>
-                    <input type="text" class="form-control" id="nom" placeholder="Entrez votre nom">
-                </div>
-                <div class="mb-3">
-                    <label for="prenom" class="form-label">Prénom</label>
-                    <input type="text" class="form-control" id="prenom" placeholder="Entrez votre prénom">
-                </div>
-                <div class="mb-3">
-                    <label for="sexe" class="form-label">Sexe</label>
-                    <select class="form-select" id="sexe">
-                        <option selected disabled>Choisissez...</option>
-                        <option value="homme">Homme</option>
-                        <option value="femme">Femme</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-custom w-100">Soumettre</button>
-            </form>
-        </div>
+        <!-- Bouton pour Gérer les modèles de courriel -->
+        <a href="{{ route('GestionCourriel') }}" class="btn btn-primary btn-custom">
+            <i class="fas fa-envelope icon"></i> Gérer les modèles de courriel
+        </a>
+
+        <!-- Bouton pour Ajouter, modifier ou supprimer un utilisateur -->
+        <a href="{{ route('gestion.userAdmin') }}" class="btn btn-success btn-custom">
+            <i class="fas fa-users-cog icon"></i> Ajouter, modifier ou supprimer un utilisateur
+        </a>
+
+        <!-- Bouton pour Gérer les paramètres du système -->
+        <a href="{{ route('settings.index') }}" class="btn btn-warning btn-custom">
+            <i class="fas fa-cogs icon"></i> Gérer les paramètres du système
+        </a>
     </div>
 
-    <!-- Lien vers Bootstrap JS (optionnel) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-mQ93zZqG9936Is3nOe0gxC70Vb2OmQ1pMaM2L6iE9EvsOVjO0tZX2oF6pG1KBr2J" crossorigin="anonymous"></script>
+    <!-- Import Bootstrap Bundle avec JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

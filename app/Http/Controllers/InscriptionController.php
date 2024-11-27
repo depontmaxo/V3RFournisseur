@@ -9,6 +9,7 @@ use App\Models\Document;
 use App\Models\Coordonnees;
 use App\Models\Contacts;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class InscriptionController extends Controller
 {
@@ -194,8 +195,16 @@ class InscriptionController extends Controller
         // Effacer les données de la session
         session()->forget('user_data');
 
+
+        Mail::to($utilisateur->email)->send(new welcomeUserMail());
+ 
+
         // Redirection après l'envoi
         return redirect()->route('Connexion.pageConnexion')->with('success', 'Inscription réussie !');
+
+
+       
+        
     }
 
 

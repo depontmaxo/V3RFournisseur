@@ -7,12 +7,12 @@
     <title>Confirmation de mail</title>
 </head>
 <body>
-    <h1>{{ $nomFournisseur }}, Svp réinitialiser votre mot de passe</h1>
+    <h1>{{ $nom_entreprise }}, Svp reinitialiser votre mot de passe</h1>
 
     <p>Nous avons recu votre demande de changement de mot de passe.
         Si vous n'etes pas a l'origine de cette requete, laissez nous savoir pour la securite de votre compte.
     <br>Si vous etes a l'origine cliquez sur le lien ci dessous pour changer de mot de passe<br>
-    <a href="#" target="_blank">Changez de mot de passe</a>
+    <a href="{{route('app_changepassword',['token' => $activation_token])  }}" target="_blank">Changez de mot de passe</a>
     </p>
 
     <p>
