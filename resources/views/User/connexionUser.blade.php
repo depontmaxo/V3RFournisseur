@@ -24,6 +24,11 @@
                                 <label for="email" class="form-label">Adresse e-mail</label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre adresse e-mail" required>
                             </div>
+                            <!-- Mot de passe -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label txtPop">Mot de passe:</label>
+                                <input type="password" class="form-control" id="password" placeholder="Entrez votre mot de passe" name="password">
+                            </div>
 
                             <!-- Sélection du rôle -->
                            <!--  <div class="mb-3">

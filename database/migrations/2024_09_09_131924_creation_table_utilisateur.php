@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('statut', ['Actif', 'Inactif', 'En attente', 'Refusé'])->default('En attente');
             $table->string('rbq', 255)->nullable();
             $table->rememberToken();
+            $table->string('activation_token', 255)->nullable();
             $table->timestamps();
         });
     }

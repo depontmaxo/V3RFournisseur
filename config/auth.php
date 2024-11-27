@@ -38,6 +38,10 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+        'utilisateurs' => [
+            'driver' => 'eloquent',
             'model' => App\Models\Utilisateur::class,
         ],
     ],
@@ -58,9 +62,13 @@ return [
     | Supported: "database", "eloquent"
     |
     */
-
+/* TEST enlever
     'providers' => [
         'users' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'utilisateurs' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\Utilisateur::class),
         ],
@@ -70,7 +78,7 @@ return [
         //     'table' => 'users',
         // ],
     ],
-
+*/
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
@@ -111,5 +119,19 @@ return [
     */
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
+
+    /*
+    Guards
+    */
+    'guards' => [
+        'user' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'utilisateurs',
+        ],
+    ],
 
 ];

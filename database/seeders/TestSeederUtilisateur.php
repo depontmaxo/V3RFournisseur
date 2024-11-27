@@ -16,7 +16,8 @@ class TestSeederUtilisateur extends Seeder
     public function run(): void
     {
         for($i = 1; $i <= 9000; $i++){
-            /*DB::table('utilisateur')->insert([
+            /* STRESS TEST 
+            DB::table('utilisateur')->insert([
                 'id' => Str::uuid()->toString(), // Generate a UUID for the id
                 'neq'=> "NEQ #$i",
                 'email'=> Str::random(10),

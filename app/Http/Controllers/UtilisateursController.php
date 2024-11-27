@@ -9,6 +9,8 @@ use App\Http\Requests\ConnexionRequest;
 
 class UtilisateursController extends Controller
 {
+    protected $redirectTo = '/';
+
     public function pageConnexion()
     {
         return View('connexion');
@@ -32,10 +34,10 @@ class UtilisateursController extends Controller
         */
         //dd($request);
         
-
         if($request->neq == null){
             $reussi = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             if($reussi){
+                
                 //Code pour forcer l'utilisateur à se connecter avec son NEQ s'il y en a un
                 /*$testNEQ = Utilisateur::where('email', $request->email)->firstOrFail();
                 if($testNEQ->neq !== null)
@@ -74,12 +76,16 @@ class UtilisateursController extends Controller
     }
 
     public function logout(Request $request) {
-        Auth::logout();
+        Auth::guard('user')->logout();
+        Auth::guard('web')->logout();
         return redirect()->route('Connexion.pageConnexion');
     }
 
-
     public function ShowMotPasseOublieForm(){
         return view('MotPasseOublie');
+    }
+
+    public function RefusAccess(){
+        return view('RefusAccess');
     }
 }

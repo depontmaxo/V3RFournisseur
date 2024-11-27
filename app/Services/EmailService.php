@@ -41,7 +41,7 @@ class EmailService
 
         return view('mail.reset_password')
         ->with([
-            'nomFournisseur'=>$name,
+            'nom_entreprise'=>$name,
             'activation_token'=>$activation_token
         ]);
 

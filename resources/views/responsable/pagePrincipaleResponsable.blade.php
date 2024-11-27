@@ -1,15 +1,15 @@
 @extends('layouts.app')
  
-@section('titre', 'Requêtes inscription')
+@section('titre', 'Index Responsable')
   
 @section('contenu')
 
 @if (Auth::guard('user')->check() && (Auth::guard('user')->user()->role == 'commis' || Auth::guard('user')->user()->role == 'responsable'))
 
     <body>
-    <h2>Liste des candidats:</h2>
+        <h2>Liste des fournisseurs:</h2>
 
-        <form method="get" action="/responsable/rechercheCandidat" style="display-flex">
+        <form method="get" action="/responsable/rechercheFournisseur" style="display-flex">
             @csrf
             <label for="nom">Nom :</label>
             <input type="checkbox" id="nom" name="nom"/>
@@ -26,12 +26,15 @@
 
         <div class="container-fluid">
             <table class="table">
+                <!-- Rechercher, trier et sélectionner des fiches de fournisseurs par ville, région, produits et services -->
                 <thead>
                     <tr>
                     <th scope="col">#</th>
                     <th scope="col">Entreprise</th>
-                    <th scope="col">NEQ</th>
                     <th scope="col">Courriel</th>
+                    <th scope="col">Ville</th>
+                    <th scope="col">Province</th>
+                    <th scope="col">Catégorie de production</th>
                     <th scope="col">Visualiser</th>
                     </tr>
                 </thead>
@@ -39,14 +42,16 @@
                     <?php
                     $test = 1;
                     ?>
-                    @if (isset($candidats))
-                        @foreach ($candidats as $candidat)
+                    @if (count($utilisateurs))
+                        @foreach ($utilisateurs as $utilisateur)
                         <tr>
                             <th>{{ $test++ }}</th>
-                            <td>{{ $candidat->nom_entreprise }}</td>
-                            <td>{{ $candidat->neq }}</td>
-                            <td>{{ $candidat->email }}</td>
-                            <td><a href="{{ route('Responsable.visualiserCandidat', [$candidat]) }}">Évaluer</a></td>
+                            <td>{{ $utilisateur->nom_entreprise }}</td>
+                            <td>{{ $utilisateur->email }}</td>
+                            <td>{{ $utilisateur->coordonnees->ville ?? 'N/A' }}</td></td>
+                            <td>{{ $utilisateur->coordonnees->province ?? 'N/A' }}</td></td>
+                            <td>{{ $utilisateur->most_common_category->desc_cat ?? 'N/A' }}</td></td>
+                            <td><a href="{{ route('Fournisseur.fiche', [$utilisateur]) }}">Ouvrir</a></td>
                         </tr>
                         
                         @endforeach
@@ -56,11 +61,11 @@
                 </tbody>
             </table>
         </div>
+
     </body>
 @else
     <script>
         window.location.href = '{{ route("RefusAccess") }}';
     </script>
 @endif
-
 @endsection

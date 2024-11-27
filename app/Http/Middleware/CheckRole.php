@@ -17,16 +17,21 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (Auth::user() == null)
+        //dd(Auth::user());        
+        if (!Auth::user())
         {
-            Auth::logout();
-            return redirect()->route('Connexion.connexion');
-        }
-        else if (Auth::user()->role== 'fournisseur' || Auth::user()->role== 'responsable' || Auth::user()->role== 'commis' || Auth::user()->role== 'admin' )
+            //return redirect()->route('Connexion.connexion');
+        }   
+        else if (Auth::user()->role== 'responsable' || Auth::user()->role== 'commis' || Auth::user()->role== 'admin' )
+        {
+            return $next($request);
+        }        
+        else if (Auth::user()->neq != null || Auth::user()->email != null)
         {
             return $next($request);
         }
         
         abort(403);
     }
+
 }

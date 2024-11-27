@@ -19,24 +19,31 @@
 
 
 <body>
-    @if (auth()->user() != null) 
+    @if (auth()->user() != null || auth()->guard('user')->user() != null) 
+
+    
+    @if(session('message'))
+        <div class="alert alert-success message">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <div class="header">
         <!-- Sidebar Menu (default for large screens) -->
         <div class="side-nav" id="sideNav">
             <ul class="menuList">
-                @if (Auth::user()->role == 'responsable')
-                    <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
-                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i> Fournisseur actif</a></li>
-                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i> Demandes inscriptions</a></li>
-                @elseif (Auth::user()->role == 'commis')
-                    <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
-                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i> Fournisseur actif</a></li>
-                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i> Demandes inscriptions</a></li>
-                @elseif (Auth::user()->role == 'fournisseur')
+                @if (Auth::guard('web')->check())
                     <li class="soustitre"><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
                     <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.fiche', [auth()->user()->id])}}"><i class="fa fa-id-card"></i> Ma fiche</a></li>
                     <li class="soustitre"><a class="no-style-link" href="{{route('Fournisseur.statut', [auth()->user()->id])}}"><i class="fa fa-check-circle"></i> Statut demande</a></li>
                     <li class="soustitre"><a class="no-style-link" href="https://www.v3r.net/nous-joindre"><i class="fa fa-headset"></i> Contacter support</a></li>
+                @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable')
+                    <li class="soustitre"><a class="no-style-link" href="{{ route('Responsable.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
+                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i> Fournisseur actif</a></li>
+                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i> Demandes inscriptions</a></li>
+                @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'commis')
+                    <li class="soustitre"><a class="no-style-link" href="{{ route('Responsable.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
+                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i> Fournisseur actif</a></li>
                 @endif
             </ul>
 
@@ -50,19 +57,18 @@
         <!-- Horizontal Menu for Small Screens (Mobile View) -->
         <div class="mobile-nav">
             <ul class="menuList">
-                @if (Auth::user()->role == 'responsable')
-                    <li><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i></a></li>
-                    <li><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i></a></li>
-                    <li><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i></a></li>
-                @elseif (Auth::user()->role == 'commis')
-                    <li><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i></a></li>
-                    <li><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i></a></li>
-                    <li><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i></a></li>
-                @elseif (Auth::user()->role == 'fournisseur')
+                @if (Auth::guard('web')->check())
                     <li><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i></a></li>
                     <li><a class="no-style-link" href="{{route('Fournisseur.fiche', [auth()->user()->id])}}"><i class="fa fa-id-card"></i></a></li>
                     <li><a class="no-style-link" href="{{route('Fournisseur.statut', [auth()->user()->id])}}"><i class="fa fa-check-circle"></i></a></li>
                     <li><a class="no-style-link" href="https://www.v3r.net/nous-joindre"><i class="fa fa-headset"></i></a></li>
+                @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable')
+                    <li><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i></a></li>
+                    <li><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i></a></li>
+                    <li><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i></a></li>
+                @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'commis')
+                    <li><a class="no-style-link" href="{{ route('Fournisseur.index') }}"><i class="fa fa-home"></i></a></li>
+                    <li><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i></a></li>
                 @endif
                 <li><a class="no-style-link" href="{{ route('logout.link')}}"><i class="fa fa-sign-out-alt"></i></a></li>
             </ul>
@@ -114,10 +120,7 @@
     @else
         <p>Accès non authorisé</p>
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Redirige vers la route Laravel
-            window.location.href = "{{ route('Connexion.connexion') }}";
-        });
+            window.location.href = '{{ route("page.Accueil") }}'; // Redirect to a specific route
         </script>
     @endif
     
