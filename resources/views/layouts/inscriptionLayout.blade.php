@@ -24,8 +24,7 @@
 
             <div class="top-right">
                 <a class="btn btn-custom" href="{{ route('Connexion.pageConnexion') }}">Accueil</a>
-                <a class="btn btn-custom" href="{{ route('Connexion.pageConnexion') }}">Se connecter</a>
-                <a class="btn btn-custom" href="{{ route('Inscription.Identification') }}">Contacter support</a>
+                <a class="btn btn-custom" href="https://www.v3r.net/nous-joindre">Contacter support</a>
             </div>
         </div>
 
