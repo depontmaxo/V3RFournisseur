@@ -15,7 +15,7 @@
             <form method="post" action="{{ route('Inscription.verificationIdentification') }}">
                 @csrf
                 <div class="container-fluid">
-                    <span class="sousTitres">Identification</span> 
+                    <span class="sousTitres">Identification</span>
                     <div class="mb-3" style="position:relative;">
                         <label for="entreprise" class="form-label txtPop">
                             <span class="text-danger">* </span>

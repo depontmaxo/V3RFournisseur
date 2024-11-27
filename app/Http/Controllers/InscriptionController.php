@@ -458,11 +458,11 @@ class InscriptionController extends Controller
     protected function messagesValidationCoordonnees()
     {
         return [
-            'rue.required' => 'Le nom de la est obligatoire.',
+            'rue.required' => 'Ce champ est obligatoire.',
             'rue.max' => 'Le nom de la rue ne peut pas dépasser 64 caractères.',
             'rue.regex' => 'Le nom de la rue peut contenir uniquement des lettres, des chiffres, des espaces et certains caractères spéciaux (comme - . , ; : ! () &).',
 
-            'Ncivique.required' => 'Le numéro civique est obligatoire.',
+            'Ncivique.required' => 'Ce champ est obligatoire.',
             'Ncivique.max' => 'Le numéro civique ne peut pas dépasser 8 caractères.',
             'Ncivique.alpha_num' => 'Le numéro civique doit contenir uniquement des lettres et des chiffres.',
     

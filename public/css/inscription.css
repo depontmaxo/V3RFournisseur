@@ -74,7 +74,7 @@ body {
 
 /* Logo dans le coin supérieur gauche */
 .logo-container {
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 20px;
     background-color: white;
@@ -86,7 +86,7 @@ body {
 
 /* Boutons dans le coin supérieur droit */
 .top-right {
-    position: fixed;
+    position: absolute;
     top: 20px;
     right: 20px;
     display: flex;
@@ -132,17 +132,6 @@ body {
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
 }
 
-
-.login-box {
-    background-color: #0B2341; /* Couleur de fond mise à jour */
-    padding: 10px;
-    border:2px solid #0B2341;
-    border-radius: 0;
-    box-shadow:  0px 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-}
-
 .header{
     display: flex;
     justify-content: center;
@@ -153,11 +142,11 @@ body {
     color:white;
     background-color: #0B2341; /* Couleur de fond mise à jour */
     padding:0;
-    border:1px solid black;
+    border:1px solid #78C6E0;
     border-radius: 1;
     box-shadow:  0px 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
 }
 
 .txtPop {
