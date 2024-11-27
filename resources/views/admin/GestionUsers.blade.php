@@ -59,11 +59,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        // Récupérer le token CSRF
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-        // Gestion du clic sur le bouton Supprimer
         $('.btn-delete').click(function() {
             var userId = $(this).data('id'); // Récupérer l'ID de l'utilisateur
             var row = $(this).closest('tr'); // Récupérer la ligne du tableau
