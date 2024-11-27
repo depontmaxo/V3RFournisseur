@@ -18,24 +18,26 @@
                     <span class="sousTitres">Identification</span> 
                     <div class="mb-3" style="position:relative;">
                         <label for="entreprise" class="form-label txtPop">
+                            <span class="text-danger">* </span>
                             Nom de l'entreprise
                             <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
                                 <i class="fa-sharp fa-regular fa-circle-question"></i>
                             </span> :
                         </label>
                         <div class="custom-tooltip">
-                            <ul>
+                            <ul class="critere">
                                 <li>Obligatoire.</li>
-                                <li>Maximum 64 caractères</li>
-                                <li>Doit être le nom officiel de votre entreprise.</li>
-                                <li>Ne peut pas contenir de caractères spéciaux.</li>
+                                <li>Doit contenir entre 5 et 75 caractères.</li>
                             </ul>
                         </div>
 
                         <input type="text" class="form-control" id="entreprise" placeholder="Tech Innovators" name="entreprise" value="{{ old('entreprise', session('user_data.entreprise', '')) }}">
                                         
                         @error('entreprise')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
                         @enderror
                     </div>
 
@@ -47,17 +49,20 @@
                             </span> :
                         </label>
                         <div class="custom-tooltip">
-                            <ul>
-                                <li>Test</li>
-                                <li>Doit être le nom officiel enregistré.</li>
-                                <li>Ne peut pas contenir de caractères spéciaux.</li>
+                            <ul class="critere">
+                                <li>Obligatoire si le champ "courriel" est vide.</li>
+                                <li>Composé exactement de 10 chiffres.</li>
+                                <li>Doit commencer par 11, 22, 33 ou 88.</li>
                             </ul>
                         </div>
 
                         <input type="text" class="form-control" id="neq" placeholder="12345678910" name="neq" value="{{ old('neq', session('user_data.neq', '')) }}">
                                 
                         @error('neq')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
                         @enderror
                     </div>
                         
@@ -71,53 +76,75 @@
                             </span> :
                         </label>
                         <div class="custom-tooltip">
-                            <ul>
-                                <li>test2</li>
-                                <li>Doit être le nom officiel enregistré.</li>
-                                <li>Ne peut pas contenir de caractères spéciaux.</li>
+                            <ul class="critere">
+                                <li>Obligatoire si le champ NEQ est vide.</li>
+                                <li>Doit être une adresse courriel valide.</li>
+                                <li>Ne peut pas dépasser 64 caractères.</li>
+                                <li>Le domaine doit avoir une extension valide (exemple : .com, .org).</li>
+                                <li>Pas de tirets juste avant ou après le "@" dans l'adresse.</li>
                             </ul>
                         </div>
 
                         <input type="email" class="form-control" id="courrielConnexion" placeholder="example@courriel.com" name="courrielConnexion" value="{{ old('courrielConnexion', session('user_data.courrielConnexion', '')) }}">
                                 
                         @error('courrielConnexion')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
                         @enderror
                     </div>
 
                     <div class="mb-3" style="position:relative;">
                         <label for="entreprise" class="form-label txtPop">
+                            <span class="text-danger">* </span>
                             Choisir un mot de passe
                             <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
                                 <i class="fa-sharp fa-regular fa-circle-question"></i>
                             </span> :
                         </label>
                         <div class="custom-tooltip">
-                            <ul>
-                                <li>test3</li>
-                                <li>Doit être le nom officiel enregistré.</li>
-                                <li>Ne peut pas contenir de caractères spéciaux.</li>
+                            <ul class="critere">
+                                <li>Obligatoire.</li>
+                                <li>Doit contenir entre 7 et 12 caractères.</li>
+                                <li>Doit inclure au moins :
+                                    <ul>
+                                        <li>Une lettre minuscule.</li>
+                                        <li>Une lettre majuscule.</li>
+                                        <li>Un chiffre.</li>
+                                        <li>Un caractère spécial.</li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                         <input type="password" class="form-control" id="password" placeholder="Veuillez entrez un mot de passe" name="password" value="{{ old('password', '') }}">
                                 
                         @error('password')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="confirmPassword" class="form-label txtPop" >Confirmer mot de passe :</label>
+                        <label for="confirmPassword" class="form-label txtPop" >
+                        <span class="text-danger">* </span>
+                            Confirmer mot de passe :
+                        </label>
                         <input type="password" class="form-control" id="password" placeholder="Retapez votre mot de passe" name="password_confirmation">
                                 
                         @error('password_confirmation')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
                         @enderror
                     </div>
 
                     <div class="d-flex justify-content-center">
-                        <a class="btn btn-custom" href="{{ route('Connexion.pageConnexion') }}">Annuler</a>
-                        <button type="submit" class="btn btn-custom">Suivant</button>
+                        <a class="btn btn-custom mx-3" href="{{ route('Connexion.pageConnexion') }}">Annuler</a>
+                        <button type="submit" class="btn btn-custom mx-3">Suivant</button>
                     </div>
                             
                 </div>

@@ -261,14 +261,6 @@ class InscriptionController extends Controller
                 'regex:/^[^-@]+@[^-@]+$/', // Empêche un tiret juste avant ou après le @
                 'unique:utilisateur,email'
             ],
-
-            /*'password' => [
-                'required', 
-                'min:3', 
-                'max:15', 
-                'confirmed',
-                'regex:/^[^\s]*$/' //Vérifie qu'il ne contient aucun espace dans le string
-                ]*/
             'password' => [
                 'required', 
                 'string',
@@ -298,7 +290,7 @@ class InscriptionController extends Controller
             'Ncivique' => [
                 'required',
                 'max:8',
-                'regex:/^[a-zA-Z0-9]+$/', // Alphanumérique (lettres et chiffres uniquement)
+                'alpha_num',
             ], 
 
             'rue' => [
@@ -309,15 +301,15 @@ class InscriptionController extends Controller
 
             'bureau' => [
                 'nullable', 
-                'regex:/^(?! )[A-Za-z0-9\s\-]+( [A-Za-z0-9\s\-]+)*(?<! )$/', // Acceptation des espaces et tirets
-                'max:8'
+                'max:8',
+                'alpha_num',
             ], 
 
             'ville' => [
                 'required', 
                 'regex:/^[A-Za-zÀ-ÿ0-9]+(?:[- ][A-Za-zÀ-ÿ0-9]+)*$/', // Acceptation des lettres accentuées
                 'min:3', 
-                'max:30'
+                'max:64'
             ], 
 
             'province' => [
@@ -463,7 +455,7 @@ class InscriptionController extends Controller
 
             'Ncivique.required' => 'Le numéro civique est obligatoire.',
             'Ncivique.max' => 'Le numéro civique ne peut pas dépasser 8 caractères.',
-            'Ncivique.regex' => 'Le numéro civique doit contenir uniquement des lettres et des chiffres.',
+            'Ncivique.alpha_num' => 'Le numéro civique doit contenir uniquement des lettres et des chiffres.',
     
             'bureau.regex' => 'Le format du bureau est invalide.',
             'bureau.max' => 'Le bureau ne peut pas dépasser :max caractères.',

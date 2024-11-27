@@ -34,7 +34,10 @@
                         <textarea placeholder="Description des produits/services offerts." class="form-control description" id="services" name="services">{{ old('services', session('user_data.services', '')) }}</textarea>
                                         
                         @error('services')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
                         @enderror
                     </div>
 

@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
+Route::POST('/login', [UtilisateursController::class,'login'])->name('Connexion.connexion');
 
 Route::GET('/',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);

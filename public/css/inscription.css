@@ -26,6 +26,11 @@
     src: url('../fonts/Poppins-Bold.ttf') format('truetype');
 }
 
+.critere{
+    font-family: 'Poppins-Light';
+    font-size: 12pt;
+}
+
 .titre{
     font-family: 'AlumniSans-Medium';
     font-size: 21pt;
@@ -148,11 +153,11 @@ body {
     color:white;
     background-color: #0B2341; /* Couleur de fond mise à jour */
     padding:0;
-    border:2px solid #0B2341;
-    border-radius: 0;
+    border:1px solid black;
+    border-radius: 1;
     box-shadow:  0px 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
 }
 
 .txtPop {
@@ -179,14 +184,6 @@ body {
 .form{
     padding: 10px;
 }
-
-/*.info{
-    background: none;
-	color: rgb(99, 188, 85);;
-	border: none;
-	padding: 0;
-	cursor: pointer;
-}*/
 
 /* Tooltip Container */
 .custom-tooltip {
@@ -241,4 +238,11 @@ body {
     top: 20px; /* Adjust positioning relative to the info icon */
     left: 10px;
     position: absolute;
+}
+
+
+@media (max-width: 480px) { /* Smartphones */
+    .critere {
+        font-size: 8pt;
+    }
 }
