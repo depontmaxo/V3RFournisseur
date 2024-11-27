@@ -119,12 +119,16 @@ class InscriptionController extends Controller
         // Récupérer les fichiers validés
         $uploadedFiles = [];
         foreach ($request->file('documents') as $file) {
-            $uploadedFiles[] = [
-                'name' => $file->getClientOriginalName(),
-                'size' => $file->getSize(),
-                'type' => $file->getClientMimeType(),
-                'stream' => fopen($file->getRealPath(), 'rb'), // Ouvrir le fichier en tant que flux
-            ];
+            if ($file->isValid()) {
+                $fileStream = base64_encode(file_get_contents($file->getRealPath()));
+                $uploadedFiles[] = [
+                    'name' => $file->getClientOriginalName(),
+                    'size' => $file->getSize(),
+                    'type' => $file->getClientMimeType(),
+                    'stream' => $fileStream, // Ouvrir le fichier en tant que flux
+                    //'stream' => fopen($file->getRealPath(), 'rb'), // Ouvrir le fichier en tant que flux
+                ];
+            }
         }
 
 

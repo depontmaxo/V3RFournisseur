@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('finances', function (Blueprint $table) {
             $table->id()->primary();
             $table->uuid('utilisateur_id');
-            $table->foreign('utilisateur_id')->references('id')->on('utilisateur')->onDelete('cascade'); // Clé étrangère
-            $table->string('file_name');
-            $table->integer('file_size');
-            $table->string('file_type');
-            $table->longText('file_stream');
+            $table->foreign('utilisateur_id')->references('id')->on('utilisateur')->onDelete('cascade');
+            $table->string('numeroTPS', 255);
+            $table->string('numeroTVQ', 255);
+            $table->string('conditionPaiement', 255);
+            $table->string('devise', 255);
+            $table->string('modeCommunication', 255);
             $table->timestamps();
-        });
+        }); 
     }
 
     /**
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('finance');
     }
 };

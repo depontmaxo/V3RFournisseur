@@ -9,6 +9,7 @@ use App\Http\Controllers\ResponsablesController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\ClearSessionMiddleware;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SettingController;
 
 
@@ -16,7 +17,9 @@ require __DIR__.'/auth.php';
 
 
 Route::GET('/',
-[UtilisateursController::class,'index'])->name('page.Accueil')/*->middleware('role:admin,commis,responsable,fournisseur');*/;
+[UtilisateursController::class,'index'])->name('page.Accueil')/*->middleware('role:admin,commis,responsable');*/;
+Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
+
 
 #################################Connexion#########################################
 Route::get('/dashboard', function () {
@@ -30,11 +33,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
-
 Route::GET('/connexionEmail',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
-
 
 
 Route::GET('/motPasseOublie',
@@ -97,7 +97,7 @@ Route::POST('/envoyer',
 
 #################################Fournisseur#########################################
 Route::GET('/index',
-[FournisseursController::class,'index'])->name('Fournisseur.index');
+[FournisseursController::class,'index'])->name('Fournisseur.index')->middleware(CheckRole::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -105,14 +105,39 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::GET('/ficheUtilisateur/{utilisateur}/',
+Route::GET('/ficheUtilisateur/{utilisateur}',
 [FournisseursController::class,'show'])->name('Fournisseur.fiche');
 
-Route::GET('/ficheUtilisateur/modifier/{utilisateur}/',
+Route::GET('/ficheUtilisateur/{utilisateur}/modifier',
 [FournisseursController::class,'edit'])->name('Fournisseur.modification');
 
-Route::PATCH('/ficheUtilisateur/modifier/{utilisateur}/',
+Route::PATCH('/ficheUtilisateur/{utilisateur}/modifier',
 [FournisseursController::class,'update'])->name('Fournisseur.appliqueModification');
+
+Route::GET('/ficheUtilisateur/document/{id}/download',
+[DocumentController::class,'telechargerDocument'])->name('Document.download');
+
+Route::GET('/ficheUtilisateur/{utilisateur}/statut',
+[FournisseursController::class,'afficherStatut'])->name('Fournisseur.statut');
+
+Route::GET('/unspsc/recherche',
+[FournisseursController::class,'recherche'])->name('Fournisseurs.recherche');
+
+Route::GET('/unspsc/choisit',
+[FournisseursController::class,'choisit'])->name('Fournisseurs.choisit');
+
+Route::DELETE('/unspsc/supprimerUNSPSC',
+[FournisseursController::class, 'supprimerCodeUnspsc'])->name('Fournisseurs.supprimerUNSPSC');
+
+Route::DELETE('/unspsc/supprimerContact',
+[FournisseursController::class, 'supprimerContact'])->name('Fournisseurs.supprimerContacts');
+
+Route::GET('/ficheUtilisateur/{utilisateur}/nouveau_contact',
+[FournisseursController::class,'nouveauContact'])->name('Fournisseur.nouveauContact');
+
+Route::POST('/ficheUtilisateur/{utilisateur}/nouveau_contact/save', 
+[FournisseursController::class, 'nouveauContactUpdate'])->name('Fournisseur.nouveauContact.update');
+
 
 ##################################################################################
 
@@ -137,7 +162,7 @@ Route::GET('/refuser/{candidat}/',
 
 //Faire la recherche de fournisseur et candidat
 Route::GET('/responsable/rechercheFournisseur',
-[ResponsablesController::class,'rechercheFournisseur'])->name('Responsable.rechercheFournisseur')->middleware(CheckRole::class.':responsable');
+[ResponsablesController::class,'rechercheFournisseur'])->name('Responsable.rechercheFournisseur');
 
 Route::GET('/responsable/rechercheCandidat',
 [ResponsablesController::class,'rechercheCandidat'])->name('Responsable.rechercheCandidat')->middleware(CheckRole::class.':responsable');
@@ -148,11 +173,6 @@ Route::GET('/reponsableIndex',
 Route::GET('/responsable/recherche',
 [ResponsablesController::class,'recherche'])->name('Responsable.recherche');
 
-Route::GET('/index/unspsc/recherche',
-[FournisseursController::class,'recherche'])->name('Fournisseurs.recherche')->middleware(CheckRole::class.':responsable');
-
-Route::GET('/index/unspsc/choisit',
-[FournisseursController::class,'choisit'])->name('Fournisseurs.choisit')->middleware(CheckRole::class.':responsable');
 
 //Liste fournisseur et inscription
 Route::GET('/responsable/listeInscription',
@@ -193,6 +213,11 @@ Route::post('/users/update-roles', [UserController::class, 'updateRoles']);
 
 // Route pour traiter la connexion
 #Route::post('/loginAdmin', [AuthController::class, 'adminLogin'])->name('adminLogin');
+
+######################REFUS ACCESS##########################################################
+
+// Route pour traiter la connexion
+Route::get('/RefusAccess', [UtilisateursController::class, 'RefusAccess'])->name('RefusAccess');
 
 //Parametre gestion de courriel admin
 Route::get('/admin/email-templates', [EmailTemplateController::class, 'index'])->name('email.templates.index');

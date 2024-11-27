@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Utilisateur;
+use App\Models\User;
 use App\Models\Contacts;
 use App\Models\Coordonnees;
 use Illuminate\Support\Facades\Http;
 class ResponsablesController extends Controller
 {
-    public function listeFournisseur(Request $request)
+    protected $redirectTo = '/';
+
+    public function index(Request $request)
     {
         /*
             ///////////////////////////////Check API pour NEQ valid////////////////////////////////////////////////////////////////
@@ -38,12 +42,29 @@ class ResponsablesController extends Controller
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         */
-        
+
         $utilisateurs = Utilisateur::where('role', 'fournisseur')
-            ->where('statut', 'Actif')
-            ->get();
-        return View('responsable.listeFournisseur', compact('utilisateurs'));
+        ->where('statut', 'Actif')
+        ->with('coordonnees')
+        ->get();
+
+        foreach ($utilisateurs as $utilisateur) {
+            $mostCommonCategory = DB::table('utilisateur_unspsc')
+                ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+                ->select('code_unspsc.desc_cat', DB::raw('COUNT(code_unspsc.desc_cat) as count'))
+                ->where('utilisateur_unspsc.utilisateur_id', $utilisateur->id)
+                ->groupBy('code_unspsc.desc_cat')
+                ->orderByDesc('count')
+                ->first();
+        
+            $utilisateur->most_common_category = $mostCommonCategory;
+        }
+
+        //dd($utilisateur);
+
+        return View('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
     }
+
 
     /*
     Fonction: Recherche
@@ -51,6 +72,39 @@ class ResponsablesController extends Controller
         -Nom
         -Adresse
     */
+    public function recherche(Request $request)
+    {
+        //dd($request->adresse);
+
+        if($request->recherche == ""){
+            $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
+
+            return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
+        }
+
+        $recherche = $request->recherche;
+
+        $query = Utilisateur::query();
+
+        if($request->nom == "on"){
+            $query->whereAny(['nomFournisseur'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->adresse == "on"){
+            $query->whereAny(['adresse'], 'LIKE' , "%$recherche%");
+        }
+        else if($request->categorie == "on"){
+            $query->whereAny(['categorie'], 'LIKE' , "%$recherche%");
+        }
+        else{
+            $query->whereAny(['nomFournisseur', 'adresse'], 'LIKE' , "%$recherche%");
+        }
+
+        $utilisateurs = $query->get();
+
+        return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
+
+    }
+
 
     public function voirListeInscription()
     {
@@ -93,7 +147,7 @@ class ResponsablesController extends Controller
             ->where('statut', 'Actif')
             ->get();
 
-            return view('responsable.listeFournisseur', compact('utilisateurs'));
+            return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
         }
 
         $recherche = $request->recherche;
@@ -123,7 +177,7 @@ class ResponsablesController extends Controller
 
         $utilisateurs = $query->get();
 
-        return view('responsable.listeFournisseur', compact('utilisateurs'));
+        return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
 
     }
 

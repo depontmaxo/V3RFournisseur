@@ -77,6 +77,7 @@
     </style>
 </head>
 <body>
+
     <!-- Logo en haut à gauche entouré d'un carré blanc -->
  <!--   <div class="logo-container">
         <img src="{{ asset('images/v3r-logo-seul.svg') }}" alt="Logo V3R" width="80">
