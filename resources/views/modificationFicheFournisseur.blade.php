@@ -126,7 +126,46 @@
                     @enderror
                 </div>
 
-                
+
+                <!--SECTIONS FINANCE-->
+                </br>
+                <span class="sections">Finance de l'entreprise :</span>
+                <div class="form-group pt-2">
+                    <label for="numeroTPS">Numéro TPS:</label>
+                    <input type="text" class="form-control" id="numeroTPS" placeholder="Numéro TPS" name="numeroTPS" value="{{ old('numeroTPS', $finances->numeroTPS) }}">
+                    @error('numeroTPS')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group pt-2">
+                    <label for="numeroTVQ">Numéro TVQ:</label>
+                    <input type="text" class="form-control" id="numeroTVQ" placeholder="Numéro TVQ" name="numeroTVQ" value="{{ old('numeroTVQ', $finances->numeroTVQ) }}">
+                    @error('numeroTVQ')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group pt-2">
+                    <label for="conditionPaiement">Condition de paiement:</label>
+                    <input type="text" class="form-control" id="conditionPaiement" placeholder="Z001" name="conditionPaiement" value="{{ old('conditionPaiement', $finances->conditionPaiement) }}">
+                    @error('conditionPaiement')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group pt-2">
+                    <label for="devise">Devise:</label>
+                    <input type="text" class="form-control" id="devise" placeholder="CAD" name="devise" value="{{ old('devise', $finances->devise) }}">
+                    @error('devise')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group pt-2">
+                    <label for="modeCommunication">Mode de communication: </label>
+                    <input type="text" class="form-control" id="modeCommunication" placeholder="Email" name="modeCommunication" value="{{ old('modeCommunication', $finances->modeCommunication) }}">
+                    @error('modeCommunication')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
 
                 <!--SECTIONS CONTACTS-->
                 <?php

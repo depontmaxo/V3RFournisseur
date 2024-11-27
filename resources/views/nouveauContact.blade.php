@@ -12,7 +12,7 @@
 @if (Auth::guard('web')->check())
 
     <body>
-        <h1>Ajout d'un fournisseur - {{ $utilisateur->nom_entreprise }}</h1>
+        <h1>Ajout d'un contact - {{ $utilisateur->nom_entreprise }}</h1>
 
         <form method="POST" action="{{ route('Fournisseur.nouveauContact.update', ['utilisateur' => $utilisateur->id]) }}" style="display: display-flex;" class="insideForm">
             @csrf

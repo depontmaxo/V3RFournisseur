@@ -74,6 +74,11 @@ class Utilisateur extends Authenticatable
     {
         return $this->hasOne(Coordonnees::class, 'utilisateur_id');
     }
+
+    public function finance()
+    {
+        return $this->hasOne(Finance::class, 'utilisateur_id');
+    }
     
     public function codeUSCPSC()
     {

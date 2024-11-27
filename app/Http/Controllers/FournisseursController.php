@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\Utilisateur;
 use App\Models\CodeUNSPSC;
 use App\Models\Contacts;
+use App\Models\Finance;
 use App\Models\Coordonnees;
 use App\Models\Document;
 
@@ -36,6 +37,7 @@ class FournisseursController extends Controller
     {
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
 
@@ -47,7 +49,7 @@ class FournisseursController extends Controller
     
         //dd($codes);
 
-        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','codes','codeUNSPSCunite', 'documents'));
+        return View('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','codes','codeUNSPSCunite', 'documents','finances'));
     }
 
 
@@ -58,7 +60,8 @@ class FournisseursController extends Controller
     {
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
-        return View('modificationFicheFournisseur', compact('utilisateur', 'contacts', 'coordonnees'));
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        return View('modificationFicheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','finances'));
     }
 
     /**
@@ -76,13 +79,15 @@ class FournisseursController extends Controller
             array_merge(
                 $this->messagesValidationIdentification(),
                 $this->messagesValidationCoordonnees(),
-                $this->messagesValidationContacts()
+                $this->messagesValidationContacts(),
+                $this->messagesValidationFinances()
             )
         );
 
 
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
 
         //Vérification modifs?
         $utilisateur->nom_entreprise = $request->nom_entreprise;
@@ -99,6 +104,12 @@ class FournisseursController extends Controller
         $coordonnees->siteweb = $request->siteweb;
         $coordonnees->num_telephone = $request->num_telephone;
 
+        $finances->numeroTPS = $request->numeroTPS;
+        $finances->numeroTVQ = $request->numeroTVQ;
+        $finances->conditionPaiement = $request->conditionPaiement;
+        $finances->devise = $request->devise;
+        $finances->modeCommunication = $request->modeCommunication;
+
         foreach ($contacts as $index => $contact) {
             $contact->prenom = $request->input("prenom.{$index}");
             $contact->nom = $request->input("nom.{$index}");
@@ -110,6 +121,7 @@ class FournisseursController extends Controller
         
         $utilisateur->save();
         $coordonnees->save();
+        $finances->save();
         return redirect()->route('Fournisseur.fiche', [$utilisateur])->with('message', "Modification de " . $utilisateur->nom . " réussi!");
     }
     /**
@@ -125,6 +137,7 @@ class FournisseursController extends Controller
         /*Reprence ce qu'il y a dans la page du fournisseur*/
         $utilisateur = Utilisateur::where( 'id', $utilisateur->id)->first();
         $contacts = Contacts::where('utilisateur_id',  $utilisateur->id)->get();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $coordonnees = Coordonnees::where('utilisateur_id',  $utilisateur->id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')
@@ -137,7 +150,7 @@ class FournisseursController extends Controller
             ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
             ->get();
 
-        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents'))->with('message', "Votre compte est rendu inactif");
+        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents','finances'))->with('message', "Votre compte est rendu inactif");
     }
 
     public function actif(Utilisateur $utilisateur)
@@ -151,6 +164,7 @@ class FournisseursController extends Controller
         $utilisateur = Utilisateur::where( 'id', $utilisateur->id)->first();
         $contacts = Contacts::where('utilisateur_id',  $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id',  $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')
             ->orderBy('code_unspsc', 'asc')
@@ -163,7 +177,7 @@ class FournisseursController extends Controller
             ->get();
         
 
-        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents'))->with('message', "Votre compte est rendu actif");
+        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents','finances'))->with('message', "Votre compte est rendu actif");
 
     }
 
@@ -196,6 +210,7 @@ class FournisseursController extends Controller
             $utilisateur = Utilisateur::where( 'id', $request->fiche_utilisateur_id)->first();
             $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
             $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
+            $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
 
             $codes = DB::table('utilisateur_unspsc')
                 ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
@@ -203,7 +218,7 @@ class FournisseursController extends Controller
                 ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
                 ->get();
 
-            return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents','codeUNSPSCunite'));
+            return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents','codeUNSPSCunite','finances'));
         }
 
         $recherche = $request->recherche;
@@ -233,6 +248,7 @@ class FournisseursController extends Controller
         $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
 
         $codes = DB::table('utilisateur_unspsc')
             ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
@@ -240,7 +256,7 @@ class FournisseursController extends Controller
             ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
             ->get();
 
-        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents'));
+        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents','finances'));
     }
 
     
@@ -283,6 +299,7 @@ class FournisseursController extends Controller
         $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         
         $codes = DB::table('utilisateur_unspsc')
             ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
@@ -291,7 +308,7 @@ class FournisseursController extends Controller
             ->get();
 
 
-        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents'));
+        return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents','finances'));
     }
 
     public function supprimerCodeUnspsc(Request $request)
@@ -307,6 +324,22 @@ class FournisseursController extends Controller
         }
 
         return redirect()->back()->with('success', 'Code UNSPSC supprimé avec succès.');
+    }
+
+    
+    public function supprimerContact(Request $request)
+    {
+        $contactId = $request->contact_id;
+        $utilisateurId = $request->utilisateur_id;
+
+        if ($contactId && $utilisateurId) {
+            DB::table('contacts')
+                ->where('id', $contactId)
+                ->where('utilisateur_id', $utilisateurId)
+                ->delete();
+        }
+
+        return redirect()->back()->with('success', 'Contact supprimé avec succès.');
     }
 
     /*
@@ -608,6 +641,37 @@ class FournisseursController extends Controller
             'num_contact.*.required' => 'Ce champ est obligatoire.',
             'num_contact.*.digits' => 'Le numéro de contact doit contenir exactement :digits chiffres.',
             'num_contact.*.integer' => 'Le numéro de contact doit être un entier.',
+        ];
+    }
+
+    /*Validation pour Finances*/
+    protected function messagesValidationFinances()
+    {
+        return [
+            'numeroTPS .*.required' => 'Ce champ est obligatoire.',
+            'numeroTPS.*.regex' => 'Le prénom ne doit pas contenir d\'espaces.',
+            'numeroTPS.*.min' => 'Le prénom doit contenir au moins :min caractères.',
+            'numeroTPS.*.max' => 'Le prénom ne peut pas dépasser :max caractères.',
+    
+            'numeroTVQ .*.required' => 'Ce champ est obligatoire.',
+            'numeroTVQ .*.regex' => 'Le nom ne doit pas contenir d\'espaces.',
+            'numeroTVQ.*.min' => 'Le nom doit contenir au moins :min caractères.',
+            'numeroTVQ.*.max' => 'Le nom ne peut pas dépasser :max caractères.',
+    
+            'conditionPaiement.*.required' => 'Ce champ est obligatoire.',
+            'conditionPaiement.*.regex' => 'Le format du poste est invalide.',
+            'conditionPaiement.*.min' => 'Le poste doit contenir au moins :min caractères.',
+            'conditionPaiement.*.max' => 'Le poste ne peut pas dépasser :max caractères.',
+    
+            'devise.*.required' => 'Ce champ est obligatoire.',
+            'devise.*.min' => 'Le courriel doit contenir au moins :min caractères.',
+            'devise.*.max' => 'Le courriel ne peut pas dépasser :max caractères.',
+            'devise.*.regex' => 'Le courriel ne doit pas contenir d\'espaces.',
+    
+            'modeCommunication.*.required' => 'Ce champ est obligatoire.',
+            'modeCommunication.*.min' => 'Le courriel doit contenir au moins :min caractères.',
+            'modeCommunication.*.max' => 'Le courriel ne peut pas dépasser :max caractères.',
+            'modeCommunication.*.regex' => 'Le courriel ne doit pas contenir d\'espaces.',
         ];
     }
 

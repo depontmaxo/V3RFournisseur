@@ -32,14 +32,38 @@
             <p><span class="soustitre-bold">Code postal: </span>{{ $coordonnees->code_postal }}</p>
             <p><span class="soustitre-bold">Numero de téléphone: </span>{{ $coordonnees->num_telephone }}</p>
             <p><span class="soustitre-bold">Site web de votre entreprise: </span>{{ $coordonnees->siteweb }}</p>
+
+            <div class="sections pt-3">Finance de votre entreprise</div>
+            <p><span class="soustitre-bold">Numéro TPS: </span>{{ $finances->numeroTPS }}</p>
+            <p><span class="soustitre-bold">Numéro TVQ: </span>{{ $finances->numeroTVQ }}</p>
+            <p><span class="soustitre-bold">Condition de paiement: </span>{{ $finances->conditionPaiement }}</p>
+            <p><span class="soustitre-bold">Devise: </span>{{ $finances->devise }}</p>
+            <p><span class="soustitre-bold">Mode de communication: </span>{{ $finances->modeCommunication }}</p>
             
             <div class="sections pt-3">Information contact(s)</div>
             @foreach ($contacts as $index => $contact)
-                <h5>Contact {{$index + 1}}</h5>
+                <div class="contact">
+                    <h5>Contact {{$index + 1}}</h5>                
+                    @if (count($contacts) >= 2)
+                    
+                        <form action="{{ route('Fournisseurs.supprimerContacts') }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="contact_id" value="{{ $contact->id }}">
+                            <input type="hidden" name="utilisateur_id" value="{{ $utilisateur->id }}">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    @endif
+                </div>
                 <p><span class="soustitre-bold">Nom complet: </span>{{ $contact->prenom }} {{ $contact->nom }}</p>
                 <p><span class="soustitre-bold">Poste occupé: </span>{{ $contact->poste }}</p>
                 <p><span class="soustitre-bold">Courriel: </span>{{ $contact->email_contact }}</p>
                 <p><span class="soustitre-bold">Numéro rejoignable: </span>{{ $contact->num_contact }}</p>
+
+
+                
                 <!--<i class="fa-solid fa-file-excel fa-4x"></i>
                 <i class="fa-solid fa-file-word fa-4x"></i>
                 <i class="fa-solid fa-file-image fa-4x"></i>-->
@@ -76,15 +100,14 @@
             <ul>
                 @foreach ($codes as $code)
                     <li class="UNSPSC_list">
-                        {{ $code->nature_contrat }} / {{ $code->desc_cat }} / {{ $code->unspsc_id }} / {{ $code->desc_det_unspsc }}
-                        
+                        {{ $code->nature_contrat }} / {{ $code->desc_cat }} / {{ $code->unspsc_id }} / {{ $code->desc_det_unspsc }} 
                         <!-- Remove Code Form -->
-                        <form action="{{ route('Fournisseurs.supprimer') }}" method="POST" style="display: inline;">
+                        <form action="{{ route('Fournisseurs.supprimerUNSPSC') }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
                             <input type="hidden" name="unspsc_id" value="{{ $code->unspsc_id }}">
                             <input type="hidden" name="utilisateur_id" value="{{ $utilisateur->id }}">
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce code ?')">
+                            <button type="submit" class="btn btn-sm btn-danger UNSPSC_delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce code ?')">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </form>

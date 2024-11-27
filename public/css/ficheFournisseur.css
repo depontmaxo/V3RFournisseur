@@ -8,9 +8,14 @@ body {
     color: #333;
 }
 
-h1, h2, h5 {
+h1, h2{
     color: #0056b3;
     margin-top: 1rem;
+}
+
+h5 {
+    color: #0056b3;
+    margin-top: auto;
 }
 
 p {
@@ -82,6 +87,11 @@ a:hover {
     box-shadow: none;
 }
 
+.contact{
+    display: flex;
+    column-gap: 1em;
+}
+
 /* UNSPSC Toggle Section */
 .rechercheUNSPSC {
     background-color: #fff;
@@ -106,6 +116,10 @@ a:hover {
     padding: 0.5rem;
     background-color: #e9ecef;
     border-radius: 5px;
+}
+
+.UNSPSC_delete{
+    margin: 0.5rem 0;
 }
 
 .custom-pagination {

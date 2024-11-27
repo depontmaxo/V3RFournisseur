@@ -125,14 +125,17 @@ Route::GET('/unspsc/recherche',
 Route::GET('/unspsc/choisit',
 [FournisseursController::class,'choisit'])->name('Fournisseurs.choisit');
 
-Route::DELETE('/unspsc/supprimer',
-[FournisseursController::class, 'supprimerCodeUnspsc'])->name('Fournisseurs.supprimer');
+Route::DELETE('/unspsc/supprimerUNSPSC',
+[FournisseursController::class, 'supprimerCodeUnspsc'])->name('Fournisseurs.supprimerUNSPSC');
+
+Route::DELETE('/unspsc/supprimerContact',
+[FournisseursController::class, 'supprimerContact'])->name('Fournisseurs.supprimerContacts');
 
 Route::GET('/ficheUtilisateur/{utilisateur}/nouveau_contact',
 [FournisseursController::class,'nouveauContact'])->name('Fournisseur.nouveauContact');
 
 Route::POST('/ficheUtilisateur/{utilisateur}/nouveau_contact/save', 
-[FournisseursController::class, 'nouveauContactUpdate'])->name('Fournisseur.nouveauContactUpdate');
+[FournisseursController::class, 'nouveauContactUpdate'])->name('Fournisseur.nouveauContact.update');
 
 
 ##################################################################################
