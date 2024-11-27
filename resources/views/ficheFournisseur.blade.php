@@ -32,14 +32,14 @@
             <p><span class="soustitre-bold">Code postal: </span>{{ $coordonnees->code_postal }}</p>
             <p><span class="soustitre-bold">Numero de téléphone: </span>{{ $coordonnees->num_telephone }}</p>
             <p><span class="soustitre-bold">Site web de votre entreprise: </span>{{ $coordonnees->siteweb }}</p>
-
-            <div class="sections pt-3">Finance de votre entreprise</div>
-            <p><span class="soustitre-bold">Numéro TPS: </span>{{ $finances->numeroTPS }}</p>
-            <p><span class="soustitre-bold">Numéro TVQ: </span>{{ $finances->numeroTVQ }}</p>
-            <p><span class="soustitre-bold">Condition de paiement: </span>{{ $finances->conditionPaiement }}</p>
-            <p><span class="soustitre-bold">Devise: </span>{{ $finances->devise }}</p>
-            <p><span class="soustitre-bold">Mode de communication: </span>{{ $finances->modeCommunication }}</p>
-            
+            @if ($documents != null)
+                <div class="sections pt-3">Finance de votre entreprise</div>
+                <p><span class="soustitre-bold">Numéro TPS: </span>{{ $finances->numeroTPS ?? 'N/A' }}</p>
+                <p><span class="soustitre-bold">Numéro TVQ: </span>{{ $finances->numeroTVQ ?? 'N/A' }}</p>
+                <p><span class="soustitre-bold">Condition de paiement: </span>{{ $finances->conditionPaiement ?? 'N/A' }}</p>
+                <p><span class="soustitre-bold">Devise: </span>{{ $finances->devise ?? 'N/A' }}</p>
+                <p><span class="soustitre-bold">Mode de communication: </span>{{ $finances->modeCommunication ?? 'N/A' }}</p>
+            @endif
             <div class="sections pt-3">Information contact(s)</div>
             @foreach ($contacts as $index => $contact)
                 <div class="contact">

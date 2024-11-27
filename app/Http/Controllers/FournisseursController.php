@@ -37,7 +37,7 @@ class FournisseursController extends Controller
     {
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
 
@@ -60,7 +60,7 @@ class FournisseursController extends Controller
     {
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         return View('modificationFicheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','finances'));
     }
 
@@ -69,7 +69,11 @@ class FournisseursController extends Controller
      */
 
     public function update(Request $request, Utilisateur $utilisateur)
-    {    
+    {   
+        if($request->neq == null){
+            $request->request->add(['neq' => $utilisateur->neq]);
+        }
+        
         $validated = $request->validate(
             array_merge(
                 $this->reglesValidationsIdentification($utilisateur),
@@ -84,10 +88,9 @@ class FournisseursController extends Controller
             )
         );
 
-
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
 
         //Vérification modifs?
         $utilisateur->nom_entreprise = $request->nom_entreprise;
@@ -137,7 +140,7 @@ class FournisseursController extends Controller
         /*Reprence ce qu'il y a dans la page du fournisseur*/
         $utilisateur = Utilisateur::where( 'id', $utilisateur->id)->first();
         $contacts = Contacts::where('utilisateur_id',  $utilisateur->id)->get();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         $coordonnees = Coordonnees::where('utilisateur_id',  $utilisateur->id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')
@@ -164,7 +167,7 @@ class FournisseursController extends Controller
         $utilisateur = Utilisateur::where( 'id', $utilisateur->id)->first();
         $contacts = Contacts::where('utilisateur_id',  $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id',  $utilisateur->id)->firstOrFail();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')
             ->orderBy('code_unspsc', 'asc')
@@ -210,7 +213,7 @@ class FournisseursController extends Controller
             $utilisateur = Utilisateur::where( 'id', $request->fiche_utilisateur_id)->first();
             $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
             $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
-            $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+            $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
 
             $codes = DB::table('utilisateur_unspsc')
                 ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
@@ -248,7 +251,7 @@ class FournisseursController extends Controller
         $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
 
         $codes = DB::table('utilisateur_unspsc')
             ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
@@ -299,7 +302,7 @@ class FournisseursController extends Controller
         $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         
         $codes = DB::table('utilisateur_unspsc')
             ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')

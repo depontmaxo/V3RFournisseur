@@ -43,13 +43,15 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="form-group pt-2">
-                    <label for="NEQ">NEQ :</label>
-                    <input type="text" class="form-control" id="neq" placeholder="NEQ (10 chiffres)" name="neq" value="{{ old('neq', $utilisateur->neq) }}">
-                    @error('neq')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
+                @if (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable')
+                    <div class="form-group pt-2">
+                        <label for="NEQ">NEQ :</label>
+                        <input type="text" class="form-control" id="neq" placeholder="NEQ (10 chiffres)" name="neq" value="{{ old('neq', $utilisateur->neq) }}">
+                        @error('neq')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
                 <div class="form-group pt-2">
                     <label for="Email">Email :</label>
                     <input type="text" class="form-control" id="email" placeholder="email@email.com" name="email" value="{{ old('email', $utilisateur->email) }}">
@@ -132,35 +134,35 @@
                 <span class="sections">Finance de l'entreprise :</span>
                 <div class="form-group pt-2">
                     <label for="numeroTPS">Numéro TPS:</label>
-                    <input type="text" class="form-control" id="numeroTPS" placeholder="Numéro TPS" name="numeroTPS" value="{{ old('numeroTPS', $finances->numeroTPS) }}">
+                    <input type="text" class="form-control" id="numeroTPS" placeholder="Numéro TPS" name="numeroTPS" value="{{ old('numeroTPS', $finances?->numeroTPS) }}">
                     @error('numeroTPS')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group pt-2">
                     <label for="numeroTVQ">Numéro TVQ:</label>
-                    <input type="text" class="form-control" id="numeroTVQ" placeholder="Numéro TVQ" name="numeroTVQ" value="{{ old('numeroTVQ', $finances->numeroTVQ) }}">
+                    <input type="text" class="form-control" id="numeroTVQ" placeholder="Numéro TVQ" name="numeroTVQ" value="{{ old('numeroTVQ', $finances?->numeroTVQ) }}">
                     @error('numeroTVQ')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group pt-2">
                     <label for="conditionPaiement">Condition de paiement:</label>
-                    <input type="text" class="form-control" id="conditionPaiement" placeholder="Z001" name="conditionPaiement" value="{{ old('conditionPaiement', $finances->conditionPaiement) }}">
+                    <input type="text" class="form-control" id="conditionPaiement" placeholder="Z001" name="conditionPaiement" value="{{ old('conditionPaiement', $finances?->conditionPaiement) }}">
                     @error('conditionPaiement')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group pt-2">
                     <label for="devise">Devise:</label>
-                    <input type="text" class="form-control" id="devise" placeholder="CAD" name="devise" value="{{ old('devise', $finances->devise) }}">
+                    <input type="text" class="form-control" id="devise" placeholder="CAD" name="devise" value="{{ old('devise', $finances?->devise) }}">
                     @error('devise')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group pt-2">
                     <label for="modeCommunication">Mode de communication: </label>
-                    <input type="text" class="form-control" id="modeCommunication" placeholder="Email" name="modeCommunication" value="{{ old('modeCommunication', $finances->modeCommunication) }}">
+                    <input type="text" class="form-control" id="modeCommunication" placeholder="Email" name="modeCommunication" value="{{ old('modeCommunication', $finances?->modeCommunication) }}">
                     @error('modeCommunication')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
