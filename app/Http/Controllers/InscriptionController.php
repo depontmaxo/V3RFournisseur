@@ -81,6 +81,11 @@ class InscriptionController extends Controller
     //Validation des **COORDONNÉES**
     public function verificationCoordonnees(Request $request)
     {
+        if ($request->has('numTel')) {
+            $request->merge([
+                'numTel' => str_replace('-', '', $request->input('numTel'))
+            ]);
+        }
         $validatedData = $request->validate(
             $this->reglesValidationsCoordonnees(),
             $this->messagesValidationCoordonnees()
@@ -93,6 +98,12 @@ class InscriptionController extends Controller
     //Validation des **CONTACTS**
     public function verificationContact(Request $request)
     {
+        if ($request->has('numContact')) {
+            $request->merge([
+                'numContact' => str_replace('-', '', $request->input('numContact'))
+            ]);
+        }
+
         $validatedData = $request->validate(
             $this->reglesValidationsContacts(),
             $this->messagesValidationContacts()
@@ -109,6 +120,12 @@ class InscriptionController extends Controller
         //Si vous avez l'erreur "Content Too Large" de Laravel, il faut aller dans le fichier php.ini dans le composer et changer les valeurs des lignes :
         //post_max_size (mettre environ 250M) comme ca on évite l'erreur de Laravel
         //upload_max_filesize (mettre environ 250M) - Ensuite il faut redémarrer VSCode et le site
+
+        if ($request->has('rbq')) {
+            $request->merge([
+                'rbq' => str_replace('-', '', $request->input('rbq'))
+            ]);
+        }
 
         $request->validate(
             $this->reglesValidationsRBQ(),
@@ -205,10 +222,6 @@ class InscriptionController extends Controller
 
         // Redirection après l'envoi
         return redirect()->route('Connexion.pageConnexion')->with('success', 'Inscription réussie !');
-
-
-       
-        
     }
 
 

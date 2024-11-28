@@ -13,7 +13,7 @@
             <form method="post" action="{{ route('Inscription.verificationProduits') }}">
                 @csrf
                 <div class="container-fluid">
-                    <span class="sousTitres">Produits ou services offerts</span>
+                    <div class="sousTitres">Produits ou services offerts</div>
                     
                     <div class="mb-3" style="position:relative;">
                         <label for="entreprise" class="form-label txtPop">

@@ -57,6 +57,11 @@ label{
     font-family: 'Poppins-Light';
     font-size: 11pt;
     color: gray;
+    border-bottom: 1px solid gray;
+    padding-bottom:5px;
+    padding-top:25px;
+    margin-bottom:5px;
+    width: 100%;
 }
 
 .description{
@@ -164,10 +169,21 @@ body {
     font-size: 1rem;
     color: white !important;
 }
+
 .form-control:focus {
     border-color: #d63384;
     box-shadow: none;
     background-color: #0B2341;
+}
+
+.form-control-file {
+    background-color: #0B2341;
+    border-radius: 0;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Ombre autour du formulaire */
+    padding: 10px;
+    font-size: 1rem;
+    color: white !important;
 }
 
 .form{
@@ -228,6 +244,29 @@ body {
     left: 10px;
     position: absolute;
 }
+
+fieldset[disabled] {
+    border: none;        /* Supprime la bordure du fieldset */
+    padding: 0;
+    margin: 0;
+    background: none;
+    box-shadow: none;
+}
+
+fieldset[disabled] input:disabled {
+    background-color: #0B2341;  /* Remplace le fond blanc par la couleur désirée */
+    color: #495057;             /* Assure une couleur de texte correcte */
+    opacity: 1;                 /* Empêche l'opacité réduite des champs désactivés */
+    cursor: not-allowed;       /* Change le curseur en "non autorisé" */
+}
+
+fieldset[disabled] textarea:disabled {
+    background-color: #0B2341;  /* Remplace le fond blanc par la couleur désirée */
+    color: #495057;             /* Assure une couleur de texte correcte */
+    opacity: 1;                 /* Empêche l'opacité réduite des champs désactivés */
+    cursor: not-allowed;       /* Change le curseur en "non autorisé" */
+}
+
 
 
 @media (max-width: 480px) { /* Smartphones */

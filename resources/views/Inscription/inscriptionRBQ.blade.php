@@ -13,10 +13,11 @@
             <form method="post" action="{{ route('Inscription.verificationRBQ') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="container-fluid">
-                    <span class="sousTitres">Licence(s)</span>
+                    <div class="sousTitres">Licence(s)</div>
+                    <!----Licence RBQ---->
                     <div class="mb-3" style="position:relative;">
                         <label for="rbq" class="form-label txtPop">Licence(s) RBQ valide(s) (optionnel):</label>
-                        <input type="text" class="form-control" id="rbq" placeholder="####-####-##" name="rbq" value="{{ old('rbq', session('user_data.rbq')) }}">
+                        <input type="text" class="form-control" id="rbq" placeholder= "____-____-__" name="rbq" value="{{ old('rbq', session('user_data.rbq')) }}">
                         
                         @error('rbq')
                             <div class="text-danger">
@@ -26,10 +27,11 @@
                         @enderror
                     </div>
                     
-                    <span class="sousTitres">Fichier(s) joint(s)</span>
+                    <div class="sousTitres">Fichier(s) joint(s)</div>
+                    <!----Documents---->
                     <div class="mb-3" style="position:relative;">
                         <label for="documents[]" class="form-label">Joindres les fichiers (docx, doc, pdf, jpg, jpeg, xls, xlsx seulement)</label>
-                        <input type="file" class="form-control" name="documents[]" multiple>
+                        <input type="file" class="form-control-file" name="documents[]" multiple required>
                         
                         @error('documents')
                             <div class="text-danger">
@@ -45,7 +47,8 @@
                         @enderror
                     </div>
 
-                    <div class="d-flex justify-content-center">
+                    <!----Les boutons---->
+                    <div class="d-flex justify-content-center pt-3">
                         <a class="btn btn-custom mx-3" href="{{ route('Inscription.Contact') }}">Précédent</a>
                         <button type="submit" class="btn btn-custom mx-3">Suivant</button>
                     </div>
@@ -69,5 +72,15 @@
                 tooltip.style.display = 'none';
             }
         }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Inputmask({
+                mask: "9999-9999-99",
+                placeholder: "____-____-__"
+            }).mask(document.getElementById('rbq'));
+        });
     </script>
 </body>
