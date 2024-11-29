@@ -12,9 +12,13 @@ class Contacts extends Model
     protected $fillable = [
         'prenom',
         'nom',
-        'poste',
+        'fonction',
         'email_contact',
+        
         'num_contact',
+        'poste_tel',
+        'type_contact',
+
         'utilisateur_id'
     ];
     public function utilisateur()

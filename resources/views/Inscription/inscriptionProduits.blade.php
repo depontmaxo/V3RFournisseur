@@ -50,7 +50,34 @@
         </div>
 
     </div>
-    
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        function showTooltip(icon) {
+            const tooltip = icon.parentNode.nextElementSibling;
+            if (tooltip && tooltip.classList.contains('custom-tooltip')) {
+                tooltip.style.display = 'block';
+            }
+        }
+
+        function hideTooltip(icon) {
+            const tooltip = icon.parentNode.nextElementSibling;
+            if (tooltip && tooltip.classList.contains('custom-tooltip')) {
+                tooltip.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const infoIcons = document.querySelectorAll('.info-icon');
+            infoIcons.forEach(icon => {
+                const tooltip = icon.parentNode.nextElementSibling;
+
+                icon.addEventListener('mouseover', () => showTooltip(icon));
+                icon.addEventListener('mouseout', () => hideTooltip(icon));
+
+                tooltip.addEventListener('mouseover', () => showTooltip(icon)); // Tooltip reste ouvert quand la souris est dessus
+                tooltip.addEventListener('mouseout', () => hideTooltip(icon));  // Tooltip disparaît quand la souris sort
+            });
+        });
+    </script>
 </body>
+@endsection

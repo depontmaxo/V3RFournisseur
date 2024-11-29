@@ -16,7 +16,20 @@
                     <div class="sousTitres">Licence(s)</div>
                     <!----Licence RBQ---->
                     <div class="mb-3" style="position:relative;">
-                        <label for="rbq" class="form-label txtPop">Licence(s) RBQ valide(s) (optionnel):</label>
+                        <label for="rbq" class="form-label txtPop">
+                            Licence RBQ valide
+                            <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
+                                <i class="fa-sharp fa-regular fa-circle-question"></i>
+                            </span> :
+                        </label>
+                        <div class="custom-tooltip">
+                            <p class="critere">
+                            Une licence RBQ (Régie du bâtiment du Québec) est un permis obligatoire pour exercer certaines activités liées à la construction, 
+                            la rénovation ou la gestion de projets de bâtiment au Québec. 
+                            Elle atteste que l'entrepreneur respecte les normes de sécurité et les lois en vigueur. Pour plus d'informations, 
+                            cliquez <a href="https://www.rbq.gouv.qc.ca/foire-aux-questions-faq/entrepreneur/licence/" target="_blank">ici</a>.
+                            </p>
+                        </div>
                         <input type="text" class="form-control" id="rbq" placeholder= "____-____-__" name="rbq" value="{{ old('rbq', session('user_data.rbq')) }}">
                         
                         @error('rbq')
@@ -31,7 +44,7 @@
                     <!----Documents---->
                     <div class="mb-3" style="position:relative;">
                         <label for="documents[]" class="form-label">Joindres les fichiers (docx, doc, pdf, jpg, jpeg, xls, xlsx seulement)</label>
-                        <input type="file" class="form-control-file" name="documents[]" multiple required>
+                        <input type="file" class="form-control-file" name="documents[]" multiple>
                         
                         @error('documents')
                             <div class="text-danger">
@@ -72,6 +85,19 @@
                 tooltip.style.display = 'none';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const infoIcons = document.querySelectorAll('.info-icon');
+            infoIcons.forEach(icon => {
+                const tooltip = icon.parentNode.nextElementSibling;
+
+                icon.addEventListener('mouseover', () => showTooltip(icon));
+                icon.addEventListener('mouseout', () => hideTooltip(icon));
+
+                tooltip.addEventListener('mouseover', () => showTooltip(icon)); // Tooltip reste ouvert quand la souris est dessus
+                tooltip.addEventListener('mouseout', () => hideTooltip(icon));  // Tooltip disparaît quand la souris sort
+            });
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
@@ -84,3 +110,4 @@
         });
     </script>
 </body>
+@endsection

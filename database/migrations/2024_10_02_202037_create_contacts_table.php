@@ -17,9 +17,12 @@ return new class extends Migration
             $table->foreign('utilisateur_id')->references('id')->on('utilisateur')->onDelete('cascade'); // Clé étrangère
             $table->string('prenom', 255);
             $table->string('nom', 255);
-            $table->string('poste', 255);
+            $table->string('fonction', 255)->nullable();
             $table->string('email_contact', 255);
             $table->string('num_contact', 255)->nullable();
+            $table->string('poste_tel', 255)->nullable();
+            $table->enum('type_contact', ['Bureau', 'Télécopieur', 'Cellulaire'])->nullable();
+
             $table->timestamps();
         });
     }

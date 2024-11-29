@@ -46,14 +46,13 @@
                         @enderror
                     </div>
 
-                    <!----Poste/fonction du contact---->
+                    <!----fonction du contact---->
                     <div class="mb-3" style="position:relative;">
-                        <label for="poste" class="form-label txtPop">
-                            <span class="text-danger">* </span>
-                            Poste/Fonction :
+                        <label for="fonction" class="form-label txtPop">
+                            Fonction :
                         </label>
-                        <input type="text" class="form-control" name="poste" placeholder="Centre" value="{{ old('poste', session('user_data.poste', '')) }}" required>
-                        @error('poste')
+                        <input type="text" class="form-control" name="fonction" placeholder="Chef de Marketing" value="{{ old('fonction', session('user_data.fonction', '')) }}">
+                        @error('fonction')
                             <div class="text-danger">
                                 <i class="fas fa-exclamation-circle me-2"></i>
                                 <span>{{ $message }}</span>
@@ -61,6 +60,7 @@
                         @enderror
                     </div>
 
+                    <div class="sousTitres">Coordonnées du contact</div>
                     <!----Courriel du contact---->
                     <div class="mb-3" style="position:relative;">
                         <label for="courrielContact" class="form-label txtPop">
@@ -75,15 +75,48 @@
                             </div>
                         @enderror
                     </div>
+                    
+                    <div class="row">
+                        <!--Input numéro de téléphone-->
+                        <div class="mb-3 col-12 col-md-7" style="position:relative;">
+                            <label for="numContact" class="form-label txtPop">Numéro :</label>
+                            <input type="text" class="form-control" id="numContact" placeholder="___-___-____" name="numContact" value="{{ old('numContact', session('user_data.numContact')) }}">
+                            
+                            @error('numTel')
+                                <div class="text-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
 
-                    <!----Numéro de téléphone du contact---->
-                    <div class="mb-3" style="position:relative;">
-                        <label for="numContact" class="form-label txtPop">
-                            <span class="text-danger">* </span>
-                            Numéro de téléphone :
+                        <!--Input poste du téléphone-->
+                        <div class="mb-3 col-12 col-md-5" id="poste-container" style="position:relative; display: {{ old('typeContact') == 'Bureau' ? 'block' : 'none' }};">
+                            <label for="posteTelContact" class="form-label txtPop">Poste :</label>
+                            <input type="text" class="form-control" id="posteTelContact" placeholder="" name="posteTelContact" value="{{ old('posteTelContact', session('user_data.posteTelContact')) }}">
+                            
+                            @error('posteTelContact')
+                                <div class="text-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!--Type de téléphone-->
+                    <div class="mb-3 col-12 col-md-6">
+                        <label for="typeTelContact" class="form-label txtPop">
+                            Type de téléphone :
                         </label>
-                        <input type="text" class="form-control" name="numContact" id="numContact" placeholder="___-___-____" value="{{ old('numContact', session('user_data.numContact', '')) }}" required>
-                        @error('numContact')
+                        <select class="form-control" id="typeTelContact" name="typeTelContact">
+                            <option value="" disabled selected>Choisir un type de contact</option>
+                            <option value="Bureau" {{ old('typeTelContact', session('user_data.typeTelContact')) == 'Bureau' ? 'selected' : '' }}>Bureau</option>
+                            <option value="Télécopieur" {{ old('typeTelContact', session('user_data.typeTelContact')) == 'Télécopieur' ? 'selected' : '' }}>Télécopieur</option>
+                            <option value="Cellulaire" {{ old('typeTelContact', session('user_data.typeTelContact')) == 'Cellulaire' ? 'selected' : '' }}>Cellulaire</option>
+                        </select>
+
+                        @error('typeTelContact')
                             <div class="text-danger">
                                 <i class="fas fa-exclamation-circle me-2"></i>
                                 <span>{{ $message }}</span>
@@ -117,6 +150,42 @@
                 tooltip.style.display = 'none';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const infoIcons = document.querySelectorAll('.info-icon');
+            infoIcons.forEach(icon => {
+                const tooltip = icon.parentNode.nextElementSibling;
+
+                icon.addEventListener('mouseover', () => showTooltip(icon));
+                icon.addEventListener('mouseout', () => hideTooltip(icon));
+
+                tooltip.addEventListener('mouseover', () => showTooltip(icon)); // Tooltip reste ouvert quand la souris est dessus
+                tooltip.addEventListener('mouseout', () => hideTooltip(icon));  // Tooltip disparaît quand la souris sort
+            });
+        });
+    </script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const typeContactSelect = document.getElementById('typeTelContact');
+            const posteTelContainer = document.getElementById('poste-container');
+
+            // Fonction pour ajuster l'affichage selon la valeur de la province
+            function adjustPosteInput() {                
+                if (typeContactSelect.value === 'Bureau'){
+                    posteTelContainer.style.display = 'block';
+                }
+                else{
+                    posteTelContainer.style.display = 'none';
+                }
+            }
+
+            // Appeler la fonction au chargement de la page pour tenir compte de la valeur actuelle
+            adjustPosteInput();
+
+            // Ajouter un événement sur le changement de valeur du select
+            typeContactSelect.addEventListener('change', adjustPosteInput);
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
@@ -129,3 +198,4 @@
         });
     </script>
 </body>
+@endsection

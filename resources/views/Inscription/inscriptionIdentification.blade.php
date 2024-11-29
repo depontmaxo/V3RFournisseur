@@ -21,17 +21,8 @@
                     <div class="mb-3" style="position:relative;">
                         <label for="entreprise" class="form-label txtPop">
                             <span class="text-danger">* </span>
-                            Nom de l'entreprise
-                            <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
-                                <i class="fa-sharp fa-regular fa-circle-question"></i>
-                            </span> :
+                            Nom de l'entreprise :
                         </label>
-                        <div class="custom-tooltip">
-                            <ul class="critere">
-                                <li>Obligatoire.</li>
-                                <li>Doit contenir entre 5 et 75 caractères.</li>
-                            </ul>
-                        </div>
 
                         <input type="text" class="form-control" id="entreprise" placeholder="Tech Innovators" name="entreprise" value="{{ old('entreprise', session('user_data.entreprise', '')) }}" required>
                                         
@@ -52,13 +43,11 @@
                             </span> :
                         </label>
                         <div class="custom-tooltip">
-                            <ul class="critere">
-                                <li>Obligatoire si le champ "courriel" est vide.</li>
-                                <li>Composé exactement de 10 chiffres.</li>
-                                <li>Doit commencer par 11, 22, 33 ou 88.</li>
-                            </ul>
+                            <p class="critere">
+                            Le numéro d'entreprise du Québec (NEQ) est un code unique attribué à chaque entreprise au Québec pour l'identifier officiellement dans les démarches administratives. 
+                            Pour plus d'information, cliquez <a href="https://www.quebec.ca/entreprises-et-travailleurs-autonomes/demarrer-entreprise/immatriculer-constituer-entreprise/immatriculation-entreprise/numero-entreprise-quebec" target="_blank">ici</a>.
+                            </p>
                         </div>
-
                         <input type="text" class="form-control" id="neq" placeholder="__ __ __ __ __" name="neq" value="{{ old('neq', session('user_data.neq', '')) }}">
                                 
                         @error('neq')
@@ -173,7 +162,21 @@
                 tooltip.style.display = 'none';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const infoIcons = document.querySelectorAll('.info-icon');
+            infoIcons.forEach(icon => {
+                const tooltip = icon.parentNode.nextElementSibling;
+
+                icon.addEventListener('mouseover', () => showTooltip(icon));
+                icon.addEventListener('mouseout', () => hideTooltip(icon));
+
+                tooltip.addEventListener('mouseover', () => showTooltip(icon)); // Tooltip reste ouvert quand la souris est dessus
+                tooltip.addEventListener('mouseout', () => hideTooltip(icon));  // Tooltip disparaît quand la souris sort
+            });
+        });
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

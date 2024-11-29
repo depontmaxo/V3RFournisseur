@@ -8,6 +8,8 @@ use App\Models\Utilisateur;
 use App\Models\Document;
 use App\Models\Coordonnees;
 use App\Models\Contacts;
+use App\Models\Ville;
+use App\Models\RegionAdministrative;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -26,7 +28,8 @@ class InscriptionController extends Controller
 
     public function coordonnees()
     {
-        return View('Inscription.inscriptionCoordonnees');
+        $villes = Ville::all();
+        return View('Inscription.inscriptionCoordonnees', compact('villes'));
     }
 
     public function produits()
@@ -51,6 +54,12 @@ class InscriptionController extends Controller
     //==============Section qui s'occupe d'exécuter la validation et redirect vers la page suivante==============
     public function verificationIdentification(Request $request)
     {
+        if ($request->has('neq')) {
+            $request->merge([
+                'neq' => str_replace('-', '', $request->input('neq'))
+            ]);
+        }
+
         $validatedData = $request->validate(
             $this->reglesValidationsIdentification(),
             $this->messagesValidationIdentification()
@@ -81,23 +90,53 @@ class InscriptionController extends Controller
     //Validation des **COORDONNÉES**
     public function verificationCoordonnees(Request $request)
     {
+
         if ($request->has('numTel')) {
             $request->merge([
                 'numTel' => str_replace('-', '', $request->input('numTel'))
             ]);
         }
+        
+        if ($request->input('province') === 'Québec') {
+            $request->merge([
+                'ville-autre' => $request->input('ville'),
+            ]);
+        } else {
+            $request->merge([
+                'ville' => $request->input('ville-autre'),
+            ]);
+        }
+
         $validatedData = $request->validate(
             $this->reglesValidationsCoordonnees(),
             $this->messagesValidationCoordonnees()
         );
 
-        $this->storeInSession($request, $validatedData);
+        if ($request->input('province') === 'Québec'){
+            $validatedData['ville'] = $request->input('ville');
+            $validatedData['ville-autre'] = '';
+
+            $ville = Ville::where('ville', $request->only('ville'))->firstOrFail();
+            $region = RegionAdministrative::where('code', $ville->region_code)->firstOrFail();
+            $regionNom = $region->region;
+            $regionCode = $region->code;
+        }
+        else{
+            $validatedData['ville'] = $request->input('ville-autre');
+            $regionNom = null;
+            $regionCode = null;
+        }
+        
+
+        $this->storeInSession($request, $validatedData + ['region' => $regionNom] + ['code' => $regionCode]);
         return redirect()->route('Inscription.Contact');
     }
 
     //Validation des **CONTACTS**
     public function verificationContact(Request $request)
     {
+
+        /*Met des espaces a place de les enlever */
         if ($request->has('numContact')) {
             $request->merge([
                 'numContact' => str_replace('-', '', $request->input('numContact'))
@@ -135,16 +174,19 @@ class InscriptionController extends Controller
 
         // Récupérer les fichiers validés
         $uploadedFiles = [];
-        foreach ($request->file('documents') as $file) {
-            if ($file->isValid()) {
-                $fileStream = base64_encode(file_get_contents($file->getRealPath()));
-                $uploadedFiles[] = [
-                    'name' => $file->getClientOriginalName(),
-                    'size' => $file->getSize(),
-                    'type' => $file->getClientMimeType(),
-                    'stream' => $fileStream, // Ouvrir le fichier en tant que flux
-                    //'stream' => fopen($file->getRealPath(), 'rb'), // Ouvrir le fichier en tant que flux
-                ];
+
+        if ($request->hasFile('documents')) {
+            foreach ($request->file('documents') as $file) {
+                if ($file->isValid()) {
+                    $fileStream = base64_encode(file_get_contents($file->getRealPath()));
+                    $uploadedFiles[] = [
+                        'name' => $file->getClientOriginalName(),
+                        'size' => $file->getSize(),
+                        'type' => $file->getClientMimeType(),
+                        'stream' => $fileStream, // Ouvrir le fichier en tant que flux
+                        //'stream' => fopen($file->getRealPath(), 'rb'), // Ouvrir le fichier en tant que flux
+                    ];
+                }
             }
         }
 
@@ -172,7 +214,6 @@ class InscriptionController extends Controller
             'neq' => $data['neq'],
             'email' => $data['courrielConnexion'],
             'password' => $data['password'],
-            'role' => 'fournisseur',
             'statut' => 'En attente',
             'rbq' => $data['rbq']
         ]);
@@ -180,26 +221,32 @@ class InscriptionController extends Controller
         // Récupérer les fichiers de la session
         $documents = $data['documents'] ?? [];
         
-        foreach ($documents as $file) {
-            // Enregistrer chaque fichier dans la table 'documents'
-            $utilisateur->documents()->create([
-                'file_name' => $file['name'],
-                'file_size' => $file['size'],
-                'file_type' => $file['type'],
-                'file_stream' => $file['stream'],
-                // 'utilisateurs_id' => $formulaire->id, // Cette ligne est gérée automatiquement par Eloquent
-            ]);
+        if (!empty($documents)) {
+            foreach ($documents as $file) {
+                // Enregistrer chaque fichier dans la table 'documents'
+                $utilisateur->documents()->create([
+                    'file_name' => $file['name'],
+                    'file_size' => $file['size'],
+                    'file_type' => $file['type'],
+                    'file_stream' => $file['stream'],
+                    // 'utilisateurs_id' => $formulaire->id, // Cette ligne est gérée automatiquement par Eloquent
+                ]);
+            }
         }
 
         $utilisateur->coordonnees()->create([
-            'adresse' => $data['adresse'],
+            'num_civique' => $data['Ncivique'],
+            'rue' => $data['rue'],
             'bureau' => $data['bureau'],
             'ville' => $data['ville'],
+            'region_administrative' => $data['region'],
+            'code_region' => $data['code'],
             'province' => $data['province'],
             'code_postal' => $data['codePostal'],
-            'pays' => $data['pays'],
-            'siteweb' => $data['site'],
             'num_telephone' => $data['numTel'],
+            'poste' => $data['posteTel'],
+            'type_contact' => $data['typeContact'],
+            'siteweb' => $data['site'],
         ]);
 
 
@@ -207,9 +254,11 @@ class InscriptionController extends Controller
             /*'utilisateur_id' => $uuid,*/
             'prenom' => $data['prenom'],
             'nom' => $data['nom'],
-            'poste' => $data['poste'],
+            'fonction' => $data['fonction'],
             'email_contact' => $data['courrielContact'],
             'num_contact' => $data['numContact'],
+            'poste_tel' => $data['posteTelContact'],
+            'type_contact' => $data['typeTelContact'],
         ]);
 
 
@@ -217,7 +266,7 @@ class InscriptionController extends Controller
         session()->forget('user_data');
 
 
-        Mail::to($utilisateur->email)->send(new welcomeUserMail());
+        //Mail::to($utilisateur->email)->send(new welcomeUserMail());
  
 
         // Redirection après l'envoi
@@ -328,10 +377,17 @@ class InscriptionController extends Controller
             ], 
 
             'ville' => [
-                'required', 
+                'required_without:ville-autre',
                 'regex:/^[A-Za-zÀ-ÿ0-9]+(?:[- ][A-Za-zÀ-ÿ0-9]+)*$/', // Acceptation des lettres accentuées
-                'min:3', 
-                'max:64'
+                'max:64',
+                'required_if:province,Québec'
+            ], 
+
+            'ville-autre' => [
+                'required_without:ville', 
+                'regex:/^[A-Za-zÀ-ÿ0-9]+(?:[- ][A-Za-zÀ-ÿ0-9]+)*$/', // Acceptation des lettres accentuées
+                'max:64',
+                'required_if:province,!Québec'
             ], 
 
             'province' => [
@@ -346,13 +402,6 @@ class InscriptionController extends Controller
                 'regex:/^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/'
             ],
 
-            'pays' => [
-                'required', 
-                'regex:/^[A-Za-zÀ-ÿ0-9\s\-]*$/', // Acceptation des lettres accentuées, espaces et tirets
-                'min:3', 
-                'max:35'
-            ],
-
             'site' => [
                 'nullable', 
                 'url'
@@ -363,6 +412,18 @@ class InscriptionController extends Controller
                 'digits:10', 
                 'integer'
             ],
+
+            'posteTel' => [
+                'nullable', 
+                'max:6',
+                'integer'
+            ],
+
+            'typeContact' => [
+                'required', 
+            ],
+
+
         ];
     }
 
@@ -371,23 +432,20 @@ class InscriptionController extends Controller
         return [
             'prenom' => [
                 'required', 
-                'regex:/^[^\s]*$/', 
-                'min:3', 
-                'max:20'
+                'regex:/^[A-Za-zÀ-ÿ,\'\- ]*$/', 
+                'max:32'
             ],
 
             'nom' => [
                 'required', 
-                'regex:/^[^\s]*$/', 
-                'min:3', 
-                'max:50'
+                'regex:/^[A-Za-zÀ-ÿ,\'\- ]*$/',  
+                'max:32'
             ],
 
-            'poste' => [
-                'required', 
-                'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', 
-                'min:3', 
-                'max:30'
+            'fonction' => [
+                'nullable', 
+                'regex:/^[A-Za-zÀ-ÿ\W_]*$/', 
+                'max:32'
             ],
 
             'courrielContact' => [
@@ -399,9 +457,19 @@ class InscriptionController extends Controller
             ],
 
             'numContact' => [
-                'required', 
+                'nullable', 
                 'digits:10', 
                 'integer'
+            ],
+
+            'posteTelContact' => [
+                'nullable', 
+                'max:6',
+                'integer'
+            ],
+
+            'typeTelContact' => [
+                'nullable', 
             ],
         ];
     }
@@ -415,7 +483,7 @@ class InscriptionController extends Controller
             ],
 
             'documents' => [
-                'required', 
+                'nullable', 
                 'array'
             ],
 
@@ -482,10 +550,15 @@ class InscriptionController extends Controller
             'bureau.regex' => 'Le format du bureau est invalide.',
             'bureau.max' => 'Le bureau ne peut pas dépasser :max caractères.',
     
-            'ville.required' => 'Ce champ est obligatoire.',
+            'ville.required_without' => 'Ce champ est obligatoire.',
             'ville.regex' => 'Le format de la ville est invalide.',
             'ville.min' => 'La ville doit contenir au moins :min caractères.',
             'ville.max' => 'La ville ne peut pas dépasser :max caractères.',
+
+            'ville-autre.required_without' => 'Ce champ est obligatoire.',
+            'ville-autre.regex' => 'Le format de la ville est invalide.',
+            'ville-autre.min' => 'La ville doit contenir au moins :min caractères.',
+            'ville-autre.max' => 'La ville ne peut pas dépasser :max caractères.',
     
             'province.required' => 'Ce champ est obligatoire.',
             'province.min' => 'La province doit contenir au moins :min caractères.',
@@ -495,16 +568,16 @@ class InscriptionController extends Controller
             'codePostal.required' => 'Ce champ est obligatoire.',
             'codePostal.regex' => 'Le format du code postal est invalide.',
     
-            'pays.required' => 'Ce champ est obligatoire.',
-            'pays.regex' => 'Le format du pays est invalide.',
-            'pays.min' => 'Le pays doit contenir au moins :min caractères.',
-            'pays.max' => 'Le pays ne peut pas dépasser :max caractères.',
-    
             'site.url' => 'Le champ site doit être une URL valide.',
     
             'numTel.required' => 'Ce champ est obligatoire.',
             'numTel.digits' => 'Le numéro de téléphone doit contenir exactement :digits chiffres.',
             'numTel.integer' => 'Le numéro de téléphone doit être un entier.',
+
+            'posteTel.integer' => 'Le poste doit être composé de chiffre',
+            'posteTel.max' => 'Le poste ne peut pas dépasser :max caractères.',
+
+            'typeContact.required' => 'Ce champ est obligatoire.',
         ];
     }
 
@@ -521,10 +594,10 @@ class InscriptionController extends Controller
             'nom.min' => 'Le nom doit contenir au moins :min caractères.',
             'nom.max' => 'Le nom ne peut pas dépasser :max caractères.',
     
-            'poste.required' => 'Ce champ est obligatoire.',
-            'poste.regex' => 'Le format du poste est invalide.',
-            'poste.min' => 'Le poste doit contenir au moins :min caractères.',
-            'poste.max' => 'Le poste ne peut pas dépasser :max caractères.',
+            'fonction.required' => 'Ce champ est obligatoire.',
+            'fonction.regex' => 'Le format du poste est invalide.',
+            'fonction.min' => 'Le poste doit contenir au moins :min caractères.',
+            'fonction.max' => 'Le poste ne peut pas dépasser :max caractères.',
     
             'courrielContact.required' => 'Ce champ est obligatoire.',
             'courrielContact.min' => 'Le courriel doit contenir au moins :min caractères.',
@@ -535,6 +608,9 @@ class InscriptionController extends Controller
             'numContact.required' => 'Ce champ est obligatoire.',
             'numContact.digits' => 'Le numéro de contact doit contenir exactement :digits chiffres.',
             'numContact.integer' => 'Le numéro de contact doit être un entier.',
+
+            'posteTelContact.integer' => 'Le poste doit être composé de chiffre',
+            'posteTelContact.max' => 'Le poste ne peut pas dépasser :max caractères.',
         ];
     }
 

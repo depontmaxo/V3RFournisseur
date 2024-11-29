@@ -190,7 +190,24 @@ body {
     padding: 10px;
 }
 
-/* Tooltip Container */
+/* Tooltip List */
+.custom-tooltip ul {
+    margin: 0;
+    padding: 0;
+    list-style: disc;
+}
+
+.custom-tooltip ul li {
+    margin-left: 20px;
+}
+
+.info-icon { 
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Tooltip Placement */
 .custom-tooltip {
     display: none;
     position: absolute;
@@ -203,9 +220,12 @@ body {
     border-radius: 5px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
     z-index: 1000; /* Ensure it appears above other elements */
-    white-space: nowrap; /* Prevent text wrapping */
+    white-space: normal; /* Allow text wrapping */
     font-size: 0.9rem; /* Adjust font size */
     text-align: left; /* Align text */
+    width: 350px; /* Fixed width */
+    max-height: 250px; /* Maximum height for the tooltip */
+    overflow-y: auto; /* Enable vertical scrolling if the content overflows */
 }
 
 .custom-tooltip::before {
@@ -219,31 +239,11 @@ body {
     border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; /* Arrow color */
 }
 
-/* Tooltip List */
-.custom-tooltip ul {
-    margin: 0;
-    padding: 0;
-    list-style: disc;
+/* Supprimer la flèche du tooltip */
+.custom-tooltip::before {
+    content: none; /* Retirer la flèche */
 }
 
-.custom-tooltip ul li {
-    margin-left: 20px;
-}
-
-/* Info Icon */
-.info-icon {
-    display: inline-block;
-    cursor: pointer;
-    position: relative;
-}
-
-/* Tooltip Placement */
-.info-icon:hover + .custom-tooltip {
-    display: block;
-    top: 20px; /* Adjust positioning relative to the info icon */
-    left: 10px;
-    position: absolute;
-}
 
 fieldset[disabled] {
     border: none;        /* Supprime la bordure du fieldset */
