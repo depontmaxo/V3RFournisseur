@@ -17,14 +17,15 @@
 <body>
     <!-- Logo et boutons -->
     <div class="header">
-        <div class="logo-container">
-            <img src="{{ asset('images/v3r-logo-seul.svg') }}" alt="Logo V3R" width="80">
-        </div>
+        <div class="nav">
+            <div class="logo-container">
+                <img src="{{ asset('images/v3r-logo-seul.svg') }}" alt="Logo V3R" width="80">
+            </div>
 
-        <div class="top-right">
-            <a class="btn btn-custom" href="{{ route('Connexion.pageConnexion') }}">Accueil</a>
-            <a class="btn btn-custom" href="{{ route('Connexion.pageConnexion') }}">Se connecter</a>
-            <a class="btn btn-custom" href="{{ route('Inscription.Identification') }}">Contacter support</a>
+            <div class="top-right">
+                <a class="btn btn-custom" href="{{ route('Connexion.pageConnexion') }}">Accueil</a>
+                <a class="btn btn-custom" href="https://www.v3r.net/nous-joindre">Contacter support</a>
+            </div>
         </div>
 
         <!-- Contenu de la page -->

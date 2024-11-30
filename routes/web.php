@@ -17,7 +17,8 @@ require __DIR__.'/auth.php';
 
 
 Route::GET('/',
-[UtilisateursController::class,'index'])->name('page.Accueil')/*->middleware('role:admin,commis,responsable');*/;
+[UtilisateursController::class,'pageConnexion'])->name('page.Accueil')->middleware(ClearSessionMiddleware::class);
+
 Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
 
 

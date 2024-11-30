@@ -1,283 +1,437 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>@yield("title", "Inscription")</title>
-        <link rel="stylesheet" href="{{ asset('css/inscription.css') }}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    </head>
-
-
-
-    
-    <body>
+@extends('layouts.inscriptionLayout')
+ 
+ @section('titre', 'Révision des informations entrées')
+ 
+ @section('contenu')
+ 
+ <body>
+    <div class="container form-box">
+        <div class="bg-titre">
+            <div class="titre">Révision finale</div>
+        </div>
+        <div class="form">
             <form method="post" action="{{ route('Inscription.verificationComplet') }}">
-
-            
-   
-
-
-
-
-
-
-
-
-                
-            @csrf
-            <div class="container-fluid">
+                @csrf
                 <fieldset disabled>
-                    <!---------------------------SECTION IDENTIFICATION--------------------------->
-                    <p class="col-12 text-center my-3 titre">Information de votre entreprise</p>
-                        
-                    <span class="sousTitres">Identification</span>      
-                    <div class="mb-3 row">
-                        <label for="entreprise" class="col-3" >Nom de l'entreprise :</label>
-                        <input type="text" class="col-9" id="entreprise" placeholder="Aucun" name="entreprise" value="{{ old('entreprise', session('user_data.entreprise', '')) }}">
-                        
-                        @error('entreprise')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <div class="container-fluid">
+                        <!---------------------------SECTION IDENTIFICATION--------------------------->
+                        <div>
+                            <div class="sousTitres">Identification</div>
+                            
+                            <!----Nom de l'entreprise---->
+                            <div class="mb-3" style="position:relative;">
+                                <label for="entreprise" class="form-label txtPop">
+                                    <span class="text-danger">* </span>
+                                    Nom de l'entreprise
+                                    <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
+                                        <i class="fa-sharp fa-regular fa-circle-question"></i>
+                                    </span> :
+                                </label>
+                                <div class="custom-tooltip">
+                                    <ul class="critere">
+                                        <li>Obligatoire.</li>
+                                        <li>Doit contenir entre 5 et 75 caractères.</li>
+                                    </ul>
+                                </div>
 
-                        <div class="mb-3 row">
-                            <label for="neq" class="col-3" >Numéro d'entreprise (NEQ) :</label>
-                            <input type="text" class="col-9" id="neq" placeholder="Aucun" name="neq" value="{{ old('neq', session('user_data.neq', '')) }}">
-                        
-                            @error('neq')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
+                                <input type="text" class="form-control" id="entreprise" placeholder="Tech Innovators" name="entreprise" value="{{ old('entreprise', session('user_data.entreprise', '')) }}">
+                                                
+                                @error('entreprise')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <!----Numéro d'entreprise (NEQ)---->
+                            <div class="mb-3" style="position:relative;">
+                                <label for="neq" class="form-label txtPop">
+                                    Numéro d'entreprise (NEQ)
+                                    <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
+                                        <i class="fa-sharp fa-regular fa-circle-question"></i>
+                                    </span> :
+                                </label>
+                                <div class="custom-tooltip">
+                                    <ul class="critere">
+                                        <li>Obligatoire si le champ "courriel" est vide.</li>
+                                        <li>Composé exactement de 10 chiffres.</li>
+                                        <li>Doit commencer par 11, 22, 33 ou 88.</li>
+                                    </ul>
+                                </div>
+
+                                <input type="text" class="form-control" id="neq" placeholder="__ __ __ __ __" name="neq" value="{{ old('neq', session('user_data.neq', '')) }}">
+                                        
+                                @error('neq')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+                                
+                            <div class="sousTitres">Authentification pour connexion</div> 
+                            <!----Courriel de connexion---->
+                            <div class="mb-3" style="position:relative;">
+                                
+                                <label for="courrielConnexion" class="form-label txtPop">
+                                    Adresse courriel
+                                    <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
+                                        <i class="fa-sharp fa-regular fa-circle-question"></i>
+                                    </span> :
+                                </label>
+                                <div class="custom-tooltip">
+                                    <ul class="critere">
+                                        <li>Obligatoire si le champ NEQ est vide.</li>
+                                        <li>Doit être une adresse courriel valide.</li>
+                                        <li>Ne peut pas dépasser 64 caractères.</li>
+                                        <li>Le domaine doit avoir une extension valide (exemple : .com, .org).</li>
+                                        <li>Pas de tirets juste avant ou après le "@" dans l'adresse.</li>
+                                    </ul>
+                                </div>
+
+                                <input type="email" class="form-control" id="courrielConnexion" placeholder="example@courriel.com" name="courrielConnexion" value="{{ old('courrielConnexion', session('user_data.courrielConnexion', '')) }}">
+                                        
+                                @error('courrielConnexion')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
-                 
-                        <span class="sousTitres">Authentification pour connexion</span> 
-                        <div class="mb-3 row">
-                            <label for="courrielConnexion" class="col-3" >Adresse courriel :</label>
-                            <input type="email" class="col-9" id="courrielConnexion" placeholder="Aucun" name="courrielConnexion" value="{{ old('courrielConnexion', session('user_data.courrielConnexion', '')) }}">
-                        
-                            @error('courrielConnexion')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+
 
                         <!---------------------------SECTION PRODUITS/SERVICES--------------------------->
-                        <p class="col-12 text-center my-3 titre">Descriptions des produits et services offerts</p>
-                        <span class="sousTitres">Produits ou services offerts</span>
-                        <div class="mb-3 row">
-                            <label for="services" class="col-3">Produits / Services :</label>
-                            <textarea placeholder="Aucun" class="col-9 description" id="services" name="services">{{ old('services', session('user_data.services', '')) }}</textarea>
-                        
-                            @error('services')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        
+                        <div>
+                            <div class="mb-3" style="position:relative;">
+                                <label for="entreprise" class="form-label txtPop">
+                                    Produits / Services
+                                    <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
+                                        <i class="fa-sharp fa-regular fa-circle-question"></i>
+                                    </span> :
+                                </label>
+                                <div class="custom-tooltip">
+                                    <ul>
+                                        <li>Obligatoire.</li>
+                                        <li>Maximum 64 caractères</li>
+                                        <li>Doit être le nom officiel de votre entreprise.</li>
+                                        <li>Ne peut pas contenir de caractères spéciaux.</li>
+                                    </ul>
+                                </div>
+
+                                <textarea placeholder="Description des produits/services offerts." class="form-control description" id="services" name="services">{{ old('services', session('user_data.services', '')) }}</textarea>
+                                                
+                                @error('services')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
-                    
+
+
                         <!---------------------------SECTION COORDONNEES--------------------------->
+                        <div>
+                            <div class="sousTitres">Emplacement de l'entreprise</div>
 
-                        <p class="col-12 text-center my-3 titre">Coordonnées de votre entreprise</p>
-                       
-                       <span class="sousTitres">Coordonnées</span>
+                            <div class="mb-3 row" style="position:relative;">
+                                <!--Input numéro civique-->
+                                <div class="col-12 col-md-4 mb-2">
+                                    <label for="Ncivique" class="form-label txtPop"><span class="text-danger">* </span>N° Civique :</label>
+                                    <input type="text" class="form-control" id="Ncivique" placeholder="123" name="Ncivique" value="{{ old('Ncivique', session('user_data.Ncivique', '')) }}" required>
 
-                       <div class="mb-3 row">
-                           <label for="adresse" class="col-3" >Adresse :</label>
-                           <input type="text" class="col-9" id="adresse" placeholder="Aucun" name="adresse" value="{{ old('adresse', session('user_data.adresse', '')) }}">
-                       
-                       
-                           @error('adresse')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
+                                    @error('Ncivique')
+                                        <div class="text-danger d-flex align-items-center mt-2">
+                                            <i class="fas fa-exclamation-circle me-2"></i>
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    @enderror
+                                </div>
 
-                       <div class="mb-3 row">
-                           <label for="bureau" class="col-3" >Bureau (optionnel) : </label>
-                           <input type="text" class="col-9" id="bureau" placeholder="Aucun" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">
-                       
-                           @error('bureau')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
+                                <!--Input rue-->
+                                <div class="col-12 col-md-4 mb-2">
+                                    <label for="rue" class="form-label txtPop"><span class="text-danger">* </span>Rue :</label>
+                                    <input type="text" class="form-control" id="rue" placeholder="Street" name="rue" value="{{ old('rue', session('user_data.rue', '')) }}" required>
+                                    
+                                    @error('rue')
+                                        <div class="text-danger d-flex align-items-center mt-2">
+                                            <i class="fas fa-exclamation-circle me-2"></i>
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    @enderror
+                                </div>
 
-                       <div class="mb-3 row">
-                           <label for="ville" class="col-3" >Ville :</label>
-                           <input type="text" class="col-9" id="ville" placeholder="Aucun" name="ville" value="{{ old('ville', session('user_data.ville')) }}">
-                       
-                           @error('ville')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
+                                <!--Input bureau-->
+                                <div class="col-12 col-md-4 mb-2" style="position:relative;">
+                                    <label for="bureau" class="form-label txtPop">Bureau :</label>
+                                    <input type="text" class="form-control" id="bureau" placeholder="Optionnel" name="bureau" value="{{ old('bureau', session('user_data.bureau', '')) }}">                           
 
-                       <div class="mb-3 row">
-                           <label for="province" class="col-3" >Province :</label>
-                           <input type="text" class="col-9" id="province" placeholder="Aucun" name="province" value="{{ old('province', session('user_data.province')) }}">
-                       
-                           @error('province')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
+                                    @error('bureau')
+                                        <div class="text-danger d-flex align-items-center mt-2">
+                                            <i class="fas fa-exclamation-circle me-2"></i>
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
 
-                       <div class="mb-3 row">
-                           <label for="codePostal" class="col-3" >Code postal :</label>
-                           <input type="text" class="col-9" id="codePostal" placeholder="Aucun" name="codePostal" value="{{ old('codePostal', session('user_data.codePostal')) }}">
-                       
-                           @error('codePostal')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
-
-                       <div class="mb-3 row">
-                           <label for="pays" class="col-3" >Pays :</label>
-                           <input type="text" class="col-9" id="pays" placeholder="Aucun" name="pays" value="{{ old('pays', session('user_data.pays')) }}">
-                       
-                           @error('pays')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
-                       
-                       <span class="sousTitres">Autres</span>
-                       <div class="mb-3 row">
-                           <label for="site" class="col-3" >Site web :</label>
-                           <input type="text" class="col-9" id="site" placeholder="Aucun" name="site" value="{{ old('site', session('user_data.site')) }}">
-                       
-                           @error('site')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                        </div>
-
-                       <div class="mb-3 row">
-                           <label for="numTel" class="col-3">Numéro de téléphone :</label>
-                           <input type="text" class="col-9" id="numTel" placeholder="Aucun" name="numTel" value="{{ old('numTel', session('user_data.numTel')) }}">
-                           
-                           @error('numTel')
-                               <div class="alert alert-danger">{{ $message }}</div>
-                           @enderror
-                       
-                       </div>
-
-
-                       <!---------------------------SECTION CONTACTS------------------------>
-                       <p class="col-12 text-center my-3 titre">Contact(s) rejoignable(s)</p>
-                        
-                        <span class="sousTitres">Information contact</span>
-                        <div class="mb-3 row">
-                            <label for="prenom" class="col-3">Prénom : </label>
-                            <input type="text" class="col-9" id="prenom" placeholder="Aucun" name="prenom" value="{{ old('prenom', session('user_data.prenom')) }}">
-                        
-                            @error('prenom')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="nom" class="col-3">Nom : </label>
-                            <input type="text" class="col-9" id="nom" placeholder="Aucun" name="nom" value="{{ old('nom', session('user_data.nom')) }}">
-                        
-                            @error('nom')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="poste" class="col-3">Poste/Fonction :</label>
-                            <input type="text" class="col-9" id="poste" placeholder="Aucun" name="poste" value="{{ old('poste', session('user_data.poste')) }}">
-                        
-                            @error('poste')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="courrielContact" class="col-3">Courriel :</label>
-                            <input type="email" class="col-9" id="courrielContact" placeholder="Aucun" name="courrielContact" value="{{ old('courrielContact', session('user_data.courrielContact')) }}">
-                        
-                            @error('courrielContact')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="numContact" class="col-3">Numéro de téléphone :</label>
-                            <input type="text" class="col-9" id="numContact" placeholder="Aucun" name="numContact" value="{{ old('numContact', session('user_data.numContact')) }}">
-                        
-                            @error('numContact')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        
-                        </div> 
-
-                        <!--<p class="col-12 text-center my-3 titre">Contact(s) rejoignable(s)</p>
-
-                        <span class="sousTitres">Information contact</span>
-
-                         Vérifie si des contacts existent dans la session 
-                        @if(session('user_data.contacts'))
-                            @foreach(session('user_data.contacts') as $index => $contact)
-                                <fieldset disabled>
-                                    <div class="mb-3 row">
-                                        <label for="prenom_{{ $index }}" class="col-3">Prénom :</label>
-                                        <input type="text" class="col-9" id="prenom_{{ $index }}" placeholder="Aucun" name="prenom[]" value="{{ old('prenom.' . $index, $contact['prenom']) }}">
-                                        @error('prenom.' . $index)
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                            <!--Input pays
+                            <div class="mb-3" style="position:relative;">
+                                <label for="pays" class="form-label txtPop"><span class="text-danger">* </span>Pays :</label>
+                                <input type="text" class="form-control" id="pays" placeholder="Canada" name="pays" value="{{ old('pays', session('user_data.pays')) }}" required>
+                            
+                                @error('pays')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
                                     </div>
+                                @enderror
+                            </div>-->
 
-                                    <div class="mb-3 row">
-                                        <label for="nom_{{ $index }}" class="col-3">Nom :</label>
-                                        <input type="text" class="col-9" id="nom_{{ $index }}" placeholder="Aucun" name="nom[]" value="{{ old('nom.' . $index, $contact['nom']) }}">
-                                        @error('nom.' . $index)
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                            <!--Input province-->
+                            <div class="mb-3" style="position:relative;">
+                                <label for="province" class="form-label txtPop" ><span class="text-danger">* </span>Province :</label>
+                                <input type="text" class="form-control" id="province" placeholder="Québec" name="province" value="{{ old('province', session('user_data.province')) }}" required>
+                            
+                                @error('province')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
                                     </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="poste_{{ $index }}" class="col-3">Poste/Fonction :</label>
-                                        <input type="text" class="col-9" id="poste_{{ $index }}" placeholder="Aucun" name="poste[]" value="{{ old('poste.' . $index, $contact['poste']) }}">
-                                        @error('poste.' . $index)
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                                @enderror
+                            </div>
+                
+                            <!--Input ville-->
+                            <div class="mb-3" style="position:relative;">
+                                <label for="ville" class="form-label txtPop" ><span class="text-danger">* </span>Ville :</label>
+                                <input type="text" class="form-control" id="ville" placeholder="Trois-Rivières" name="ville" value="{{ old('ville', session('user_data.ville')) }}" required>
+                            
+                                @error('ville')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
                                     </div>
+                                @enderror
+                            </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="courrielContact_{{ $index }}" class="col-3">Courriel :</label>
-                                        <input type="email" class="col-9" id="courrielContact_{{ $index }}" placeholder="Aucun" name="courrielContact[]" value="{{ old('courrielContact.' . $index, $contact['courrielContact']) }}">
-                                        @error('courrielContact.' . $index)
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                            <!--Input code postal-->
+                            <div class="mb-3" style="position:relative;">
+                                <label for="codePostal" class="form-label txtPop" ><span class="text-danger">* </span>Code postal 
+                                    <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
+                                        <i class="fa-sharp fa-regular fa-circle-question"></i>
+                                    </span> :
+                                </label>
+                                <div class="custom-tooltip">
+                                    <ul class="critere">
+                                        <li>Obligatoire.</li>
+                                        <li>Doit contenir entre 7 et 12 caractères.</li>
+                                        <li>Doit inclure au moins</li>
+                                    </ul>
+                                </div>
+                                <input type="text" class="form-control" id="codePostal" placeholder="A1A 1A1" name="codePostal" value="{{ old('codePostal', session('user_data.codePostal')) }}" 
+                                style="text-transform: uppercase;" required>
+                            
+                                @error('codePostal')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
                                     </div>
+                                @enderror
+                            </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="numContact_{{ $index }}" class="col-3">Numéro de téléphone :</label>
-                                        <input type="text" class="col-9" id="numContact_{{ $index }}" placeholder="Aucun" name="numContact[]" value="{{ old('numContact.' . $index, $contact['numContact']) }}">
-                                        @error('numContact.' . $index)
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                            <div class="sousTitres">Téléphone</div>
+                            
+                            <div class="row">
+                                <!--Input numéro de téléphone-->
+                                <div class="mb-3 col-12 col-md-7" style="position:relative;">
+                                    <label for="numTel" class="form-label txtPop"><span class="text-danger">* </span>Numéro :</label>
+                                    <input type="text" class="form-control" id="numTel" placeholder="___-___-____" name="numTel" value="{{ old('numTel', session('user_data.numTel')) }}" required>
+                                    
+                                    @error('numTel')
+                                        <div class="text-danger">
+                                            <i class="fas fa-exclamation-circle me-2"></i>
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <!--Input poste du téléphone-->
+                                <div class="mb-3 col-12 col-md-5" style="position:relative;">
+                                    <label for="posteTel" class="form-label txtPop">Poste :</label>
+                                    <input type="text" class="form-control" id="posteTel" placeholder="" name="posteTel" value="{{ old('posteTel', session('user_data.posteTel')) }}">
+                                    
+                                    @error('posteTel')
+                                        <div class="text-danger">
+                                            <i class="fas fa-exclamation-circle me-2"></i>
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!--Type de téléphone-->
+                            <div class="mb-3 col-12 col-md-6">
+                                <label for="typeContact" class="form-label txtPop">
+                                    <span class="text-danger">* </span>Type de téléphone :
+                                </label>
+                                <select class="form-control" id="typeContact" name="typeContact" required>
+                                    <option value="" disabled selected>Choisir un type de contact</option>
+                                    <option value="Bureau">Bureau</option>
+                                    <option value="Télécopieur">Télécopieur</option>
+                                    <option value="Cellulaire">Cellulaire</option>
+                                </select>
+
+                                @error('typeContact')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
                                     </div>
-                                </fieldset>
-                            @endforeach
-                        @else
-                            <p>Aucun contact n'a été ajouté.</p>
-                        @endif -->
+                                @enderror
+                            </div>
 
-                       <!---------------------------SECTION RBQ ET FICHIERS--------------------------->
-                    
+
+                            <div class="sousTitres">Autres</div>
+                            <!--Input site web-->
+                            <div class="mb-3" style="position:relative;">
+                                <label for="site" class="form-label txtPop" >Site web :</label>
+                                <input type="text" class="form-control" id="site" placeholder="Optionnel" name="site" value="{{ old('site', session('user_data.site')) }}">
+                            
+                                @error('site')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        <!---------------------------SECTION CONTACTS------------------------>
+                        <div>
+                            <div class="sousTitres">Information contact</div>
+
+                            <div class="mb-3" style="position:relative;">
+                                <label for="prenom" class="form-label txtPop">
+                                    <span class="text-danger">* </span>
+                                    Prénom :
+                                </label>
+
+                                <input type="text" class="form-control" name="prenom" placeholder="Connor" value="{{ old('prenom', session('user_data.prenom', '')) }}">
+                                
+                                @error('prenom')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3" style="position:relative;">
+                                <label for="nom" class="form-label txtPop">
+                                    <span class="text-danger">* </span>
+                                    Nom :
+                                </label>
+                                <input type="text" class="form-control" name="nom" placeholder="McDavid" value="{{ old('nom', session('user_data.nom', '')) }}">
+                                @error('nom')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3" style="position:relative;">
+                                <label for="poste" class="form-label txtPop">
+                                    <span class="text-danger">* </span>
+                                    Poste/Fonction :
+                                </label>
+                                <input type="text" class="form-control" name="poste" placeholder="Centre" value="{{ old('poste', session('user_data.poste', '')) }}">
+                                @error('poste')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3" style="position:relative;">
+                                <label for="courrielContact" class="form-label txtPop">
+                                    <span class="text-danger">* </span>
+                                    Courriel :
+                                </label>
+                                <input type="email" class="form-control" name="courrielContact" placeholder="exemple@gmail.com" value="{{ old('courrielContact', session('user_data.courrielContact', '')) }}">
+                                @error('courrielContact')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3" style="position:relative;">
+                                <label for="numContact" class="form-label txtPop">
+                                    <span class="text-danger">* </span>
+                                    Numéro de téléphone :
+                                </label>
+                                <input type="text" class="form-control" name="numContact" placeholder="(819)123-4567" value="{{ old('numContact', session('user_data.numContact', '')) }}">
+                                @error('numContact')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+
+
+                        <!---------------------------SECTION RBQ ET DOCUMENTS------------------------>
+                        <div>
+                            <div class="sousTitres">Licence(s)</div>
+                            <div class="mb-3" style="position:relative;">
+                                <label for="rbq" class="form-label txtPop">Licence(s) RBQ valide(s) (optionnel):</label>
+                                <input type="text" class="form-control" id="rbq" placeholder="####-####-##" name="rbq" value="{{ old('rbq', session('user_data.rbq')) }}">
+                                
+                                @error('rbq')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+                            
+                            <div class="sousTitres">Fichier(s) joint(s)</div>
+                            <div class="mb-3" style="position:relative;">
+                                <label for="documents[]" class="form-label">Joindres les fichiers (docx, doc, pdf, jpg, jpeg, xls, xlsx seulement)</label>
+                                <input type="file" class="form-control" name="documents[]" multiple>
+                                
+                                @error('documents')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                                @error('documents.*')
+                                    <div class="text-danger">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
                     </fieldset>
-                    
-                    <div class="row d-flex justify-content-center">
-                        <a class="btn btn-primary mb-3 col-auto precedent" href="{{ route('Inscription.RBQ') }}">Précédent</a>
-                        <button type="submit" class="btn btn-primary mb-3 mx-3 col-auto">Confirmer et envoyer le formulaire</button>
+
+                    <!---------------------------BOUTONS ENVOYER------------------------>
+                    <div class="d-flex justify-content-center pt-3">
+                        <a class="btn btn-custom mx-3" href="{{ route('Inscription.RBQ') }}">Précédent</a>
+                        <button type="submit" class="btn btn-custom mx-3">Envoyer</button>
                     </div>
-                
+
                 </div>
-                
-
-
-                
             </form>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    </body>
-</html>
+        </div>
+    </div>
+</body>
+@endsection

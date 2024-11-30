@@ -57,6 +57,11 @@ label{
     font-family: 'Poppins-Light';
     font-size: 11pt;
     color: gray;
+    border-bottom: 1px solid gray;
+    padding-bottom:5px;
+    padding-top:25px;
+    margin-bottom:5px;
+    width: 100%;
 }
 
 .description{
@@ -74,7 +79,7 @@ body {
 
 /* Logo dans le coin supérieur gauche */
 .logo-container {
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 20px;
     background-color: white;
@@ -86,7 +91,7 @@ body {
 
 /* Boutons dans le coin supérieur droit */
 .top-right {
-    position: fixed;
+    position: absolute;
     top: 20px;
     right: 20px;
     display: flex;
@@ -132,17 +137,6 @@ body {
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
 }
 
-
-.login-box {
-    background-color: #0B2341; /* Couleur de fond mise à jour */
-    padding: 10px;
-    border:2px solid #0B2341;
-    border-radius: 0;
-    box-shadow:  0px 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-}
-
 .header{
     display: flex;
     justify-content: center;
@@ -153,11 +147,11 @@ body {
     color:white;
     background-color: #0B2341; /* Couleur de fond mise à jour */
     padding:0;
-    border:1px solid black;
+    border:1px solid #78C6E0;
     border-radius: 1;
     box-shadow:  0px 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
 }
 
 .txtPop {
@@ -175,43 +169,25 @@ body {
     font-size: 1rem;
     color: white !important;
 }
+
 .form-control:focus {
     border-color: #d63384;
     box-shadow: none;
     background-color: #0B2341;
 }
 
+.form-control-file {
+    background-color: #0B2341;
+    border-radius: 0;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Ombre autour du formulaire */
+    padding: 10px;
+    font-size: 1rem;
+    color: white !important;
+}
+
 .form{
     padding: 10px;
-}
-
-/* Tooltip Container */
-.custom-tooltip {
-    display: none;
-    position: absolute;
-    bottom: 100%; /* Position the tooltip above the icon */
-    left: 50%; /* Center the tooltip horizontally */
-    transform: translateX(-50%); /* Adjust for centering */
-    background-color: rgba(0, 0, 0, 0.8); /* Dark background for the tooltip */
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-    z-index: 1000; /* Ensure it appears above other elements */
-    white-space: nowrap; /* Prevent text wrapping */
-    font-size: 0.9rem; /* Adjust font size */
-    text-align: left; /* Align text */
-}
-
-.custom-tooltip::before {
-    content: '';
-    position: absolute;
-    top: 100%; /* Place the arrow at the bottom of the tooltip */
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px; /* Adjust arrow size */
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; /* Arrow color */
 }
 
 /* Tooltip List */
@@ -225,20 +201,72 @@ body {
     margin-left: 20px;
 }
 
-/* Info Icon */
-.info-icon {
+.info-icon { 
     display: inline-block;
     cursor: pointer;
     position: relative;
 }
 
 /* Tooltip Placement */
-.info-icon:hover + .custom-tooltip {
-    display: block;
-    top: 20px; /* Adjust positioning relative to the info icon */
-    left: 10px;
+.custom-tooltip {
+    display: none;
     position: absolute;
+    bottom: 100%; /* Position the tooltip above the icon */
+    left: 50%; /* Center the tooltip horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background for the tooltip */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Ensure it appears above other elements */
+    white-space: normal; /* Allow text wrapping */
+    font-size: 0.9rem; /* Adjust font size */
+    text-align: left; /* Align text */
+    width: 350px; /* Fixed width */
+    max-height: 250px; /* Maximum height for the tooltip */
+    overflow-y: auto; /* Enable vertical scrolling if the content overflows */
 }
+
+.custom-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 100%; /* Place the arrow at the bottom of the tooltip */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px; /* Adjust arrow size */
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; /* Arrow color */
+}
+
+/* Supprimer la flèche du tooltip */
+.custom-tooltip::before {
+    content: none; /* Retirer la flèche */
+}
+
+
+fieldset[disabled] {
+    border: none;        /* Supprime la bordure du fieldset */
+    padding: 0;
+    margin: 0;
+    background: none;
+    box-shadow: none;
+}
+
+fieldset[disabled] input:disabled {
+    background-color: #0B2341;  /* Remplace le fond blanc par la couleur désirée */
+    color: #495057;             /* Assure une couleur de texte correcte */
+    opacity: 1;                 /* Empêche l'opacité réduite des champs désactivés */
+    cursor: not-allowed;       /* Change le curseur en "non autorisé" */
+}
+
+fieldset[disabled] textarea:disabled {
+    background-color: #0B2341;  /* Remplace le fond blanc par la couleur désirée */
+    color: #495057;             /* Assure une couleur de texte correcte */
+    opacity: 1;                 /* Empêche l'opacité réduite des champs désactivés */
+    cursor: not-allowed;       /* Change le curseur en "non autorisé" */
+}
+
 
 
 @media (max-width: 480px) { /* Smartphones */

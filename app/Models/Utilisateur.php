@@ -32,7 +32,6 @@ class Utilisateur extends Authenticatable
         'neq',
         'email',
         'password',
-        'role',
         'statut',
         'rbq'
     ];

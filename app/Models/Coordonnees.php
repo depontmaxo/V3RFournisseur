@@ -11,14 +11,22 @@ class Coordonnees extends Model
 
     
     protected $fillable = [
-        'adresse',
+        'num_civique',
+        'rue',
         'bureau',
+
         'ville',
+        'region_administrative',
+        'code_region',
         'province',
         'code_postal',
-        'pays',
-        'siteweb',
+
         'num_telephone',
+        'poste',
+        'type_contact',
+        
+        'siteweb',
+        
         'utilisateur_id',
     ];
 
