@@ -71,9 +71,16 @@
                 </br>
                 <span class="sections">Coordonnées de l'entreprise :</span>
                 <div class="form-group pt-2">
-                    <label for="adresse">Adresse :</label>
-                    <input type="text" class="form-control" id="adresse" placeholder="adresse" name="adresse" value="{{ old('adresse', $coordonnees->adresse) }}">
-                    @error('adresse')
+                    <label for="num_civique">Numéro civique :</label>
+                    <input type="text" class="form-control" id="num_civique" placeholder="num_civique" name="num_civique" value="{{ old('num_civique', $coordonnees->num_civique) }}">
+                    @error('num_civique')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group pt-2">
+                    <label for="rue">Rue :</label>
+                    <input type="text" class="form-control" id="rue" placeholder="rue" name="rue" value="{{ old('rue', $coordonnees->rue) }}">
+                    @error('rue')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
@@ -92,6 +99,20 @@
                     @enderror
                 </div>
                 <div class="form-group pt-2">
+                    <label for="code_region">Code de la région :</label>
+                    <input type="text" class="form-control" id="code_region" placeholder="code_region" name="code_region" value="{{ old('code_region', $coordonnees->code_region) }}">
+                    @error('code_region')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group pt-2">
+                    <label for="region_administrative">Région administrative:</label>
+                    <input type="text" class="form-control" id="region_administrative" placeholder="region_administrative" name="region_administrative" value="{{ old('region_administrative', $coordonnees->region_administrative) }}">
+                    @error('region_administrative')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group pt-2">
                     <label for="province">Province :</label>
                     <input type="text" class="form-control" id="province" placeholder="Québec" name="province" value="{{ old('province', $coordonnees->province) }}">
                     @error('province')
@@ -102,13 +123,6 @@
                     <label for="code_postal">Code postal :</label>
                     <input type="text" class="form-control" id="code_postal" placeholder="A1A 1A1" name="code_postal" value="{{ old('code_postal', $coordonnees->code_postal) }}">
                     @error('code_postal')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="form-group pt-2">
-                    <label for="pays">Pays :</label>
-                    <input type="text" class="form-control" id="pays" placeholder="Canada" name="pays" value="{{ old('pays', $coordonnees->pays) }}">
-                    @error('pays')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
@@ -124,6 +138,20 @@
                     <label for="num_telephone">Numéro de téléphone :</label>
                     <input type="text" class="form-control" id="num_telephone" placeholder="(514)123-4567" name="num_telephone" value="{{ old('num_telephone', $coordonnees->num_telephone) }}">
                     @error('num_telephone')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group pt-2">
+                    <label for="poste">Poste :</label>
+                    <input type="text" class="form-control" id="poste" placeholder="(514)123-4567" name="poste" value="{{ old('poste', $coordonnees->poste) }}">
+                    @error('poste')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group pt-2">
+                    <label for="type_contact">Type de contact :</label>
+                    <input type="text" class="form-control" id="type_contact" placeholder="(514)123-4567" name="type_contact" value="{{ old('type_contact', $coordonnees->type_contact) }}">
+                    @error('type_contact')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
@@ -176,13 +204,16 @@
                 </br>
                 <span class="sections">Information contact(s)</span>
 
-                @foreach ($contacts as $index => $contact)
+                
+                <?php
+                /* Mis en commentaire car ça bug, on peut juste delete et refaire un contact en attendant
+                                @foreach ($contacts as $index => $contact)
                     <h6>Contact {{ $index + 1 }}</h6>
 
                     <!-- Prénom du contact -->
                     <div class="form-group pt-2">
                         <label for="prenom_{{ $index }}">Prénom du contact :</label>
-                        <input type="text" class="form-control" id="prenom_{{ $index }}" placeholder="Jane" name="prenom[{{ $index }}]" value="{{ old('prenom.' . $index, $contact->prenom) }}">
+                        <input type="text" class="form-control" id="prenom_{{ $index }}" placeholder="Jane" name="prenom[{{ $index }}]" value="{{ old('prenom.' . $index) ?? $contact->prenom }}">
                         @error('prenom.'.$index)
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -191,7 +222,7 @@
                     <!-- Nom du contact -->
                     <div class="form-group pt-2">
                         <label for="nom_{{ $index }}">Nom du contact :</label>
-                        <input type="text" class="form-control" id="nom_{{ $index }}" placeholder="Doe" name="nom[{{ $index }}]" value="{{ old('nom.' . $index, $contact->nom) }}">
+                        <input type="text" class="form-control" id="nom_{{ $index }}" placeholder="Doe" name="nom[{{ $index }}]" value="{{ old('nom.' . $index) ?? $contact->nom }}">
                         @error('nom.'.$index)
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -200,7 +231,7 @@
                     <!-- Poste occupé -->
                     <div class="form-group pt-2">
                         <label for="poste_{{ $index }}">Poste occupé :</label>
-                        <input type="text" class="form-control" id="poste_{{ $index }}" placeholder="Développeur" name="poste[{{ $index }}]" value="{{ old('poste.' . $index, $contact->poste) }}">
+                        <input type="text" class="form-control" id="poste_{{ $index }}" placeholder="Développeur" name="poste[{{ $index }}]" value="{{ old('poste.' . $index) ?? $contact->poste }}">
                         @error('poste.'.$index)
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -209,7 +240,7 @@
                     <!-- Email du contact -->
                     <div class="form-group pt-2">
                         <label for="email_contact_{{ $index }}">Courriel du contact :</label>
-                        <input type="text" class="form-control" id="email_contact_{{ $index }}" placeholder="JaneDoe@email.com" name="email_contact[{{ $index }}]" value="{{ old('email_contact.' . $index, $contact->email_contact) }}">
+                        <input type="text" class="form-control" id="email_contact_{{ $index }}" placeholder="JaneDoe@email.com" name="email_contact[{{ $index }}]" value="{{ old('email_contact.' . $index) ?? $contact->email_contact }}">
                         @error('email_contact.'.$index)
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -218,13 +249,15 @@
                     <!-- Numéro de téléphone du contact -->
                     <div class="form-group pt-2">
                         <label for="num_contact_{{ $index }}">Numéro de téléphone du contact :</label>
-                        <input type="text" class="form-control" id="num_contact_{{ $index }}" placeholder="(819)123-4567" name="num_contact[{{ $index }}]" value="{{ old('num_contact.' . $index, $contact->num_contact) }}">
+                        <input type="text" class="form-control" id="num_contact_{{ $index }}" placeholder="(819)123-4567" name="num_contact[{{ $index }}]" value="{{ old('num_contact.' . $index) ?? $contact->num_contact }}">
                         @error('num_contact.'.$index)
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     </br>
                 @endforeach
+                */
+                ?>
 
                 <div class="form-group pt-2">
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
