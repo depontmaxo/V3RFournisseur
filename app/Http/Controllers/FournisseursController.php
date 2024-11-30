@@ -417,14 +417,14 @@ class FournisseursController extends Controller
                 'regex:/^(?! )[A-Za-z0-9.-]+( [A-Za-z0-9.-]+)*(?<! )$/', // Autorise les points et traits d'union et vérifie qu'il n'y a plusieurs espaces un après l'autre
                 'unique:utilisateur,nom_entreprise,' . $utilisateur->id
             ],
-            /* BUG
             'neq' => [
-                'required', 
-                #'digits:10', 
+                'nullable',
+                /*
+                'digits:14', 
                 'regex:/^(11|22|33|88)[4-9][0-9]{7}$/', // Structure spécifique du NEQ
+                */
                 'unique:utilisateur,neq,' . $utilisateur->id
             ],
-            */
             'email' => [
                 'required', 
                 'min:5', 
