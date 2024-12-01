@@ -82,7 +82,7 @@
                             <label for="numContact" class="form-label txtPop">Numéro :</label>
                             <input type="text" class="form-control" id="numContact" placeholder="___-___-____" name="numContact" value="{{ old('numContact', session('user_data.numContact')) }}">
                             
-                            @error('numTel')
+                            @error('numContact')
                                 <div class="text-danger">
                                     <i class="fas fa-exclamation-circle me-2"></i>
                                     <span>{{ $message }}</span>
@@ -110,7 +110,7 @@
                             Type de téléphone :
                         </label>
                         <select class="form-control" id="typeTelContact" name="typeTelContact">
-                            <option value="" disabled selected>Choisir un type de contact</option>
+                            <option value="null" disabled selected>Choisir un type de contact</option>
                             <option value="Bureau" {{ old('typeTelContact', session('user_data.typeTelContact')) == 'Bureau' ? 'selected' : '' }}>Bureau</option>
                             <option value="Télécopieur" {{ old('typeTelContact', session('user_data.typeTelContact')) == 'Télécopieur' ? 'selected' : '' }}>Télécopieur</option>
                             <option value="Cellulaire" {{ old('typeTelContact', session('user_data.typeTelContact')) == 'Cellulaire' ? 'selected' : '' }}>Cellulaire</option>
@@ -169,6 +169,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const typeContactSelect = document.getElementById('typeTelContact');
             const posteTelContainer = document.getElementById('poste-container');
+            const numTelInput = document.getElementById('numContact');
 
             // Fonction pour ajuster l'affichage selon la valeur de la province
             function adjustPosteInput() {                
@@ -180,11 +181,23 @@
                 }
             }
 
+            function typeTel(){
+                if(numTelInput.value){
+                    document.getElementById("typeTelContact").disabled = false;
+                }
+                else{
+                    document.getElementById("typeTelContact").selectedIndex = 0;
+                    document.getElementById("typeTelContact").disabled = true;
+                }
+            }
+
             // Appeler la fonction au chargement de la page pour tenir compte de la valeur actuelle
             adjustPosteInput();
+            typeTel();
 
             // Ajouter un événement sur le changement de valeur du select
             typeContactSelect.addEventListener('change', adjustPosteInput);
+            numTelInput.addEventListener('change', typeTel);
         });
     </script>
 

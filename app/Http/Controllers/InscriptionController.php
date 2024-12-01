@@ -92,7 +92,7 @@ class InscriptionController extends Controller
     //Validation des **COORDONNÉES**
     public function verificationCoordonnees(Request $request)
     {
-
+        
         if ($request->has('numTel')) {
             $request->merge([
                 'numTel' => str_replace('-', '', $request->input('numTel'))
@@ -137,7 +137,6 @@ class InscriptionController extends Controller
     //Validation des **CONTACTS**
     public function verificationContact(Request $request)
     {
-
         /*Met des espaces a place de les enlever */
         if ($request->has('numContact')) {
             $request->merge([
@@ -203,10 +202,10 @@ class InscriptionController extends Controller
     //==============Gestion envoie de formulaire==============
     public function envoyerFormulaire(Request $request)
     {
+        //FAIT UNE DERNIERE VERIFICATION DES DONNÉES ICI POUR EVITER DES BUGS
         // Récupérer les données de la session
         $data = session('user_data', []);
         //dd($data);
-
         $uuid = (string) Str::uuid();
 
         // Créer l'utilisateur
@@ -244,7 +243,7 @@ class InscriptionController extends Controller
             'region_administrative' => $data['region'],
             'code_region' => $data['code'],
             'province' => $data['province'],
-            'code_postal' => $data['codePostal'],
+            'code_postal' => Str::upper($data['codePostal']),
             'num_telephone' => $data['numTel'],
             'poste' => $data['posteTel'],
             'type_contact' => $data['typeContact'],
@@ -417,8 +416,7 @@ class InscriptionController extends Controller
 
             'posteTel' => [
                 'nullable', 
-                'max:6',
-                'integer'
+                'digits_between:1,6'
             ],
 
             'typeContact' => [
@@ -452,9 +450,11 @@ class InscriptionController extends Controller
 
             'courrielContact' => [
                 'required', 
-                'min:5', 
-                'max:75', 
-                'regex:/^[^\s]*$/',
+                'email',
+                'max:64', 
+                'regex:/^[^\s\-\.](?!.*\.\.)(?!.*--)(?!.*\.\-|-\.).*[^-\.\s]$/u', // Empêche doubles points, tirets mal placés
+                'regex:/^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$/', // S'assure que le courriel a une extension valide
+                'regex:/^[^-@]+@[^-@]+$/', // Empêche un tiret juste avant ou après le @
                 'unique:contacts,email_contact'
             ],
 
@@ -466,12 +466,12 @@ class InscriptionController extends Controller
 
             'posteTelContact' => [
                 'nullable', 
-                'max:6',
-                'integer'
+                'digits_between:1,6'
             ],
 
             'typeTelContact' => [
-                'nullable', 
+                'nullable',
+                'required_with:numContact'
             ],
         ];
     }
@@ -576,8 +576,8 @@ class InscriptionController extends Controller
             'numTel.digits' => 'Le numéro de téléphone doit contenir exactement :digits chiffres.',
             'numTel.integer' => 'Le numéro de téléphone doit être un entier.',
 
-            'posteTel.integer' => 'Le poste doit être composé de chiffre',
-            'posteTel.max' => 'Le poste ne peut pas dépasser :max caractères.',
+            'posteTel.digits_between' => 'Le numéro de poste doit contenir uniquement des chiffres (entre 1 et 6 chiffres).',
+            //'posteTel.max' => 'Le poste ne peut pas dépasser :max caractères.',
 
             'typeContact.required' => 'Ce champ est obligatoire.',
         ];
@@ -607,12 +607,14 @@ class InscriptionController extends Controller
             'courrielContact.regex' => 'Le courriel ne doit pas contenir d\'espaces.',
             'courrielContact.unique' => 'Ce courriel est déjà utilisé',
     
-            'numContact.required' => 'Ce champ est obligatoire.',
+            //'numContact.required' => 'Ce champ est obligatoire.',
             'numContact.digits' => 'Le numéro de contact doit contenir exactement :digits chiffres.',
             'numContact.integer' => 'Le numéro de contact doit être un entier.',
 
-            'posteTelContact.integer' => 'Le poste doit être composé de chiffre',
-            'posteTelContact.max' => 'Le poste ne peut pas dépasser :max caractères.',
+            'typeTelContact.required_with' => 'Le champ type de téléphone est requis avec le numéro de téléphone.',
+
+            'posteTelContact.digits_between' => 'Le numéro de poste doit contenir uniquement des chiffres (entre 1 et 6 chiffres).',
+            //'posteTelContact.digits_between' => 'Le poste ne peut pas dépasser :max caractères.',
         ];
     }
 
