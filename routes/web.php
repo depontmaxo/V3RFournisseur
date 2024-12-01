@@ -227,7 +227,6 @@ Route::post('/email-templates', [EmailTemplateController::class, 'store'])->name
 Route::delete('/email-templates/{id}', [EmailTemplateController::class, 'destroy'])->name('email.templates.destroy'); // Supprimer un modèle
 #Route::get('/email-templates/{id}', [EmailTemplateController::class, 'show']); // Pour récupérer un modèle spécifique
 
-Route::post('/email-templates/{id}', [EmailTemplateController::class, 'update'])->name('email.templates.update');
 
 
 Route::post('/users', [UserController::class, 'store']);
