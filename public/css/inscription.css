@@ -27,18 +27,18 @@
 }
 
 .critere{
-    font-family: 'Poppins-Light';
-    font-size: 12pt;
+    font-family: 'Poppins-Light ';
+    font-size: 15px;
 }
 
 .titre{
     font-family: 'AlumniSans-Medium';
-    font-size: 21pt;
+    font-size: 30px;
 
 }
 
 .bg-titre{
-    background-color:rgb(99, 188, 85);
+    background-color:#68B545;
     position:relative;
     top:0;
     height:70px;
@@ -50,12 +50,12 @@
 
 label{
     font-family: 'Poppins-Medium';
-    font-size: 12pt;
+    font-size: 17px;
 }
 
 .sousTitres{
     font-family: 'Poppins-Light';
-    font-size: 11pt;
+    font-size: 15px;
     color: gray;
 }
 
@@ -69,7 +69,7 @@ body {
     background-color: #0B2341;
     margin: 0;
     padding-top: 100px; /* Ajustez cette valeur pour tenir compte de la hauteur du header */
-    font-family: 'AlumniSans-ExtraBold', sans-serif;
+    font-family: 'AlumniSans-Medium';
 }
 
 /* Logo dans le coin supérieur gauche */
@@ -121,17 +121,30 @@ body {
     padding: 10px 20px;
     font-size: 1rem;
     transition: background-color 0.3s ease;
-    border: 2px solid white;
+    border: 0.5px solid black;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .btn-custom:hover {
-    background-color: #78C6E0;
+    background-color: #0076D5;
     color: white;
     transform: translateY(-2px);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
 }
 
+.btnAnnulerRetour-custom:hover {
+    background-color: #E5004D;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.btnConfirmerEnvoyer-custom:hover {
+    background-color: #68B545;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+}
 
 .login-box {
     background-color: #0B2341; /* Couleur de fond mise à jour */
@@ -163,16 +176,17 @@ body {
 .txtPop {
     font-family:'Poppins-Light', 'sans-serif';
     color:white;
+ 
 }
 
 /* Style des champs de saisie */
 .form-control {
     background-color: #0B2341;
     border-radius: 0;
-    border: 1px solid #ddd;
+    border: 1px solid gray;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* Ombre autour du formulaire */
     padding: 10px;
-    font-size: 1rem;
+    font-size: 20px;
     color: white !important;
 }
 .form-control:focus {

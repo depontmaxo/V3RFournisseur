@@ -1,3 +1,5 @@
+Acceuil
+
 @extends('pageAccueil')
  
 @section('titre', 'Votre fiche')

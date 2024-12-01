@@ -1,8 +1,7 @@
 @extends('layouts.inscriptionLayout')
- 
+
 @section('titre', 'Identification')
 
-  
 @section('contenu')
 
 <body>
@@ -140,11 +139,15 @@
                                 <span>{{ $message }}</span>
                             </div>
                         @enderror
-                    </div>
+                    </div> <br>
 
                     <div class="d-flex justify-content-center">
-                        <a class="btn btn-custom mx-3" href="{{ route('Connexion.pageConnexion') }}">Annuler</a>
-                        <button type="submit" class="btn btn-custom mx-3">Suivant</button>
+                        <a class="btn btn-custom btnAnnulerRetour-custom mx-3" href="{{ route('Connexion.pageConnexion') }}">
+                            <i class="fa fa-times-circle me-2"></i> Annuler
+                        </a>
+                        <button type="submit" class="btn btn-custom mx-3">
+                        Suivant  <i class="fa fa-arrow-right me-2"></i> 
+                        </button>
                     </div>
                             
                 </div>
