@@ -114,7 +114,22 @@
                 </div>
                 <div class="form-group pt-2">
                     <label for="province">Province :</label>
-                    <input type="text" class="form-control" id="province" placeholder="Québec" name="province" value="{{ old('province', $coordonnees->province) }}">
+                    <select class="form-control" id="province" name="province" required>
+                        <option value="" disabled selected>Choisir une province</option>
+                        <option value="Alberta" {{ old('province', $coordonnees->province) == 'Alberta' ? 'selected' : '' }}>Alberta</option>
+                        <option value="Colombie-Britannique" {{ old('province', $coordonnees->province) == 'Colombie-Britannique' ? 'selected' : '' }}>Colombie-Britannique</option>
+                        <option value="Manitoba" {{  old('province', $coordonnees->province) == 'Manitoba' ? 'selected' : '' }}>Manitoba</option>
+                        <option value="Nouveau-Brunswick" {{  old('province', $coordonnees->province) == 'Nouveau-Brunswick' ? 'selected' : '' }}>Nouveau-Brunswick</option>
+                        <option value="Terre-Neuve-et-Labrador" {{  old('province', $coordonnees->province) == 'Terre-Neuve-et-Labrador' ? 'selected' : '' }}>Terre-Neuve-et-Labrador</option>
+                        <option value="Nouvelle-Écosse" {{  old('province', $coordonnees->province) == 'Nouvelle-Écosse' ? 'selected' : '' }}>Nouvelle-Écosse</option>
+                        <option value="Ontario" {{  old('province', $coordonnees->province) == 'Ontario' ? 'selected' : '' }}>Ontario</option>
+                        <option value="Île-du-Prince-Édouard" {{  old('province', $coordonnees->province) == 'Île-du-Prince-Édouard' ? 'selected' : '' }}>Île-du-Prince-Édouard</option>
+                        <option value="Québec" {{  old('province', $coordonnees->province) == 'Québec' ? 'selected' : '' }}>Québec</option>
+                        <option value="Saskatchewan" {{  old('province', $coordonnees->province) == 'Saskatchewan' ? 'selected' : '' }}>Saskatchewan</option>
+                        <option value="Territoires du Nord-Ouest" {{  old('province', $coordonnees->province) == 'Territoires du Nord-Ouest' ? 'selected' : '' }}>Territoires du Nord-Ouest</option>
+                        <option value="Nunavut" {{  old('province', $coordonnees->province) == 'Nunavut' ? 'selected' : '' }}>Nunavut</option>
+                        <option value="Yukon" {{  old('province', $coordonnees->province) == 'Yukon' ? 'selected' : '' }}>Yukon</option>
+                    </select>
                     @error('province')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
@@ -143,14 +158,14 @@
                 </div>
                 <div class="form-group pt-2">
                     <label for="poste">Poste :</label>
-                    <input type="text" class="form-control" id="poste" placeholder="(514)123-4567" name="poste" value="{{ old('poste', $coordonnees->poste) }}">
+                    <input type="text" class="form-control" id="poste" placeholder="Poste" name="poste" value="{{ old('poste', $coordonnees->poste) }}">
                     @error('poste')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group pt-2">
                     <label for="type_contact">Type de contact :</label>
-                    <input type="text" class="form-control" id="type_contact" placeholder="(514)123-4567" name="type_contact" value="{{ old('type_contact', $coordonnees->type_contact) }}">
+                    <input type="text" class="form-control" id="type_contact" placeholder="Cellulaire" name="type_contact" value="{{ old('type_contact', $coordonnees->type_contact) }}">
                     @error('type_contact')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
