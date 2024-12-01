@@ -166,7 +166,7 @@
                         <!--Input poste du téléphone-->
                         <div class="mb-3 col-12 col-md-5" id="poste-container" style="position:relative; display: {{ old('typeContact') == 'Bureau' ? 'block' : 'none' }};">
                             <label for="posteTel" class="form-label txtPop">Poste :</label>
-                            <input type="text" class="form-control" id="posteTel" placeholder="" name="posteTel" value="{{ old('posteTel', session('user_data.posteTel')) }}">
+                            <input type="text" class="form-control" id="posteTel" placeholder="5589" name="posteTel" value="{{ old('posteTel', session('user_data.posteTel')) }}">
                             
                             @error('posteTel')
                                 <div class="text-danger">
