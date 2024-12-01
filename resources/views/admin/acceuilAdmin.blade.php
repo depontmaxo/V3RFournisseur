@@ -74,6 +74,8 @@
         <a href="{{ route('settings.index') }}" class="btn btn-warning btn-custom">
             <i class="fas fa-cogs icon"></i> Gérer les paramètres du système
         </a>
+        
+        <a class="no-style-link" href="{{ route('logout')}}"><i class="fa fa-sign-out-alt"></i> Déconnexion</a>
     </div>
 
     <!-- Import Bootstrap Bundle avec JS -->

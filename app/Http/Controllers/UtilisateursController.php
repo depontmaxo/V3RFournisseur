@@ -16,10 +16,10 @@ class UtilisateursController extends Controller
         return View('connexion');
     }
 
-    /*public function index()
+    public function index()
     {
-        return View('pageAccueil');
-    }*/
+        return View('connexion');
+    }
 
     /**
     * Fonction qui login l'utilisateur qui a des information valide

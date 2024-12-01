@@ -50,7 +50,7 @@
 
             <ul class="menuList">
                 <li class="soustitre">
-                    <a class="no-style-link" href="{{ route('logout.link')}}"><i class="fa fa-sign-out-alt"></i> Déconnexion</a>
+                    <a class="no-style-link" href="{{ route('logout')}}"><i class="fa fa-sign-out-alt"></i> Déconnexion</a>
                 </li>
             </ul>
         </div>
