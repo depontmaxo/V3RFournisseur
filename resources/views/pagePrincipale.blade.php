@@ -11,22 +11,21 @@
 
 @if (Auth::guard('web')->check())
 
+    <?php
+    //dd(Auth::guard('web')->check());
+    ?>
     <body>
 
-        @if (auth()->user() !== null) 
-            <!-- tout le site ici -->
-            @if (Auth::user()->role == 'responsable' || Auth::user()->role == 'commis')
-                <h1>Page Index Responsables</h1>
-                <a href="{{route('Responsable.listeFournisseur')}}">Afficher les fournisseurs actifs</a>
-                </br>
-                <a href="{{route('Responsable.listeInscripton')}}">Afficher la liste des inscriptions</a>
-                </br>
+        <!-- tout le site ici -->
+        @if (Auth::user()->role == 'responsable' || Auth::user()->role == 'commis')
+            <h1>Page Index Responsables</h1>
+            <a href="{{route('Responsable.listeFournisseur')}}">Afficher les fournisseurs actifs</a>
+            </br>
+            <a href="{{route('Responsable.listeInscripton')}}">Afficher la liste des inscriptions</a>
+            </br>
 
-
-
-
-            @elseif (Auth::user()->role == 'fournisseur')
-            <div class="dashboard-container">
+        @else
+        <div class="dashboard-container">
             <header class="dashboard-header">
                 <h1>Bonjour</h1>
                 <p>Bienvenu au portail de connexion des fournisseurs à la ville de Trois-Rivières.</p>
@@ -80,9 +79,7 @@
                     "Merci pour la transparence et la clarté des étapes. J'ai été informé à chaque étape de ma demande."
                 </blockquote>
             </section>
-
         </div>
-            @endif
         @endif
 
     </body>
