@@ -79,7 +79,8 @@
                     <div class="row">
                         <!--Input numéro de téléphone-->
                         <div class="mb-3 col-12 col-md-7" style="position:relative;">
-                            <label for="numContact" class="form-label txtPop">Numéro :</label>
+                            <label for="numContact" class="form-label txtPop">
+                                <span class="text-danger">* </span>Numéro :</label>
                             <input type="text" class="form-control" id="numContact" placeholder="___-___-____" name="numContact" value="{{ old('numContact', session('user_data.numContact')) }}">
                             
                             @error('numContact')
@@ -107,6 +108,7 @@
                     <!--Type de téléphone-->
                     <div class="mb-3 col-12 col-md-6">
                         <label for="typeTelContact" class="form-label txtPop">
+                            <span class="text-danger">* </span>
                             Type de téléphone :
                         </label>
                         <select class="form-control" id="typeTelContact" name="typeTelContact">
@@ -181,23 +183,11 @@
                 }
             }
 
-            function typeTel(){
-                if(numTelInput.value){
-                    document.getElementById("typeTelContact").disabled = false;
-                }
-                else{
-                    document.getElementById("typeTelContact").selectedIndex = 0;
-                    document.getElementById("typeTelContact").disabled = true;
-                }
-            }
-
             // Appeler la fonction au chargement de la page pour tenir compte de la valeur actuelle
             adjustPosteInput();
-            typeTel();
 
             // Ajouter un événement sur le changement de valeur du select
             typeContactSelect.addEventListener('change', adjustPosteInput);
-            numTelInput.addEventListener('change', typeTel);
         });
     </script>
 
