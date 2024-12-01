@@ -13,6 +13,8 @@ use App\Models\RegionAdministrative;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\welcomeUserMail;
+use App\Models\CodeUNSPSC;
+use Illuminate\Support\Facades\DB;
 
 
 class InscriptionController extends Controller
@@ -36,7 +38,8 @@ class InscriptionController extends Controller
 
     public function produits()
     {
-        return View('Inscription.inscriptionProduits');
+        $UNSPSC = CodeUNSPSC::all();
+        return View('Inscription.inscriptionProduits', compact('UNSPSC'));
     }
 
     public function rbq()
@@ -79,13 +82,25 @@ class InscriptionController extends Controller
     //Validation des **UNSPS**
     public function verificationProduits(Request $request)
     {
+
+        //dd($request->all());
         $validatedData = $request->validate(
             $this->reglesValidationsProduits(),
             $this->messagesValidationProduits()
         );
 
+        $selectedCodes = [];
+        $selectedCodesArray = json_decode($request->input('selected_codes'), true);
+        
+        // Iterate over the $selectedCodesArray and add each code to $selectedCodes
+        foreach ($selectedCodesArray as $code) {
+            $selectedCodes[] = $code;  // This adds the code to the $selectedCodes array
+        }
+        
 
-        $this->storeInSession($request, $validatedData);
+        //dd($selectedCodesArray);
+
+        $this->storeInSession($request, ['selectedCodes' => $selectedCodes]);
         return redirect()->route('Inscription.Coordonnees');
     }
 
@@ -143,6 +158,7 @@ class InscriptionController extends Controller
                 'numContact' => str_replace('-', '', $request->input('numContact'))
             ]);
         }
+
 
         $validatedData = $request->validate(
             $this->reglesValidationsContacts(),
@@ -263,6 +279,31 @@ class InscriptionController extends Controller
         ]);
 
 
+        $selectedCodes = $data['selectedCodes'] ?? [];
+        if ($uuid && !empty($selectedCodes)) {
+            foreach ($selectedCodes as $unspscId) {
+                // Regarde si il existe déjà
+                $exists = DB::table('utilisateur_unspsc')
+                    ->where('utilisateur_id', $uuid)
+                    ->where('unspsc_id', $unspscId)
+                    ->exists();
+        
+                // Insertion
+                if (!$exists) {
+                    DB::table('utilisateur_unspsc')->insert([
+                        'utilisateur_id' => $uuid,
+                        'unspsc_id' => $unspscId,
+                    ]);
+                }
+                else{
+                    //Mettre un message d'erreur
+                    //dd($exists);
+                }
+            }
+        }
+
+
+
         // Effacer les données de la session
         session()->forget('user_data');
 
@@ -348,10 +389,21 @@ class InscriptionController extends Controller
     protected function reglesValidationsProduits()
     {
         return [
-            'services' => [
+            /*'unspsc_codes' => [
                 'required', 
-                'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/'
-                ]
+                'array'
+            ],*/
+
+                'selected_codes' => [
+                'required',        // Ensure it’s provided
+                'json',            // Ensure it’s a valid JSON string
+                function ($attribute, $value, $fail) {  // Custom validation to decode and check if the value is an array
+                    $decoded = json_decode($value, true);
+                    if (!is_array($decoded)) {
+                        $fail("The $attribute must be a valid JSON array.");
+                    }
+                },
+            ],
         ];
     }
 
@@ -459,7 +511,7 @@ class InscriptionController extends Controller
             ],
 
             'numContact' => [
-                'nullable', 
+                'required', 
                 'digits:10', 
                 'integer'
             ],
@@ -470,8 +522,7 @@ class InscriptionController extends Controller
             ],
 
             'typeTelContact' => [
-                'nullable',
-                'required_with:numContact'
+                'required',
             ],
         ];
     }
@@ -532,9 +583,13 @@ class InscriptionController extends Controller
 
     protected function messagesValidationProduits()
     {
+        //return [
+            //'unspsc_codes.required' => 'Vous devez fournir au moins 1 code UNSPSC.'
+        //];
+
         return [
-            'services.required' => 'Ce champ est obligatoire.',
-            'services.regex' => 'Le champ produits/services ne doit pas contenir d\'espaces consécutifs.'
+            'selected_codes.required' => 'Vous devez sélectionner au moins un code.',
+            'selected_codes.json' => 'Le format des codes sélectionnés est invalide.',
         ];
     }
 
@@ -607,11 +662,11 @@ class InscriptionController extends Controller
             'courrielContact.regex' => 'Le courriel ne doit pas contenir d\'espaces.',
             'courrielContact.unique' => 'Ce courriel est déjà utilisé',
     
-            //'numContact.required' => 'Ce champ est obligatoire.',
+            'numContact.required' => 'Ce champ est obligatoire.',
             'numContact.digits' => 'Le numéro de contact doit contenir exactement :digits chiffres.',
             'numContact.integer' => 'Le numéro de contact doit être un entier.',
 
-            'typeTelContact.required_with' => 'Le champ type de téléphone est requis avec le numéro de téléphone.',
+            'typeTelContact.required' => 'Ce champ est obligatoire.',
 
             'posteTelContact.digits_between' => 'Le numéro de poste doit contenir uniquement des chiffres (entre 1 et 6 chiffres).',
             //'posteTelContact.digits_between' => 'Le poste ne peut pas dépasser :max caractères.',

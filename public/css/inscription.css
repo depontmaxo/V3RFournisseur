@@ -151,7 +151,7 @@ body {
     border-radius: 1;
     box-shadow:  0px 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
 }
 
 .txtPop {
@@ -267,6 +267,59 @@ fieldset[disabled] textarea:disabled {
     cursor: not-allowed;       /* Change le curseur en "non autorisé" */
 }
 
+.btn-pagination {
+    background-color: #0B2341;
+    color: white;
+    font-family: 'TT Hoves Light', sans-serif;
+    border: none;
+    border-radius: 0;
+    border: 2px solid white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Centrer la pagination */
+    align-items: center;
+    flex-wrap: wrap; /* Permet aux éléments de se repositionner si l'espace est insuffisant */
+    gap: 5px; /* Espacement entre les éléments */
+    margin-top: 20px;
+}
+
+/* Style des liens de pagination */
+.pagination a,
+.pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px; /* Limite la largeur de chaque élément */
+    height: 25px; /* Fixe la hauteur pour éviter les déformations */
+    font-size: 11px; /* Réduit la taille de la police */
+    border-radius: 50%; /* Forme circulaire */
+    text-decoration: none;
+    background-color: #0B2341; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    cursor: pointer;
+}
+
+/* Pagination active ou page courante */
+.pagination .active {
+    background-color: #007bff; /* Couleur de fond pour la page active */
+    color: white;
+}
+
+/* Pagination survolée */
+.pagination a:hover {
+    background-color: #78C6E0; /* Change la couleur de fond au survol */
+}
+
+/* Styles pour les flèches (précédent, suivant) */
+.pagination .prev,
+.pagination .next {
+    width: auto;
+    padding: 0 10px;
+    font-size: 16px; /* Taille de police pour les flèches */
+}
 
 
 @media (max-width: 480px) { /* Smartphones */
@@ -274,3 +327,4 @@ fieldset[disabled] textarea:disabled {
         font-size: 8pt;
     }
 }
+
