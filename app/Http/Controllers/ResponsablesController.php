@@ -43,8 +43,7 @@ class ResponsablesController extends Controller
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         */
 
-        $utilisateurs = Utilisateur::where('role', 'fournisseur')
-        ->where('statut', 'Actif')
+        $utilisateurs = Utilisateur::where('statut', 'Actif')
         ->with('coordonnees')
         ->get();
 
@@ -77,7 +76,8 @@ class ResponsablesController extends Controller
         //dd($request->adresse);
 
         if($request->recherche == ""){
-            $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
+            $utilisateurs = Utilisateur::where('statut', 'Actif')
+            ->get();
 
             return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
         }
@@ -143,8 +143,7 @@ class ResponsablesController extends Controller
         //dd($request->adresse);
 
         if($request->recherche == ""){
-            $utilisateurs = Utilisateur::where('role', 'fournisseur')
-            ->where('statut', 'Actif')
+            $utilisateurs = Utilisateur::where('statut', 'Actif')
             ->get();
 
             return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));

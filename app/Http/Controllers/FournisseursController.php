@@ -141,7 +141,7 @@ class FournisseursController extends Controller
         $utilisateur->save();
         $coordonnees->save();
         $finances->save();
-        return redirect()->route('Fournisseur.fiche', [$utilisateur])->with('message', "Modification de " . $utilisateur->nom . " réussi!");
+        return redirect()->route('Fournisseur.fiche', [$utilisateur])->with('message', "Modification réussi!");
     }
     /**
      * Rendre le compte inactif.

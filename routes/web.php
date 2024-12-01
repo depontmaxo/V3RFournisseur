@@ -33,8 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-Route::POST('/login', [UtilisateursController::class,'login'])->name('Connexion.connexion');
+/* Quel est l'utilite de ceci??? -Max*/
+/*Route::POST('/login', [UtilisateursController::class,'login'])->name('Connexion.connexion');*/
 
 Route::GET('/',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
