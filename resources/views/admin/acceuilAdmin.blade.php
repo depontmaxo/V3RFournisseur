@@ -159,7 +159,7 @@
                         <a class="nav-link" href=""><i class="fas fa-home"></i>Accueil</a>
                     </li>  
                     <li class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                        <a class="nav-link" href="{{ route('logout')}}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                     </li>
                 </ul>
             </div>
@@ -186,12 +186,6 @@
                 <i class="fas fa-cogs icon"></i> Gérer les paramètres du système
             </a>
         </div>
-        <!-- Bouton pour Gérer les paramètres du système -->
-        <a href="{{ route('settings.index') }}" class="btn btn-warning btn-custom">
-            <i class="fas fa-cogs icon"></i> Gérer les paramètres du système
-        </a>
-        
-        <a class="no-style-link" href="{{ route('logout')}}"><i class="fa fa-sign-out-alt"></i> Déconnexion</a>
     </div>
 
     <!-- Import Bootstrap Bundle avec JS -->

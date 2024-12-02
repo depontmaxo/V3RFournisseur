@@ -50,7 +50,7 @@
                 </ul>
             </section>
 
-            <!-- Actions Section -->
+            <!-- 
             <section class="actions">
                 <h3>Actions disponibles</h3>
                 <ul>
@@ -59,7 +59,7 @@
                 </ul>
             </section>
 
-            <!-- Resources Section -->
+            Resources Section 
             <section class="resources">
                 <h3>Ressources utiles</h3>
                 <ul>
@@ -69,7 +69,7 @@
                 </ul>
             </section>
 
-            <!-- Testimonials Section -->
+             Testimonials Section 
             <section class="testimonials">
                 <h3>Témoignages</h3>
                 <blockquote>
@@ -79,6 +79,7 @@
                     "Merci pour la transparence et la clarté des étapes. J'ai été informé à chaque étape de ma demande."
                 </blockquote>
             </section>
+            -->
         </div>
         @endif
 

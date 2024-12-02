@@ -104,7 +104,7 @@
 </head>
 <body>
     <!-- Bouton retour en haut à gauche -->
-    <a href="javascript:history.back()" class="btn-back">
+    <a href="{{ route('admin.index') }}" class="btn btn-light btn-back">
         <i class="fas fa-arrow-left"></i>Retour
     </a>
 
