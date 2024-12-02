@@ -204,10 +204,13 @@ Route::get('/gestion-users', [UserController::class, 'gestionUser'])->name('gest
 Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
 //Supprimer un utilisateur
-Route::delete('/users/{uid}', [UserController::class, 'deleteUser']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
 //Modifier le role d'un utilisateur
-Route::post('/users/update-roles', [UserController::class, 'updateRoles']); 
+//Route::post('/users/update-roles', [UserController::class, 'updateRoles']); 
+
+Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+
 
 //Connexion de l'admin
 //Route pour afficher la page de connexion
@@ -225,9 +228,8 @@ Route::get('/RefusAccess', [UtilisateursController::class, 'RefusAccess'])->name
 Route::get('/admin/email-templates', [EmailTemplateController::class, 'index'])->name('email.templates.index');
 Route::post('/email-templates', [EmailTemplateController::class, 'store'])->name('email.templates.store'); // Ajouter un modèle
 Route::delete('/email-templates/{id}', [EmailTemplateController::class, 'destroy'])->name('email.templates.destroy'); // Supprimer un modèle
-#Route::get('/email-templates/{id}', [EmailTemplateController::class, 'show']); // Pour récupérer un modèle spécifique
+Route::put('/email/templates/{id}/update', [EmailTemplateController::class, 'update'])->name('email.templates.update');
 
-Route::post('/email-templates/{id}', [EmailTemplateController::class, 'update'])->name('email.templates.update');
 
 
 Route::post('/users', [UserController::class, 'store']);

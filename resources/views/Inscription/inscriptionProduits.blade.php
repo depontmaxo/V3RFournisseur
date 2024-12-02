@@ -53,7 +53,7 @@
                                 <!-- Les lignes seront ajoutées dynamiquement ici -->
                             </tbody>
                         </table>
-                    </div>
+                    </div> <br>
 
                     <!-- Pagination -->
                     <nav>
@@ -64,13 +64,16 @@
 
                     <!-- Bouton Soumettre -->
                     <div class="d-flex justify-content-center pt-3">
-                        <a class="btn btn-custom mx-3" href="{{ route('Inscription.Identification') }}">Précédent</a>
-                        <button type="submit" class="btn btn-custom mx-3">Suivant</button>
+                        <a class="btn btn-custom mx-3 btnAnnulerRetour-custom mx-3" href="{{ route('Inscription.Identification') }}">
+                            <i class="fa fa-arrow-left me-2"></i>Précédent
+                        </a>
+                        <button type="submit" class="btn btn-custom mx-3 mx-3">
+                        Suivant  <i class="fa fa-arrow-right me-2"></i> 
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
-
     </div>
 
     <script>
@@ -252,5 +255,7 @@
     <!-- Bootstrap JS (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 @endsection

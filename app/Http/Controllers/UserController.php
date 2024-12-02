@@ -25,33 +25,44 @@ class UserController extends Controller
     // UserController.php
     public function destroy($id)
     {
-        $user = User::find($id);
-        if ($user) {
-            $user->delete();
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json(['success' => false], 404);
+        // Trouver l'utilisateur à supprimer
+        $user = User::findOrFail($id);
+    
+        // Vérifier si l'utilisateur à supprimer est un admin
+        if ($user->role == 'admin') {
+            // Compter le nombre d'admins restants dans la base de données
+            $adminCount = User::where('role', 'admin')->count();
+    
+            // Si il ne reste que 2 admins, empêcher la suppression
+            if ($adminCount <= 2) {
+                return response()->json(['success' => false, 'message' => 'Il doit y avoir au moins 2 administrateurs.'], 400);
+            }
         }
+    
+        // Effectuer la suppression
+        $user->delete();
+    
+        return response()->json(['success' => true, 'message' => 'Utilisateur supprimé avec succès.']);
     }
-
-
+    
 
     public function store(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email|unique:users,email',
-            'role' => 'required|in:admin,responsable,commis',
-            'password' => 'required|min:8', // Optionnel : validation du mot de passe
+        // Validation
+        $validated = $request->validate([
+            'email' => 'required|email|unique:users',
+            'role' => 'required',
+            'password' => 'required|min:6',
         ]);
     
+        // Création de l'utilisateur
         $user = User::create([
             'email' => $request->email,
-            'password' => Hash::make($request->password), // Hachage du mot de passe
             'role' => $request->role,
-            'is_admin' => $request->role === 'admin', // Détermine automatiquement is_admin
+            'password' => bcrypt($request->password),
         ]);
     
-        return response()->json(['success' => true, 'id' => $user->id], 201);
+        return response()->json(['success' => true, 'message' => 'Utilisateur ajouté avec succès']);
     }
     
 
@@ -62,16 +73,6 @@ class UserController extends Controller
         return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-        ]);
-
-        $user->update($request->all());
-        return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
-    }
 
     ##Suppresion d'un utilisateur
     public function deleteUser($uid)
@@ -119,6 +120,35 @@ class UserController extends Controller
         return view('admin.GestionCourrielAdmin', compact('templates'));
 
     }
+
+    public function update(Request $request, $id)
+    {
+        // Validation des données
+        $request->validate([
+            'email' => 'required|email',
+            'role' => 'required|in:admin,commis,responsable',
+            'password' => 'nullable|min:6',
+        ]);
+
+        // Récupérer l'utilisateur
+        $user = User::findOrFail($id);
+
+        // Mise à jour des informations
+        $user->email = $request->email;
+        $user->role = $request->role;
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save(); // Enregistrer dans la base de données
+
+        return response()->json(['success' => true, 'message' => 'Utilisateur mis à jour avec succès']);
+    }
+
+
+
+
 
         
 }
