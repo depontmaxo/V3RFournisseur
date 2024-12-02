@@ -19,27 +19,27 @@
             <div class="sections pt-3">Information de votre compte</div>
             <p><span class="soustitre-bold">NEQ: </span>{{ $utilisateur->neq }}</p>
             <p><span class="soustitre-bold">Email: </span>{{ $utilisateur->email }}</p>
-            <p><span class="soustitre-bold">Licence RBQ: </span>{{ $utilisateur->rbq }}</p>
+            <p><span class="soustitre-bold">Licence RBQ: </span>{{ $utilisateur->rbq ?? 'Pas définie' }}</p>
             <p><span class="soustitre-bold">Services et/ou produits offerts: </span>informations à venir</p>
             <p><span class="soustitre-bold">Statut de votre demande d'inscription: </span>{{ $utilisateur->statut }}</p>
     
             <div class="sections pt-3">Coordonnées de votre entreprise</div>
-            <p><span class="soustitre-bold">Adresse: </span>{{ $coordonnees->adresse }}</p>
             <p><span class="soustitre-bold">Bureau/suite: </span>{{ $coordonnees->bureau }}</p>
-            <p><span class="soustitre-bold">Pays: </span>{{ $coordonnees->pays }}</p>
-            <p><span class="soustitre-bold">Province: </span>{{ $coordonnees->province }}</p>
+            <p><span class="soustitre-bold">Adresse: </span>{{ $coordonnees->num_civique }} {{ $coordonnees->rue }}</p>
             <p><span class="soustitre-bold">Ville: </span>{{ $coordonnees->ville }}</p>
+            <p><span class="soustitre-bold">Région: </span> {{ $coordonnees->code_region }} {{ $coordonnees->region_administrative }} </p>
+            <p><span class="soustitre-bold">Province: </span>{{ $coordonnees->province }}</p>
             <p><span class="soustitre-bold">Code postal: </span>{{ $coordonnees->code_postal }}</p>
             <p><span class="soustitre-bold">Numero de téléphone: </span>{{ $coordonnees->num_telephone }}</p>
-            <p><span class="soustitre-bold">Site web de votre entreprise: </span>{{ $coordonnees->siteweb }}</p>
-
+            <p><span class="soustitre-bold">Poste: </span>{{ $coordonnees->poste }}</p>
+            <p><span class="soustitre-bold">Type de contact: </span>{{ $coordonnees->type_contact }}</p>
+            <p><span class="soustitre-bold">Site web de votre entreprise: </span>{{ $coordonnees->siteweb ?? 'Pas définie' }}</p>
             <div class="sections pt-3">Finance de votre entreprise</div>
-            <p><span class="soustitre-bold">Numéro TPS: </span>{{ $finances->numeroTPS }}</p>
-            <p><span class="soustitre-bold">Numéro TVQ: </span>{{ $finances->numeroTVQ }}</p>
-            <p><span class="soustitre-bold">Condition de paiement: </span>{{ $finances->conditionPaiement }}</p>
-            <p><span class="soustitre-bold">Devise: </span>{{ $finances->devise }}</p>
-            <p><span class="soustitre-bold">Mode de communication: </span>{{ $finances->modeCommunication }}</p>
-            
+            <p><span class="soustitre-bold">Numéro TPS: </span>{{ $finances->numeroTPS ?? 'Pas définie' }}</p>
+            <p><span class="soustitre-bold">Numéro TVQ: </span>{{ $finances->numeroTVQ ?? 'Pas définie' }}</p>
+            <p><span class="soustitre-bold">Condition de paiement: </span>{{ $finances->conditionPaiement ?? 'Pas définie' }}</p>
+            <p><span class="soustitre-bold">Devise: </span>{{ $finances->devise ?? 'Pas définie' }}</p>
+            <p><span class="soustitre-bold">Mode de communication: </span>{{ $finances->modeCommunication ?? 'Pas définie' }}</p>
             <div class="sections pt-3">Information contact(s)</div>
             @foreach ($contacts as $index => $contact)
                 <div class="contact">
@@ -58,9 +58,9 @@
                     @endif
                 </div>
                 <p><span class="soustitre-bold">Nom complet: </span>{{ $contact->prenom }} {{ $contact->nom }}</p>
-                <p><span class="soustitre-bold">Poste occupé: </span>{{ $contact->poste }}</p>
-                <p><span class="soustitre-bold">Courriel: </span>{{ $contact->email_contact }}</p>
-                <p><span class="soustitre-bold">Numéro rejoignable: </span>{{ $contact->num_contact }}</p>
+                <p><span class="soustitre-bold">Fonction: </span>{{ $contact->fonction ?? 'N/A' }}</p>
+                <p><span class="soustitre-bold">Courriel: </span>{{ $contact->email_contact ?? 'N/A' }}</p>
+                <p><span class="soustitre-bold">Numéro rejoignable: </span>{{ $contact->num_contact ?? 'N/A' }}</p>
 
 
                 
@@ -69,6 +69,10 @@
                 <i class="fa-solid fa-file-image fa-4x"></i>-->
                 
             @endforeach
+
+            @if (Auth::guard('web')->check() || (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable'))
+            <a href="{{route('Fournisseur.nouveauContact', [$utilisateur])}}" class="btn btn-success my-3">Ajouter contact</a>
+            @endif
 
             @if (count($documents) != 0)
                 <div class="sections pt-3">Vos fichier(s) joint(s)</div>
@@ -83,8 +87,6 @@
             @endif
 
             @if (Auth::guard('web')->check() || (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable'))
-            <a href="{{route('Fournisseur.nouveauContact', [$utilisateur])}}" class="btn btn-success my-3">Ajouter contact</a>
-
             <div class="sections pt-3">Modification de la fiche</div>
             <a href="{{route('Fournisseur.modification', [$utilisateur])}}" class="btn btn-success my-3">Modifier</a>
             @endif

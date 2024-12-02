@@ -39,7 +39,8 @@
                     <li class="soustitre"><a class="no-style-link" href="https://www.v3r.net/nous-joindre"><i class="fa fa-headset"></i> Contacter support</a></li>
                 @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable')
                     <li class="soustitre"><a class="no-style-link" href="{{ route('Responsable.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
-                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i> Fournisseur actif</a></li>
+                    <!--Redondance qui n'est plus utiliser-->
+                    <!--<li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i> Fournisseur actif</a></li>-->
                     <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i> Demandes inscriptions</a></li>
                 @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'commis')
                     <li class="soustitre"><a class="no-style-link" href="{{ route('Responsable.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
@@ -49,7 +50,7 @@
 
             <ul class="menuList">
                 <li class="soustitre">
-                    <a class="no-style-link" href="{{ route('logout.link')}}"><i class="fa fa-sign-out-alt"></i> Déconnexion</a>
+                    <a class="no-style-link" href="{{ route('logout')}}"><i class="fa fa-sign-out-alt"></i> Déconnexion</a>
                 </li>
             </ul>
         </div>

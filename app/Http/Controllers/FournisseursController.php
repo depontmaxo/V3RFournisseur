@@ -37,7 +37,7 @@ class FournisseursController extends Controller
     {
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
 
@@ -60,7 +60,7 @@ class FournisseursController extends Controller
     {
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         return View('modificationFicheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','finances'));
     }
 
@@ -69,25 +69,32 @@ class FournisseursController extends Controller
      */
 
     public function update(Request $request, Utilisateur $utilisateur)
-    {    
+    {   
+        if($request->neq == null){
+            $request->request->add(['neq' => $utilisateur->neq]);
+        }
+        if($request->siteweb == null){
+            $request->request->add(['siteweb' => $utilisateur->siteweb]);
+        }
+
+        
         $validated = $request->validate(
             array_merge(
                 $this->reglesValidationsIdentification($utilisateur),
                 $this->reglesValidationsCoordonnees($utilisateur),
-                $this->reglesValidationsContacts($utilisateur)
+                //$this->reglesValidationsContacts($utilisateur)
             ),
             array_merge(
                 $this->messagesValidationIdentification(),
                 $this->messagesValidationCoordonnees(),
-                $this->messagesValidationContacts(),
                 $this->messagesValidationFinances()
+                //$this->messagesValidationContacts(),
             )
         );
 
-
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
 
         //Vérification modifs?
         $utilisateur->nom_entreprise = $request->nom_entreprise;
@@ -95,14 +102,24 @@ class FournisseursController extends Controller
         $utilisateur->email = $request->email;
         $utilisateur->rbq = $request->rbq;
 
-        $coordonnees->adresse = $request->adresse;
         $coordonnees->bureau = $request->bureau;
+        $coordonnees->num_civique = $request->num_civique;
+        $coordonnees->rue = $request->rue;
         $coordonnees->ville = $request->ville;
+        $coordonnees->code_region = $request->code_region;
+        $coordonnees->region_administrative = $request->region_administrative;
         $coordonnees->province = $request->province;
         $coordonnees->code_postal = $request->code_postal;
-        $coordonnees->pays = $request->pays;
-        $coordonnees->siteweb = $request->siteweb;
         $coordonnees->num_telephone = $request->num_telephone;
+        $coordonnees->poste = $request->poste;
+        $coordonnees->type_contact = $request->type_contact;
+        $coordonnees->siteweb = $request->siteweb;
+        
+        //s'assure qu'il y a une ligne finance vu qu'il y en a pas encore sur l'inscription
+        if ($finances === null) {
+            $finances = new Finance();
+            $finances->utilisateur_id = $utilisateur->id; // Ensure the association is correct
+        }
 
         $finances->numeroTPS = $request->numeroTPS;
         $finances->numeroTVQ = $request->numeroTVQ;
@@ -110,6 +127,7 @@ class FournisseursController extends Controller
         $finances->devise = $request->devise;
         $finances->modeCommunication = $request->modeCommunication;
 
+        /* Pour le changer, delete et en refaire un autre
         foreach ($contacts as $index => $contact) {
             $contact->prenom = $request->input("prenom.{$index}");
             $contact->nom = $request->input("nom.{$index}");
@@ -118,11 +136,12 @@ class FournisseursController extends Controller
             $contact->num_contact = $request->input("num_contact.{$index}");
             $contact->save();
         }
+        */
         
         $utilisateur->save();
         $coordonnees->save();
         $finances->save();
-        return redirect()->route('Fournisseur.fiche', [$utilisateur])->with('message', "Modification de " . $utilisateur->nom . " réussi!");
+        return redirect()->route('Fournisseur.fiche', [$utilisateur])->with('message', "Modification réussi!");
     }
     /**
      * Rendre le compte inactif.
@@ -137,7 +156,7 @@ class FournisseursController extends Controller
         /*Reprence ce qu'il y a dans la page du fournisseur*/
         $utilisateur = Utilisateur::where( 'id', $utilisateur->id)->first();
         $contacts = Contacts::where('utilisateur_id',  $utilisateur->id)->get();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         $coordonnees = Coordonnees::where('utilisateur_id',  $utilisateur->id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')
@@ -164,7 +183,7 @@ class FournisseursController extends Controller
         $utilisateur = Utilisateur::where( 'id', $utilisateur->id)->first();
         $contacts = Contacts::where('utilisateur_id',  $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id',  $utilisateur->id)->firstOrFail();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         $documents = Document::where('utilisateur_id', $utilisateur->id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')
             ->orderBy('code_unspsc', 'asc')
@@ -210,7 +229,7 @@ class FournisseursController extends Controller
             $utilisateur = Utilisateur::where( 'id', $request->fiche_utilisateur_id)->first();
             $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
             $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
-            $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+            $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
 
             $codes = DB::table('utilisateur_unspsc')
                 ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
@@ -248,7 +267,7 @@ class FournisseursController extends Controller
         $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
 
         $codes = DB::table('utilisateur_unspsc')
             ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
@@ -299,7 +318,7 @@ class FournisseursController extends Controller
         $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
         $documents = Document::where('utilisateur_id', $request->fiche_utilisateur_id)->get();
         $codeUNSPSCunite = CodeUNSPSC::select('nature_contrat', 'desc_cat', 'code_unspsc', 'desc_det_unspsc')->paginate(10);
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
         
         $codes = DB::table('utilisateur_unspsc')
             ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
@@ -361,7 +380,7 @@ class FournisseursController extends Controller
         $validated = $request->validate([
             'prenom' => 'required|string|max:255',
             'nom' => 'required|string|max:255',
-            'poste' => 'nullable|string|max:255',
+            'fonction' => 'nullable|string|max:255',
             'email_contact' => 'required|email|max:255',
             'num_contact' => 'nullable|string|max:20',
         ]);
@@ -371,7 +390,7 @@ class FournisseursController extends Controller
             $contact = new Contacts();
             $contact->prenom = ucfirst($validated['prenom']);
             $contact->nom = ucfirst($validated['nom']);
-            $contact->poste = $validated['poste'];
+            $contact->fonction = $validated['fonction'];
             $contact->email_contact = $validated['email_contact'];
             $contact->num_contact = $validated['num_contact'];
             $contact->utilisateur_id = $utilisateur->id;
@@ -395,17 +414,17 @@ class FournisseursController extends Controller
                 'required', 
                 'min:5', 
                 'max:75', 
-                'regex:/^(?! )[A-Za-z0-9]+( [A-Za-z0-9]+)*(?<! )$/', //Vérifie qu'il n'y a plusieurs espaces un après l'autre
+                'regex:/^(?! )[A-Za-z0-9.-]+( [A-Za-z0-9.-]+)*(?<! )$/', // Autorise les points et traits d'union et vérifie qu'il n'y a plusieurs espaces un après l'autre
                 'unique:utilisateur,nom_entreprise,' . $utilisateur->id
             ],
-
             'neq' => [
-                'required', 
-                #'digits:10', 
-                'integer', 
+                'nullable',
+                /*
+                'digits:14', 
+                'regex:/^(11|22|33|88)[4-9][0-9]{7}$/', // Structure spécifique du NEQ
+                */
                 'unique:utilisateur,neq,' . $utilisateur->id
             ],
-
             'email' => [
                 'required', 
                 'min:5', 
@@ -436,17 +455,42 @@ class FournisseursController extends Controller
     protected function reglesValidationsCoordonnees(Utilisateur $utilisateur)
     {
         return [
-            'adresse' => [
-                'required', 
-                'regex:/^\d+\s+[A-Za-zÀ-ÿ0-9\s\-]+/', // Acceptation des lettres accentuées et des espaces
-                'min:5', 
-                'max:50'
+            /////////////////////////
+            'num_civique' => [
+                'required',
+                'max:8',
+                'alpha_num',
             ], 
 
+            'rue' => [
+                'required',
+                'max:64',
+                'regex:/^[a-zA-Z0-9\s\-.,;:!()&]*$/', // Alphanumérique et certains caractères spéciaux
+            ], 
+
+            'code_region' => [
+                'required', 
+            ], 
+            
+            'region_administrative' => [
+                'required', 
+            ], 
+
+            'poste' => [
+                'nullable', 
+                'max:6',
+                'integer'
+            ],
+
+            'type_contact' => [
+                'required', 
+            ],
+
+            //////////////////////////
             'bureau' => [
                 'nullable', 
-                'regex:/^(?! )[A-Za-z0-9\s\-]+( [A-Za-z0-9\s\-]+)*(?<! )$/', // Acceptation des espaces et tirets
-                'max:15'
+                'max:8',
+                'alpha_num',
             ], 
 
             'ville' => [
@@ -466,13 +510,6 @@ class FournisseursController extends Controller
             'code_postal' => [
                 'required', 
                 'regex:/^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/'
-            ],
-
-            'pays' => [
-                'required', 
-                'regex:/^[A-Za-zÀ-ÿ0-9\s\-]*$/', // Acceptation des lettres accentuées, espaces et tirets
-                'min:3', 
-                'max:35'
             ],
 
             'siteweb' => [

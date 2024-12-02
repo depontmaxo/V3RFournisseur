@@ -130,7 +130,7 @@
         </style>
     </head>
     <body>
-    <a href="{{ url()->previous() }}" class="btn btn-light btn-back">
+    <a href="{{ route('admin.index') }}" class="btn btn-light btn-back">
         <i class="fas fa-arrow-left"></i> Retour
     </a><br>
 

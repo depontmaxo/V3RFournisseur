@@ -159,7 +159,7 @@
                         <a class="nav-link" href="{{route('Connexion.connexion')}}"><i class="fas fa-home"></i>Accueil</a>
                     </li>  
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('connexionUser.index') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                        <a class="nav-link" href="{{ route('logout')}}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                     </li>
                 </ul>
             </div>

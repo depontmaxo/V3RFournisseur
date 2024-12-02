@@ -14,23 +14,16 @@
             <form method="post" action="{{ route('Inscription.verificationIdentification') }}">
                 @csrf
                 <div class="container-fluid">
-                    <span class="sousTitres">Identification</span> 
+                    <div class="sousTitres">Identification</div>
+                    
+                    <!----Nom de l'entreprise---->
                     <div class="mb-3" style="position:relative;">
                         <label for="entreprise" class="form-label txtPop">
                             <span class="text-danger">* </span>
-                            Nom de l'entreprise
-                            <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
-                                <i class="fa-sharp fa-regular fa-circle-question"></i>
-                            </span> :
+                            Nom de l'entreprise :
                         </label>
-                        <div class="custom-tooltip">
-                            <ul class="critere">
-                                <li>Obligatoire.</li>
-                                <li>Doit contenir entre 5 et 75 caractères.</li>
-                            </ul>
-                        </div>
 
-                        <input type="text" class="form-control" id="entreprise" placeholder="Tech Innovators" name="entreprise" value="{{ old('entreprise', session('user_data.entreprise', '')) }}">
+                        <input type="text" class="form-control" id="entreprise" placeholder="Tech Innovators" name="entreprise" value="{{ old('entreprise', session('user_data.entreprise', '')) }}" required>
                                         
                         @error('entreprise')
                             <div class="text-danger">
@@ -40,22 +33,21 @@
                         @enderror
                     </div>
 
+                    <!----Numéro d'entreprise (NEQ)---->
                     <div class="mb-3" style="position:relative;">
-                        <label for="entreprise" class="form-label txtPop">
+                        <label for="neq" class="form-label txtPop">
                             Numéro d'entreprise (NEQ)
                             <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
                                 <i class="fa-sharp fa-regular fa-circle-question"></i>
                             </span> :
                         </label>
                         <div class="custom-tooltip">
-                            <ul class="critere">
-                                <li>Obligatoire si le champ "courriel" est vide.</li>
-                                <li>Composé exactement de 10 chiffres.</li>
-                                <li>Doit commencer par 11, 22, 33 ou 88.</li>
-                            </ul>
+                            <p class="critere">
+                            Le numéro d'entreprise du Québec (NEQ) est un code unique attribué à chaque entreprise au Québec pour l'identifier officiellement dans les démarches administratives. 
+                            Pour plus d'information, cliquez <a href="https://www.quebec.ca/entreprises-et-travailleurs-autonomes/demarrer-entreprise/immatriculer-constituer-entreprise/immatriculation-entreprise/numero-entreprise-quebec" target="_blank">ici</a>.
+                            </p>
                         </div>
-
-                        <input type="text" class="form-control" id="neq" placeholder="12345678910" name="neq" value="{{ old('neq', session('user_data.neq', '')) }}">
+                        <input type="text" class="form-control" id="neq" placeholder="__ __ __ __ __" name="neq" value="{{ old('neq', session('user_data.neq', '')) }}">
                                 
                         @error('neq')
                             <div class="text-danger">
@@ -65,10 +57,11 @@
                         @enderror
                     </div>
                         
-                    <span class="sousTitres">Authentification pour connexion</span> 
+                    <div class="sousTitres">Authentification pour connexion</div> 
+                    <!----Courriel de connexion---->
                     <div class="mb-3" style="position:relative;">
                         
-                        <label for="entreprise" class="form-label txtPop">
+                        <label for="courrielConnexion" class="form-label txtPop">
                             Adresse courriel
                             <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
                                 <i class="fa-sharp fa-regular fa-circle-question"></i>
@@ -94,8 +87,9 @@
                         @enderror
                     </div>
 
+                    <!----Mot de passe---->
                     <div class="mb-3" style="position:relative;">
-                        <label for="entreprise" class="form-label txtPop">
+                        <label for="password" class="form-label txtPop">
                             <span class="text-danger">* </span>
                             Choisir un mot de passe
                             <span class="info-icon" onmouseover="showTooltip(this)" onmouseout="hideTooltip(this)">
@@ -116,7 +110,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <input type="password" class="form-control" id="password" placeholder="Veuillez entrez un mot de passe" name="password" value="{{ old('password', '') }}">
+                        <input type="password" class="form-control" id="password" placeholder="Veuillez entrez un mot de passe" name="password" value="{{ old('password', '') }}" required>
                                 
                         @error('password')
                             <div class="text-danger">
@@ -126,12 +120,13 @@
                         @enderror
                     </div>
 
+                    <!----Confirmation mot de passe---->
                     <div class="mb-3">
                         <label for="confirmPassword" class="form-label txtPop" >
                         <span class="text-danger">* </span>
                             Confirmer mot de passe :
                         </label>
-                        <input type="password" class="form-control" id="password" placeholder="Retapez votre mot de passe" name="password_confirmation">
+                        <input type="password" class="form-control" id="password" placeholder="Retapez votre mot de passe" name="password_confirmation" required>
                                 
                         @error('password_confirmation')
                             <div class="text-danger">
@@ -141,7 +136,8 @@
                         @enderror
                     </div> <br>
 
-                    <div class="d-flex justify-content-center">
+                     <!--Les boutons-->
+                    <div class="d-flex justify-content-center pt-3">
                         <a class="btn btn-custom btnAnnulerRetour-custom mx-3" href="{{ route('Connexion.pageConnexion') }}">
                             <i class="fa fa-times-circle me-2"></i> Annuler
                         </a>
@@ -149,7 +145,7 @@
                         Suivant  <i class="fa fa-arrow-right me-2"></i> 
                         </button>
                     </div>
-                            
+
                 </div>
             </form>
         </div>
@@ -169,6 +165,29 @@
                 tooltip.style.display = 'none';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const infoIcons = document.querySelectorAll('.info-icon');
+            infoIcons.forEach(icon => {
+                const tooltip = icon.parentNode.nextElementSibling;
+
+                icon.addEventListener('mouseover', () => showTooltip(icon));
+                icon.addEventListener('mouseout', () => hideTooltip(icon));
+
+                tooltip.addEventListener('mouseover', () => showTooltip(icon)); // Tooltip reste ouvert quand la souris est dessus
+                tooltip.addEventListener('mouseout', () => hideTooltip(icon));  // Tooltip disparaît quand la souris sort
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Inputmask({
+                mask: "99 99 99 99 99",
+                placeholder: "__ __ __ __ __"
+            }).mask(document.getElementById('neq'));
+        });
     </script>
 </body>
 @endsection

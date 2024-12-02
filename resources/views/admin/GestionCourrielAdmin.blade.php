@@ -96,7 +96,7 @@ body {
 </head>
 <body>
        <!-- Bouton Retour -->
-       <a href="{{ url()->previous() }}" class="btn btn-light btn-back">
+       <a href="{{ route('admin.index') }}" class="btn btn-light btn-back">
         <i class="fas fa-arrow-left"></i> Retour
     </a><br>
     <div class="container mt-5">

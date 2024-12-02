@@ -1,5 +1,3 @@
-Acceuil
-
 @extends('pageAccueil')
  
 @section('titre', 'Votre fiche')
@@ -32,7 +30,7 @@ Acceuil
                         @csrf
                         <div class="mb-3">
                             <label for="neq" class="form-label txtPop">NEQ :</label>
-                            <input type="text" class="form-control" id="neq" placeholder="12345678910" name="neq">
+                            <input type="text" class="form-control" id="neq" placeholder="__ __ __ __ __" name="neq">
                         </div>
 
                         <div class="mb-3">

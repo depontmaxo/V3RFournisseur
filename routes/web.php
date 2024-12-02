@@ -16,7 +16,7 @@ use App\Http\Controllers\SettingController;
 require __DIR__.'/auth.php';
 
 
-Route::GET('/',
+Route::GET('/accueil',
 [UtilisateursController::class,'index'])->name('page.Accueil')/*->middleware('role:admin,commis,responsable');*/;
 Route::POST('/', [UtilisateursController::class,'login'])->name('Connexion.connexion');
 
@@ -32,8 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-Route::POST('/login', [UtilisateursController::class,'login'])->name('Connexion.connexion');
+/* Quel est l'utilite de ceci??? -Max*/
+/*Route::POST('/login', [UtilisateursController::class,'login'])->name('Connexion.connexion');*/
 
 Route::GET('/',
 [UtilisateursController::class,'pageConnexion'])->name('Connexion.pageConnexion')->middleware(ClearSessionMiddleware::class);
@@ -52,8 +52,8 @@ Route::post('/employeConnecte', [LoginController::class, 'loginEmploye'])->name(
 
 
 #################################Déconnexion#########################################
-Route::POST('/logout', [UtilisateursController::class, 'logout'])->middleware('auth')->name('logout');
-Route::GET('/logout', [UtilisateursController::class, 'logout'])->middleware('auth')->name('logout.link');
+Route::POST('/logout', [UtilisateursController::class, 'logout'])->name('logout');
+Route::GET('/logout', [UtilisateursController::class, 'logout'])->name('logout.link');
 ##################################################################################
 
 
@@ -99,7 +99,7 @@ Route::POST('/envoyer',
 
 #################################Fournisseur#########################################
 Route::GET('/index',
-[FournisseursController::class,'index'])->name('Fournisseur.index')->middleware(CheckRole::class);
+[FournisseursController::class,'index'])->name('Fournisseur.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

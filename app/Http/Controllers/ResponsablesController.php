@@ -43,10 +43,9 @@ class ResponsablesController extends Controller
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         */
 
-        $utilisateurs = Utilisateur::where('role', 'fournisseur')
-        ->where('statut', 'Actif')
+        $utilisateurs = Utilisateur::where('statut', 'Actif')
         ->with('coordonnees')
-        ->get();
+        ->paginate(15);
 
         foreach ($utilisateurs as $utilisateur) {
             $mostCommonCategory = DB::table('utilisateur_unspsc')
@@ -77,7 +76,8 @@ class ResponsablesController extends Controller
         //dd($request->adresse);
 
         if($request->recherche == ""){
-            $utilisateurs = Utilisateur::where('role', 'fournisseur')->get();
+            $utilisateurs = Utilisateur::where('statut', 'Actif')
+            ->paginate(10);
 
             return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
         }
@@ -99,7 +99,7 @@ class ResponsablesController extends Controller
             $query->whereAny(['nomFournisseur', 'adresse'], 'LIKE' , "%$recherche%");
         }
 
-        $utilisateurs = $query->get();
+        $utilisateurs = $query->paginate(10);
 
         return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
 
@@ -108,7 +108,7 @@ class ResponsablesController extends Controller
 
     public function voirListeInscription()
     {
-        $candidats = Utilisateur::where('statut', 'En attente')->get();
+        $candidats = Utilisateur::where('statut', 'En attente')->paginate(10);
         return View('responsable.listeRequeteInscription', compact('candidats'));
     }
 
@@ -122,17 +122,16 @@ class ResponsablesController extends Controller
     public function candidatAccepte(Utilisateur $candidat){
         $candidat->statut = 'Actif';
         $candidat->save();
-        $candidats = Utilisateur::where('role', 'fournisseur')->where('statut', 'En attente')
-            ->get();
+        $candidats = Utilisateur::where('statut', 'En attente')
+            ->paginate(10);
         return View('responsable.listeRequeteInscription', compact('candidats'))->with('message', "Le candidat est ajouté avec succès");
     }
 
     public function candidatRefuse(Utilisateur $candidat){
         $candidat->statut = 'Refusé';
         $candidat->save();
-        $candidats = Utilisateur::where('role', 'fournisseur')
-        ->where('statut', 'En attente')
-        ->get();
+        $candidats = Utilisateur::where('statut', 'En attente')
+        ->paginate(10);
         return View('responsable.listeRequeteInscription', compact('candidats'))->with('message', "Le candidat a été refusé avec succès");
     }
 
@@ -143,9 +142,8 @@ class ResponsablesController extends Controller
         //dd($request->adresse);
 
         if($request->recherche == ""){
-            $utilisateurs = Utilisateur::where('role', 'fournisseur')
-            ->where('statut', 'Actif')
-            ->get();
+            $utilisateurs = Utilisateur::where('statut', 'Actif')
+            ->paginate(10);;
 
             return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
         }
@@ -155,27 +153,23 @@ class ResponsablesController extends Controller
         $query = Utilisateur::query();
 
         if($request->nom == "on"){
-            $query->where('role', 'fournisseur');
             $query->where('statut', 'Actif');
             $query->whereAny(['nom_entreprise'], 'LIKE' , "%$recherche%");
         }
         else if($request->neq == "on"){
-            $query->where('role', 'fournisseur');
             $query->where('statut', 'Actif');
             $query->whereAny(['neq'], 'LIKE' , "%$recherche%");
         }
         else if($request->courriel == "on"){
-            $query->where('role', 'fournisseur');
             $query->where('statut', 'Actif');
             $query->whereAny(['email'], 'LIKE' , "%$recherche%");
         }
         else{
-            $query->where('role', 'fournisseur');
             $query->where('statut', 'Actif');
             $query->whereAny(['nom_entreprise', 'neq', 'email'], 'LIKE' , "%$recherche%");
         }
 
-        $utilisateurs = $query->get();
+        $utilisateurs = $query->paginate(10);;
 
         return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
 
@@ -187,9 +181,8 @@ class ResponsablesController extends Controller
         //dd($request->adresse);
 
         if($request->recherche == ""){
-            $candidats = Utilisateur::where('role', 'fournisseur')
-            ->where('statut', 'En attente')
-            ->get();
+            $candidats = Utilisateur::where('statut', 'En attente')
+            ->paginate(10);;
 
             return view('responsable.listeRequeteInscription', compact('candidats'));
         }
@@ -199,27 +192,23 @@ class ResponsablesController extends Controller
         $query = Utilisateur::query();
 
         if($request->nom == "on"){
-            $query->where('role', 'fournisseur');
             $query->where('statut', 'En attente');
             $query->whereAny(['nom_entreprise'], 'LIKE' , "%$recherche%");
         }
         else if($request->neq == "on"){
-            $query->where('role', 'fournisseur');
             $query->where('statut', 'En attente');
             $query->whereAny(['neq'], 'LIKE' , "%$recherche%");
         }
         else if($request->courriel == "on"){
-            $query->where('role', 'fournisseur');
             $query->where('statut', 'En attente');
             $query->whereAny(['email'], 'LIKE' , "%$recherche%");
         }
         else{
-            $query->where('role', 'fournisseur');
             $query->where('statut', 'En attente');
             $query->whereAny(['nom_entreprise', 'neq', 'email'], 'LIKE' , "%$recherche%");
         }
 
-        $candidats = $query->get();
+        $candidats = $query->paginate(10);
 
         return view('responsable.listeRequeteInscription', compact('candidats'));
 

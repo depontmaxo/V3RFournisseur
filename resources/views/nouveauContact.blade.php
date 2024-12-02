@@ -28,8 +28,8 @@
             </div>
 
             <div class="form-group pt-2">
-                <label for="poste">Poste occupé :</label>
-                <input type="text" class="form-control" id="poste" placeholder="Développeur" name="poste">
+                <label for="fonction">Fonction :</label>
+                <input type="text" class="form-control" id="fonction" placeholder="Développeur" name="fonction">
             </div>
 
             <div class="form-group pt-2">

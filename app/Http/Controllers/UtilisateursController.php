@@ -18,7 +18,7 @@ class UtilisateursController extends Controller
 
     public function index()
     {
-        return View('pageAccueil');
+        return View('connexion');
     }
 
     /**
