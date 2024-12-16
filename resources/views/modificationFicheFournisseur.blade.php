@@ -99,8 +99,8 @@
                     @enderror
                 </div>
                 <div class="form-group pt-2">
-                    <label for="code_region">Code de la région :</label>
-                    <input type="text" class="form-control" id="code_region" placeholder="code_region" name="code_region" value="{{ old('code_region', $coordonnees->code_region) }}">
+                    <!--<label for="code_region">Code de la région :</label>--> 
+                    <input type="hidden" class="form-control" id="code_region" placeholder="code_region" name="code_region" value="{{ old('code_region', $coordonnees->code_region) }}">
                     @error('code_region')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror

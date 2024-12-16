@@ -76,6 +76,9 @@ class FournisseursController extends Controller
         if($request->siteweb == null){
             $request->request->add(['siteweb' => $utilisateur->siteweb]);
         }
+        if($request->code_region == null){
+            $request->request->add(['code_region' => $utilisateur->code_region]);
+        }
 
         
         $validated = $request->validate(

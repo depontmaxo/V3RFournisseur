@@ -27,7 +27,7 @@
             <p><span class="soustitre-bold">Bureau/suite: </span>{{ $coordonnees->bureau }}</p>
             <p><span class="soustitre-bold">Adresse: </span>{{ $coordonnees->num_civique }} {{ $coordonnees->rue }}</p>
             <p><span class="soustitre-bold">Ville: </span>{{ $coordonnees->ville }}</p>
-            <p><span class="soustitre-bold">Région: </span> {{ $coordonnees->code_region }} {{ $coordonnees->region_administrative }} </p>
+            <p><span class="soustitre-bold">Région: </span> {{ $coordonnees->region_administrative }} </p>
             <p><span class="soustitre-bold">Province: </span>{{ $coordonnees->province }}</p>
             <p><span class="soustitre-bold">Code postal: </span>{{ $coordonnees->code_postal }}</p>
             <p><span class="soustitre-bold">Numero de téléphone: </span>{{ $coordonnees->num_telephone }}</p>

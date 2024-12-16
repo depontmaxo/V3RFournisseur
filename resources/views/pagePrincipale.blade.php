@@ -50,15 +50,15 @@
                 </ul>
             </section>
 
-            <!-- 
+            
             <section class="actions">
                 <h3>Actions disponibles</h3>
                 <ul>
-                    <li><a href="{{ route('Fournisseur.fiche', [auth()->user()->id]) }}" class="btn">Modifier ma demande</a></li>
+                    <li><a href="{{ route('Fournisseur.fiche', [auth()->user()->id]) }}" class="btn">Voir ma fiche</a></li>
                     <li><a href="{{ route('Fournisseur.statut', [auth()->user()->id]) }}" class="btn">Voir l'état de ma demande</a></li>
                 </ul>
             </section>
-
+            <!-- 
             Resources Section 
             <section class="resources">
                 <h3>Ressources utiles</h3>
