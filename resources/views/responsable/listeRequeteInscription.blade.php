@@ -56,6 +56,10 @@
                 </tbody>
             </table>
         </div>
+        <!-- Pagination Links -->
+        <div class="d-flex justify-content-center">
+                    {{ $candidats->links() }}
+        </div>
     </body>
 @else
     <script>

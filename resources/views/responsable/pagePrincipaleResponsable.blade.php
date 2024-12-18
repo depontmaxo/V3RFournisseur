@@ -53,7 +53,6 @@
                             <td>{{ $utilisateur->most_common_category->desc_cat ?? 'N/A' }}</td></td>
                             <td><a href="{{ route('Fournisseur.fiche', [$utilisateur]) }}">Ouvrir</a></td>
                         </tr>
-                        
                         @endforeach
                     @else
                         <p>Aucune requête d'inscription pour le moment</p>
@@ -61,7 +60,10 @@
                 </tbody>
             </table>
         </div>
-
+        <!-- Pagination Links -->
+        <div class="d-flex justify-content-center">
+                    {{ $utilisateurs->links() }}
+        </div>
     </body>
 @else
     <script>

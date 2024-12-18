@@ -35,15 +35,18 @@ class EmailTemplateController extends Controller
         return redirect()->route('email.templates.index')->with('success', 'Modèle ajouté avec succès.');
     }
 
-    // Supprimer un modèle
     public function destroy($id)
     {
-        $template = EmailTemplate::findOrFail($id);
-        $template->delete();
-
-        return response()->json(['message' => 'Modèle supprimé avec succès']);
+        try {
+            $user = User::findOrFail($id); // Trouver l'utilisateur ou échouer
+            $user->delete(); // Supprimer l'utilisateur
+    
+            return response()->json(['success' => true, 'message' => 'Utilisateur supprimé avec succès']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Erreur lors de la suppression de l\'utilisateur'], 500);
+        }
     }
-
+    
     public function show($id)
     {
         $template = EmailTemplate::findOrFail($id);
@@ -53,10 +56,14 @@ class EmailTemplateController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Logique pour mettre à jour un modèle d'e-mail
-        // Exemple :
-        $template = EmailTemplate::findOrFail($id); // Assurez-vous d'avoir le modèle EmailTemplate
-        $template->update($request->only(['objet', 'message']));
-        return response()->json(['message' => 'Modèle mis à jour avec succès.']);
+        $template = EmailTemplate::findOrFail($id);
+        $template->update([
+            'nom_Modele' => $request->input('nom_Modele'),
+            'objet' => $request->input('objet'),
+            'message' => $request->input('message'),
+        ]);
+    
+        return redirect()->back()->with('success', 'Modèle mis à jour avec succès.');
     }
+    
 }

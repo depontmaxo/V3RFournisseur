@@ -124,14 +124,17 @@
                                 <span>{{ $message }}</span>
                             </div>
                         @enderror
-                    </div>
+                    </div> <br>
 
                     <!----Les boutons---->
                     <div class="d-flex justify-content-center pt-3">
-                        <a class="btn btn-custom mx-3" href="{{ route('Inscription.Coordonnees') }}">Précédent</a>
-                        <button type="submit" class="btn btn-custom mx-3">Suivant</button>
+                        <a class="btn btn-custom btnAnnulerRetour-custom mx-3" href="{{ route('Inscription.Identification') }}">
+                            <i class="fa fa-arrow-left me-2"></i> Précédent
+                        </a>
+                        <button type="submit" class="btn btn-custom mx-3">
+                        Suivant <i class="fa fa-arrow-right me-2"></i> 
+                        </button>
                     </div>
-
                 </div>
             </form>
         
