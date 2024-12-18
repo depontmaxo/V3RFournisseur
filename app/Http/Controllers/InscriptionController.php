@@ -16,6 +16,12 @@ use App\Mail\welcomeUserMail;
 use App\Models\CodeUNSPSC;
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Requests\Inscription\InformationIdentificationRequest;
+use App\Http\Requests\Inscription\InformationProduitsRequest;
+use App\Http\Requests\Inscription\InformationCoordonneeRequest;
+use App\Http\Requests\Inscription\InformationContactsRequest;
+use App\Http\Requests\Inscription\InformationAutresRequest;
+
 
 class InscriptionController extends Controller
 {
@@ -57,9 +63,20 @@ class InscriptionController extends Controller
 
     
     //==============Section qui s'occupe d'exécuter la validation et redirect vers la page suivante==============
-    public function verificationIdentification(Request $request)
+    public function verificationIdentification(InformationIdentificationRequest $request)
     {
-        if ($request->has('neq')) {
+        // La validation est déjà effectuée avant d'entrer dans cette méthode
+        $validatedData = $request->validated(); // Récupère les données validées
+
+        /*Hashage mdp*/
+        $hashedPassword = Hash::make($request->password);
+
+        $this->storeInSession($request, $validatedData + ['password' => $hashedPassword]);
+
+        return redirect()->route('Inscription.Produits');
+
+
+        /*if ($request->has('neq')) {
             $request->merge([
                 'neq' => str_replace('-', '', $request->input('neq'))
             ]);
@@ -70,21 +87,32 @@ class InscriptionController extends Controller
             $this->messagesValidationIdentification()
         );
 
-        /*Hashage mdp*/
+        /Hashage mdp
         $hashedPassword = Hash::make($request->password);
 
         $this->storeInSession($request, $validatedData + ['password' => $hashedPassword]);
 
-        return redirect()->route('Inscription.Produits');
+        return redirect()->route('Inscription.Produits');*/
     }
 
 
     //Validation des **UNSPS**
-    public function verificationProduits(Request $request)
+    public function verificationProduits(InformationProduitsRequest $request)
     {
+        $validatedData = $request->validated();
+
+        $selectedCodes = [];
+        $selectedCodesArray = json_decode($request->input('selected_codes'), true);
+
+        foreach ($selectedCodesArray as $code) {
+            $selectedCodes[] = $code;  // This adds the code to the $selectedCodes array
+        }
+
+        $this->storeInSession($request, ['selectedCodes' => $selectedCodes]);
+        return redirect()->route('Inscription.Coordonnees');
 
         //dd($request->all());
-        $validatedData = $request->validate(
+        /*$validatedData = $request->validate(
             $this->reglesValidationsProduits(),
             $this->messagesValidationProduits()
         );
@@ -101,33 +129,29 @@ class InscriptionController extends Controller
         //dd($selectedCodesArray);
 
         $this->storeInSession($request, ['selectedCodes' => $selectedCodes]);
-        return redirect()->route('Inscription.Coordonnees');
+        return redirect()->route('Inscription.Coordonnees');*/
     }
 
     //Validation des **COORDONNÉES**
-    public function verificationCoordonnees(Request $request)
+    public function verificationCoordonnees(InformationCoordonneeRequest $request)
     {
-        
         if ($request->has('numTel')) {
             $request->merge([
                 'numTel' => str_replace('-', '', $request->input('numTel'))
             ]);
         }
-        
         if ($request->input('province') === 'Québec') {
             $request->merge([
                 'ville-autre' => $request->input('ville'),
             ]);
-        } else {
+        } 
+        else {
             $request->merge([
                 'ville' => $request->input('ville-autre'),
             ]);
         }
 
-        $validatedData = $request->validate(
-            $this->reglesValidationsCoordonnees(),
-            $this->messagesValidationCoordonnees()
-        );
+        $validatedData = $request->validated();
 
         if ($request->input('province') === 'Québec'){
             $validatedData['ville'] = $request->input('ville');
@@ -143,55 +167,43 @@ class InscriptionController extends Controller
             $regionNom = null;
             $regionCode = null;
         }
-        
 
         $this->storeInSession($request, $validatedData + ['region' => $regionNom] + ['code' => $regionCode]);
         return redirect()->route('Inscription.Contact');
     }
 
     //Validation des **CONTACTS**
-    public function verificationContact(Request $request)
+    public function verificationContact(InformationContactsRequest $request)
     {
-        /*Met des espaces a place de les enlever */
+        
+        /* enleve les tirets */
         if ($request->has('numContact')) {
             $request->merge([
                 'numContact' => str_replace('-', '', $request->input('numContact'))
             ]);
         }
 
-
-        $validatedData = $request->validate(
-            $this->reglesValidationsContacts(),
-            $this->messagesValidationContacts()
-        );
-
+        $validatedData = $request->validated();
         $this->storeInSession($request, $validatedData);
-    
         return redirect()->route('Inscription.RBQ');
     }
 
     //Validation des **DOCUMENTS**
-    public function verificationRBQ(Request $request)
+    public function verificationRBQ(InformationAutresRequest $request)
     {
         //Si vous avez l'erreur "Content Too Large" de Laravel, il faut aller dans le fichier php.ini dans le composer et changer les valeurs des lignes :
         //post_max_size (mettre environ 250M) comme ca on évite l'erreur de Laravel
         //upload_max_filesize (mettre environ 250M) - Ensuite il faut redémarrer VSCode et le site
-
         if ($request->has('rbq')) {
             $request->merge([
                 'rbq' => str_replace('-', '', $request->input('rbq'))
             ]);
         }
 
-        $request->validate(
-            $this->reglesValidationsRBQ(),
-            $this->messagesValidationRBQ()
-        );
-        $rbq = $request->only('rbq');
+        $validatedData = $request->validated();
 
         // Récupérer les fichiers validés
         $uploadedFiles = [];
-
         if ($request->hasFile('documents')) {
             foreach ($request->file('documents') as $file) {
                 if ($file->isValid()) {
@@ -207,10 +219,8 @@ class InscriptionController extends Controller
             }
         }
 
-
         // Stocker les données dans la session
-        $this->storeInSession($request, $rbq + ['documents' => $uploadedFiles]);
-
+        $this->storeInSession($request, $request->only('rbq') + ['documents' => $uploadedFiles]);
         return redirect()->route('Inscription.Complet');
     }
 
@@ -302,14 +312,10 @@ class InscriptionController extends Controller
             }
         }
 
-
-
         // Effacer les données de la session
         session()->forget('user_data');
 
-
         //Mail::to($utilisateur->email)->send(new welcomeUserMail());
- 
 
         // Redirection après l'envoi
         return redirect()->route('Connexion.pageConnexion')->with('success', 'Inscription réussie !');
