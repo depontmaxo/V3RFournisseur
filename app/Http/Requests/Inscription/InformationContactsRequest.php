@@ -14,6 +14,15 @@ class InformationContactsRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        if ($this->has('numContact')) {
+            $this->merge([
+                'numContact' => str_replace('-', '', $this->input('numContact'))
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,13 +33,15 @@ class InformationContactsRequest extends FormRequest
         return [
             'prenom' => [
                 'required', 
-                'regex:/^[A-Za-zÀ-ÿ,\'\- ]*$/', 
+                'regex:/^[A-Za-zÀ-ÿ,\'\- ]*$/',
+                'regex:/^(?!.*\s{2,}).*$/',
                 'max:32'
             ],
 
             'nom' => [
                 'required', 
-                'regex:/^[A-Za-zÀ-ÿ,\'\- ]*$/',  
+                'regex:/^[A-Za-zÀ-ÿ,\'\- ]*$/',
+                'regex:/^(?!.*\s{2,}).*$/',
                 'max:32'
             ],
 
@@ -71,12 +82,12 @@ class InformationContactsRequest extends FormRequest
     {
         return [
             'prenom.required' => 'Ce champ est obligatoire.',
-            'prenom.regex' => 'Le prénom ne doit pas contenir d\'espaces.',
+            'prenom.regex' => 'Ce champ ne peut pas contenir de nombre ou d\'espaces consécutifs',
             'prenom.min' => 'Le prénom doit contenir au moins :min caractères.',
             'prenom.max' => 'Le prénom ne peut pas dépasser :max caractères.',
     
             'nom.required' => 'Ce champ est obligatoire.',
-            'nom.regex' => 'Le nom ne doit pas contenir d\'espaces.',
+            'nom.regex' => 'Ce champ ne peut pas contenir de nombre ou d\'espaces consécutifs',
             'nom.min' => 'Le nom doit contenir au moins :min caractères.',
             'nom.max' => 'Le nom ne peut pas dépasser :max caractères.',
     

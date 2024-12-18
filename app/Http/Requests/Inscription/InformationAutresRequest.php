@@ -14,6 +14,15 @@ class InformationAutresRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        if ($this->has('rbq')) {
+            $this->merge([
+                'rbq' => str_replace('-', '', $this->input('rbq'))
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

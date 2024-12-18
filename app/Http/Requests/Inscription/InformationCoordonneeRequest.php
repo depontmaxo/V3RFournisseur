@@ -14,11 +14,21 @@ class InformationCoordonneeRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        if ($this->has('numTel')) {
+            $this->merge([
+                'numTel' => str_replace('-', '', $this->input('numTel'))
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    
     public function rules(): array
     {
         return [
@@ -42,14 +52,14 @@ class InformationCoordonneeRequest extends FormRequest
 
             'ville' => [
                 'required_without:ville-autre',
-                'regex:/^[A-Za-zÀ-ÿ0-9]+(?:[- ][A-Za-zÀ-ÿ0-9]+)*$/', // Acceptation des lettres accentuées
+                //'regex:/^[A-Za-zÀ-ÿ0-9]+(?:[- ][A-Za-zÀ-ÿ0-9]+)*$/', // Acceptation des lettres accentuées
                 'max:64',
                 'required_if:province,Québec'
             ], 
 
             'ville-autre' => [
                 'required_without:ville', 
-                'regex:/^[A-Za-zÀ-ÿ0-9]+(?:[- ][A-Za-zÀ-ÿ0-9]+)*$/', // Acceptation des lettres accentuées
+                //'regex:/^[A-Za-zÀ-ÿ0-9]+(?:[- ][A-Za-zÀ-ÿ0-9]+)*$/', // Acceptation des lettres accentuées
                 'max:64',
                 'required_if:province,!Québec'
             ], 
@@ -74,7 +84,6 @@ class InformationCoordonneeRequest extends FormRequest
             'numTel' => [
                 'required', 
                 'digits:10', 
-                'integer'
             ],
 
             'posteTel' => [
@@ -123,8 +132,7 @@ class InformationCoordonneeRequest extends FormRequest
             'site.url' => 'Le champ site doit être une URL valide.',
     
             'numTel.required' => 'Ce champ est obligatoire.',
-            'numTel.digits' => 'Le numéro de téléphone doit contenir exactement :digits chiffres.',
-            'numTel.integer' => 'Le numéro de téléphone doit être un entier.',
+            'numTel.digits' => 'Le numéro de téléphone doit contenir exactement 10 chiffres.',
 
             'posteTel.digits_between' => 'Le numéro de poste doit contenir uniquement des chiffres (entre 1 et 6 chiffres).',
             //'posteTel.max' => 'Le poste ne peut pas dépasser :max caractères.',

@@ -75,24 +75,6 @@ class InscriptionController extends Controller
 
         return redirect()->route('Inscription.Produits');
 
-
-        /*if ($request->has('neq')) {
-            $request->merge([
-                'neq' => str_replace('-', '', $request->input('neq'))
-            ]);
-        }
-
-        $validatedData = $request->validate(
-            $this->reglesValidationsIdentification(),
-            $this->messagesValidationIdentification()
-        );
-
-        /Hashage mdp
-        $hashedPassword = Hash::make($request->password);
-
-        $this->storeInSession($request, $validatedData + ['password' => $hashedPassword]);
-
-        return redirect()->route('Inscription.Produits');*/
     }
 
 
@@ -110,37 +92,11 @@ class InscriptionController extends Controller
 
         $this->storeInSession($request, ['selectedCodes' => $selectedCodes]);
         return redirect()->route('Inscription.Coordonnees');
-
-        //dd($request->all());
-        /*$validatedData = $request->validate(
-            $this->reglesValidationsProduits(),
-            $this->messagesValidationProduits()
-        );
-
-        $selectedCodes = [];
-        $selectedCodesArray = json_decode($request->input('selected_codes'), true);
-        
-        // Iterate over the $selectedCodesArray and add each code to $selectedCodes
-        foreach ($selectedCodesArray as $code) {
-            $selectedCodes[] = $code;  // This adds the code to the $selectedCodes array
-        }
-        
-
-        //dd($selectedCodesArray);
-
-        $this->storeInSession($request, ['selectedCodes' => $selectedCodes]);
-        return redirect()->route('Inscription.Coordonnees');*/
     }
 
     //Validation des **COORDONNÉES**
     public function verificationCoordonnees(InformationCoordonneeRequest $request)
     {
-        dd($request);
-        if ($request->has('numTel')) {
-            $request->merge([
-                'numTel' => str_replace('-', '', $request->input('numTel'))
-            ]);
-        }
         if ($request->input('province') === 'Québec') {
             $request->merge([
                 'ville-autre' => $request->input('ville'),
@@ -169,6 +125,8 @@ class InscriptionController extends Controller
             $regionCode = null;
         }
 
+        //dd($validatedData);
+
         $this->storeInSession($request, $validatedData + ['region' => $regionNom] + ['code' => $regionCode]);
         return redirect()->route('Inscription.Contact');
     }
@@ -176,14 +134,6 @@ class InscriptionController extends Controller
     //Validation des **CONTACTS**
     public function verificationContact(InformationContactsRequest $request)
     {
-        
-        /* enleve les tirets */
-        if ($request->has('numContact')) {
-            $request->merge([
-                'numContact' => str_replace('-', '', $request->input('numContact'))
-            ]);
-        }
-
         $validatedData = $request->validated();
         $this->storeInSession($request, $validatedData);
         return redirect()->route('Inscription.RBQ');
@@ -195,12 +145,6 @@ class InscriptionController extends Controller
         //Si vous avez l'erreur "Content Too Large" de Laravel, il faut aller dans le fichier php.ini dans le composer et changer les valeurs des lignes :
         //post_max_size (mettre environ 250M) comme ca on évite l'erreur de Laravel
         //upload_max_filesize (mettre environ 250M) - Ensuite il faut redémarrer VSCode et le site
-        if ($request->has('rbq')) {
-            $request->merge([
-                'rbq' => str_replace('-', '', $request->input('rbq'))
-            ]);
-        }
-
         $validatedData = $request->validated();
 
         // Récupérer les fichiers validés
