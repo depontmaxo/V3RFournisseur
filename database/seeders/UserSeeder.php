@@ -17,27 +17,35 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'id' => '1', //generer id
-            'email' => 'John@commis.com',
-            'role' => 'commis',
-            'password' => Hash::make('1234'), // N'oublie pas de hasher le mot de passe
-            'is_admin' => false,
-        ]);
-
-        User::create([
-            'id' => '2', //generer id
-            'email' => 'Max@responsable.com',
-            'role' => 'responsable',
-            'password' => Hash::make('1234'),
-            'is_admin' => false,
-        ]);
-
-        User::create([
-            'id' => '3', //generer id
-            'email' => 'Isaac@admin.com',
+            'id' => '644', //generer id
+            'email' => 'francoisdupont@yahoo.com',
             'role' => 'admin',
-            'password' => Hash::make('1234'),
+            'password' => Hash::make('Dup1234*'),
             'is_admin' => true,
+        ]);
+
+        User::create([
+            'id' => '244', //generer id
+            'email' => 'maximedesjardins@yahoo.com',
+            'role' => 'admin',
+            'password' => Hash::make('Desj2024**'),
+            'is_admin' => true,
+        ]);
+
+        User::create([
+            'id' => '344', //generer id
+            'email' => 'isaacBelanger@gmail.com',
+            'role' => 'commis',
+            'password' => Hash::make('Isaac666**'),
+            'is_admin' => false,
+        ]);
+
+        User::create([
+            'id' => '455', //generer id
+            'email' => 'pradel02@gmail.com',
+            'role' => 'responsable',
+            'password' => Hash::make('Patreon89**'),
+            'is_admin' => false,
         ]);
     }
 }
