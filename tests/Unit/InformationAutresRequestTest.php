@@ -3,6 +3,9 @@
 namespace Tests\Unit;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Testing\File;
+use Illuminate\Http\Testing\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use App\Http\Requests\Inscription\InformationAutresRequest;
 
@@ -49,9 +52,13 @@ class InformationAutresRequestTest extends TestCase
      */
     public function test_validation_fails_for_invalid_documents()
     {
+        // Créez un fichier temporaire simulé avec un nom invalide
+        $file = UploadedFile::fake()->create('invalid-file.txt', 0); // 0 octets, mais ce n'est pas un fichier valide
+
+        // Définir un tableau de données avec ce fichier simulé
         $data = [
             'documents' => [
-                new File('invalid-file.txt'), // Le fichier a une extension invalide (pas une des mimes autorisées)
+                $file,  // Fichier invalide simulé
             ],
         ];
 
@@ -61,9 +68,9 @@ class InformationAutresRequestTest extends TestCase
         // Vérifie que la validation échoue
         $this->assertTrue($validator->fails());
 
-        // Vérifie que les messages d'erreur sont appropriés
+        // Vérifie que le message d'erreur est approprié pour un fichier invalide
         $errorMessage = $validator->errors()->first('documents.*.file');
-        $this->assertEquals('Les documents fournis sont invalides.', $errorMessage);
+        $this->assertEquals('Chaque document doit être un fichier valide.', $errorMessage);
     }
 
     /**
