@@ -44,7 +44,7 @@
                     <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i> Demandes inscriptions</a></li>
                 @elseif (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'commis')
                     <li class="soustitre"><a class="no-style-link" href="{{ route('Responsable.index') }}"><i class="fa fa-home"></i> Accueil</a></li>
-                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeFournisseur')}}"><i class="fa fa-warehouse"></i> Fournisseur actif</a></li>
+                    <li class="soustitre"><a class="no-style-link" href="{{route('Responsable.listeInscripton')}}"><i class="fa fa-user-check"></i> Demandes inscriptions</a></li>
                 @endif
             </ul>
 
