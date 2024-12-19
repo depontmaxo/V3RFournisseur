@@ -63,6 +63,7 @@
                         </label>
                         <select class="form-control" id="province" name="province" required>
                             <option value="" disabled selected>Choisir une province</option>
+                            <option value="Québec" {{ old('province', session('user_data.province')) == 'Québec' ? 'selected' : '' }}>Québec</option>
                             <option value="Alberta" {{ old('province', session('user_data.province')) == 'Alberta' ? 'selected' : '' }}>Alberta</option>
                             <option value="Colombie-Britannique" {{ old('province', session('user_data.province')) == 'Colombie-Britannique' ? 'selected' : '' }}>Colombie-Britannique</option>
                             <option value="Manitoba" {{ old('province', session('user_data.province')) == 'Manitoba' ? 'selected' : '' }}>Manitoba</option>
@@ -71,7 +72,6 @@
                             <option value="Nouvelle-Écosse" {{ old('province', session('user_data.province')) == 'Nouvelle-Écosse' ? 'selected' : '' }}>Nouvelle-Écosse</option>
                             <option value="Ontario" {{ old('province', session('user_data.province')) == 'Ontario' ? 'selected' : '' }}>Ontario</option>
                             <option value="Île-du-Prince-Édouard" {{ old('province', session('user_data.province')) == 'Île-du-Prince-Édouard' ? 'selected' : '' }}>Île-du-Prince-Édouard</option>
-                            <option value="Québec" {{ old('province', session('user_data.province')) == 'Québec' ? 'selected' : '' }}>Québec</option>
                             <option value="Saskatchewan" {{ old('province', session('user_data.province')) == 'Saskatchewan' ? 'selected' : '' }}>Saskatchewan</option>
                             <option value="Territoires du Nord-Ouest" {{ old('province', session('user_data.province')) == 'Territoires du Nord-Ouest' ? 'selected' : '' }}>Territoires du Nord-Ouest</option>
                             <option value="Nunavut" {{ old('province', session('user_data.province')) == 'Nunavut' ? 'selected' : '' }}>Nunavut</option>
@@ -212,10 +212,9 @@
                         @enderror
                     </div>
 
-
                     <!--Les boutons-->
                         <div class="d-flex justify-content-center pt-3">
-                        <a class="btn btn-custom btnAnnulerRetour-custom mx-3" href="{{ route('Inscription.Identification') }}">
+                        <a class="btn btn-custom btnAnnulerRetour-custom mx-3" href="{{ route('Inscription.Produits') }}">
                             <i class="fa fa-arrow-left me-2"></i>Précédent
                         </a>
                         <button type="submit" class="btn btn-custom mx-3">

@@ -14,6 +14,15 @@ class ConnexionRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        if ($this->has('neq')) {
+            $this->merge([
+                'neq' => str_replace(' ', '', $this->input('neq'))
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
