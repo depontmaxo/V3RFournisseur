@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
+use App\Models\User;
 
 class EmailTemplateController extends Controller
 {
@@ -37,15 +38,22 @@ class EmailTemplateController extends Controller
 
     public function destroy($id)
     {
+
+    
         try {
             $user = User::findOrFail($id); // Trouver l'utilisateur ou échouer
             $user->delete(); // Supprimer l'utilisateur
-    
+
             return response()->json(['success' => true, 'message' => 'Utilisateur supprimé avec succès']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Erreur lors de la suppression de l\'utilisateur'], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression de l\'utilisateur',
+                'error' => $e->getMessage(), // Pour le débogage, vous pouvez inclure ce détail
+            ], 500);
         }
     }
+    
     
     public function show($id)
     {
