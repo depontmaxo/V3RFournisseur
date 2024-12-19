@@ -21,6 +21,11 @@ class InformationCoordonneeRequest extends FormRequest
                 'numTel' => str_replace('-', '', $this->input('numTel'))
             ]);
         }
+        if ($this->has('codePostal')) {
+            $this->merge([
+                'codePostal' => str_replace(' ', '', $this->input('codePostal'))
+            ]);
+        }
     }
 
     /**
@@ -105,11 +110,12 @@ class InformationCoordonneeRequest extends FormRequest
             'rue.regex' => 'Le nom de la rue peut contenir uniquement des lettres, des chiffres, des espaces et certains caractères spéciaux (comme - . , ; : ! () &).',
 
             'Ncivique.required' => 'Ce champ est obligatoire.',
-            'Ncivique.max' => 'Le numéro civique ne peut pas dépasser 8 caractères.',
+            'Ncivique.max' => 'Le numéro civique ne peut pas dépasser :max caractères.',
             'Ncivique.alpha_num' => 'Le numéro civique doit contenir uniquement des lettres et des chiffres.',
     
             'bureau.regex' => 'Le format du bureau est invalide.',
             'bureau.max' => 'Le bureau ne peut pas dépasser :max caractères.',
+            'bureau.alpha_num' => 'Le bureau doit contenir uniquement des lettres et des chiffres.',
     
             'ville.required_without' => 'Ce champ est obligatoire.',
             'ville.regex' => 'Le format de la ville est invalide.',

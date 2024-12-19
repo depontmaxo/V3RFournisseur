@@ -90,6 +90,7 @@ class InscriptionController extends Controller
             $selectedCodes[] = $code;  // This adds the code to the $selectedCodes array
         }
 
+
         $this->storeInSession($request, ['selectedCodes' => $selectedCodes]);
         return redirect()->route('Inscription.Coordonnees');
     }

@@ -177,7 +177,7 @@
             } else {
                 selectedCodes.push(code);
             }
-            //console.log(selectedCodes);
+            console.log(selectedCodes);
         }
 
 
