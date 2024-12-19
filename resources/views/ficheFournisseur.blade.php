@@ -123,60 +123,8 @@
         @endif
 
         @if (Auth::guard('web')->check() || (Auth::guard('user')->check() && Auth::guard('user')->user()->role == 'responsable'))
-            <button class="btn btn-outline-primary" onclick="toggleDiv()">Ajouter un code UNSPSC</button>
+            <a href="{{route('Fournisseur.UNSPSC', [$utilisateur])}}" class="btn btn-success my-3">Ajouter un code UNSPSC</a>
         @endif
-
-        <!-- Caché par défaut -->
-        <div class="rechercheUNSPSC hidden">
-            <!-- Search Form -->
-            <form method="get" action="/unspsc/recherche#Recherche" style="display: display-flex;">
-                @csrf
-                <label for="nature_contrat">Nature :</label>
-                <input type="checkbox" id="nature_contrat" name="nature_contrat" {{ request()->has('nature_contrat') ? 'checked' : '' }} />
-                
-                <label for="desc_cat">Catégorie :</label>
-                <input type="checkbox" id="desc_cat" name="desc_cat" {{ request()->has('desc_cat') ? 'checked' : '' }} />
-
-                <label for="code_unspsc">Code UNSPSC :</label>
-                <input type="checkbox" id="code_unspsc" name="code_unspsc" {{ request()->has('code_unspsc') ? 'checked' : '' }} />
-                
-                <label for="desc_det_unspsc">Description :</label>
-                <input type="checkbox" id="desc_det_unspsc" name="desc_det_unspsc" {{ request()->has('desc_det_unspsc') ? 'checked' : '' }} />
-
-                <input type="hidden" name="fiche_utilisateur_id" value="{{ $utilisateur->id }}">
-
-                <input type="text" placeholder="Rechercher" id="recherche" name="recherche" value="{{ request('recherche') }}" />
-                <button class="btn btn-primary no-border-button" type="submit">Rechercher</button>
-            </form>
-
-            <!-- Selection Form -->
-            <form method="get" action="/unspsc/choisit" style="display: display-flex;" class="insideForm">
-                @csrf
-                <p>Nature | Catégorie | Code UNSPSC | Description</p>
-
-                <!-- Display the List of UNSPSC Codes with Their Selection State Preserved -->
-                @foreach ($codeUNSPSCunite as $unspsc)
-                    <div class="decisionUNSPSC" >
-                        <input type="checkbox" 
-                            id="code_unspsc_choisit_{{ $unspsc->code_unspsc }}" 
-                            name="code_unspsc_choisit[]" 
-                            value="{{ $unspsc->code_unspsc }}"> 
-                        <p class="pUNSPSC">{{ $unspsc->nature_contrat }} | {{ $unspsc->desc_cat }} | {{ $unspsc->code_unspsc }} | {{ $unspsc->desc_det_unspsc }}</p>
-                    </div>
-                @endforeach
-
-                <!-- Pagination Links -->
-                <div class="d-flex justify-content-between custom-pagination">
-                    {{ $codeUNSPSCunite->withQueryString()->links('pagination::bootstrap-4') }}
-                </div>
-
-                <input type="hidden" name="fiche_utilisateur_id" value="{{ $utilisateur->id }}">
-
-                <button class="btn btn-primary no-border-button" type="submit">Complété sélection de mes codes UNSPSC</button>
-            </form>
-        </div>
-
-        <script src="{{ asset('js/unspscToggle.js') }}"></script>
 
     </body>
 

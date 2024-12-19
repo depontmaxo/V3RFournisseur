@@ -146,6 +146,59 @@ class FournisseursController extends Controller
         $finances->save();
         return redirect()->route('Fournisseur.fiche', [$utilisateur])->with('message', "Modification réussi!");
     }
+
+    /**
+     * Sert à modifier les infomations de la fiche du fournisseur
+     */
+    public function editUNSPSC(Utilisateur $utilisateur)
+    {
+        $utilisateur = $utilisateur;
+        $UNSPSC = CodeUNSPSC::all();
+        $codes = DB::table('utilisateur_unspsc')
+            ->join('code_unspsc', 'utilisateur_unspsc.unspsc_id', '=', 'code_unspsc.code_unspsc')
+            ->where('utilisateur_unspsc.utilisateur_id',  $utilisateur->id)
+            ->select('utilisateur_unspsc.unspsc_id', 'code_unspsc.nature_contrat', 'code_unspsc.desc_cat', 'code_unspsc.desc_det_unspsc')
+            ->get();
+        return View('modificationUNSPSC', compact('UNSPSC','codes','utilisateur'));
+    }
+
+    /**
+     * Updater le compte avec les nouvelles informations
+     */
+
+    public function updateUNSPSC(Request $request, Utilisateur $utilisateur)
+    {   
+        //dd($request);
+        $unspsc_codes = $request->unspsc_codes;
+        //dd($unspsc_codes);
+        $utilisateurId = $utilisateur->id;
+        //dd($utilisateurId);
+        
+        //dd($utilisateurId, !empty($selectedCodes));
+        if ($utilisateurId && !empty($unspsc_codes)) {
+            foreach ($unspsc_codes as $unspscId) {
+                // Regarde si il existe déjà
+                $exists = DB::table('utilisateur_unspsc')
+                    ->where('utilisateur_id', $utilisateurId)
+                    ->where('unspsc_id', $unspscId)
+                    ->exists();
+                // Insertion
+                if (!$exists) {
+                    DB::table('utilisateur_unspsc')->insert([
+                        'utilisateur_id' => $utilisateurId,
+                        'unspsc_id' => $unspscId,
+                    ]);
+                }
+                else{
+                    //Mettre un message d'erreur
+                    dd($exists);
+                }
+            }
+        }
+        return redirect()->route('Fournisseur.fiche', [$utilisateur])->with('message', "Modification des UNSPSC réussi!");
+    }
+
+
     /**
      * Rendre le compte inactif.
      */
@@ -217,6 +270,7 @@ class FournisseursController extends Controller
         return View('statutDemande', compact('utilisateur'));
     }
 
+    /*
     public function recherche(Request $request)
     {
 
@@ -225,7 +279,7 @@ class FournisseursController extends Controller
             ->orderBy('code_unspsc', 'asc')
             ->paginate(10);
 
-            /*Reprence ce qu'il y a dans la page du fournisseur*/
+            //Reprence ce qu'il y a dans la page du fournisseur
             $utilisateurId = $request->fiche_utilisateur_id;
 
             $coordonnees = Coordonnees::where('utilisateur_id', $request->fiche_utilisateur_id)->firstOrFail();
@@ -265,7 +319,7 @@ class FournisseursController extends Controller
 
         $codeUNSPSCunite = $query->paginate(10);
 
-        /*Reprence ce qu'il y a dans la page du fournisseur*/
+        //Reprence ce qu'il y a dans la page du fournisseur
         $utilisateur = Utilisateur::where( 'id', $request->fiche_utilisateur_id)->first();
         $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();
@@ -280,18 +334,12 @@ class FournisseursController extends Controller
 
         return view('ficheFournisseur', compact('utilisateur', 'contacts', 'coordonnees', 'codes', 'codeUNSPSCunite', 'documents','finances'));
     }
-
+    */
     
     public function choisit(Request $request)
     {
-        
-        //dd($request->code_unspsc_choisit);
-        //dd($request->fiche_utilisateur_id);
-        
         $selectedCodes = $request->code_unspsc_choisit;
         $utilisateurId = $request->fiche_utilisateur_id;
-        //dd($utilisateurId);
-        //dd($selectedCodes);
         
         if ($utilisateurId && !empty($selectedCodes)) {
             foreach ($selectedCodes as $unspscId) {
@@ -315,7 +363,7 @@ class FournisseursController extends Controller
             }
         }
 
-        /*Reprence ce qu'il y a dans la page du fournisseur*/
+        //Reprence ce qu'il y a dans la page du fournisseur
         $utilisateur = Utilisateur::where( 'id', $request->fiche_utilisateur_id)->first();
         $contacts = Contacts::where('utilisateur_id',  $request->fiche_utilisateur_id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id',  $request->fiche_utilisateur_id)->firstOrFail();

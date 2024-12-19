@@ -116,6 +116,15 @@ Route::GET('/ficheUtilisateur/{utilisateur}/modifier',
 Route::PATCH('/ficheUtilisateur/{utilisateur}/modifier',
 [FournisseursController::class,'update'])->name('Fournisseur.appliqueModification');
 
+//Code UNSPSC
+Route::GET('/ficheUtilisateur/{utilisateur}/UNSPSC',
+[FournisseursController::class,'editUNSPSC'])->name('Fournisseur.UNSPSC');
+
+Route::POST('/ficheUtilisateur/{utilisateur}/UNSPSC',
+[FournisseursController::class,'updateUNSPSC'])->name('Fournisseur.appliqueUNSPSC');
+//
+
+
 Route::GET('/ficheUtilisateur/document/{id}/download',
 [DocumentController::class,'telechargerDocument'])->name('Document.download');
 
