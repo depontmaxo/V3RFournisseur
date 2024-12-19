@@ -15,56 +15,144 @@ class UtilisateurSeeder extends Seeder
      */
     public function run(): void
     {
-      DB::table('utilisateur')->insert([
-            'id' => '715d5018-33da-41dc-ae12-30da537cee9f', // Generate a UUID for the id
-            'nom_entreprise' => 'Google',
-            'neq'=> '12345',
-            'email'=> 'test@test.com',
-            'password' =>'$2y$10$t8Euw.TibLX07KUYzMMrKu7Q4Wvi4hrHP3DwewiXaDEe6bHYMhBzS', //test
-            'role' => 'fournisseur',
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Microsoft',
+            'neq' => '1123897461',
+            'email' => 'admin@microsoft.com',
+            'password' => bcrypt('password123'),
             'statut' => 'Actif',
-            'rbq' => 'licence rbq'
+            'rbq' => null
         ]);
 
         DB::table('utilisateur')->insert([
-            'id' => '2def5921-67c3-4340-85f1-bdb87f9207b6', // Generate a UUID for the id
-            'nom_entreprise' => 'Cahier Serway inc',
-            'neq'=> '75321',
-            'email'=> 'rogue@test.com',
-            'password' =>'$2y$10$t8Euw.TibLX07KUYzMMrKu7Q4Wvi4hrHP3DwewiXaDEe6bHYMhBzS', //test
-            'role' => 'fournisseur',
-            'statut' => 'Actif',
-            'rbq' => 'licence rbq'
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Amazon',
+            'neq' => '2258374912',
+            'email' => 'contact@amazon.com',
+            'password' => bcrypt('securepass'),
+            'statut' => 'Inactif',
+            'rbq' => null
         ]);
 
         DB::table('utilisateur')->insert([
-            'id' => Str::uuid()->toString(), // Generate a UUID for the id
-            'nom_entreprise' => 'Commis',
-            'neq'=> '54321',
-            'email'=> 'commis@commis.com',
-            'password' =>'$2y$10$t8Euw.TibLX07KUYzMMrKu7Q4Wvi4hrHP3DwewiXaDEe6bHYMhBzS', //test
-            'role' => 'commis',
-            'statut' => 'Actif',
-            'rbq' => 'licence rbq'
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Facebook',
+            'neq' => '3381276540',
+            'email' => 'info@facebook.com',
+            'password' => bcrypt('fbsecure'),
+            'statut' => 'En attente',
+            'rbq' => null
         ]);
 
         DB::table('utilisateur')->insert([
-            'id' => Str::uuid()->toString(), // Generate a UUID for the id
-            'nom_entreprise' => 'Responsable',
-            'neq'=> '987654321',
-            'email'=> 'responsable@responsable.com',
-            'password' =>'$2y$10$t8Euw.TibLX07KUYzMMrKu7Q4Wvi4hrHP3DwewiXaDEe6bHYMhBzS', //test
-            'role' => 'responsable',
-            'statut' => 'Actif',
-            'rbq' => 'licence rbq'
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Tesla',
+            'neq' => '8836752109',
+            'email' => 'support@tesla.com',
+            'password' => bcrypt('teslapass'),
+            'statut' => 'Refusé',
+            'rbq' => null
         ]);
 
-/*
-        DB::table('users')->insert([
-            'email'=> 'test@commis.com',
-            'rôle' => 'commis',     
-        ]); */
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Apple',
+            'neq' => '1147856392',
+            'email' => 'support@apple.com',
+            'password' => bcrypt('apple1234'),
+            'statut' => 'Actif',
+            'rbq' => null
+        ]);
+
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Netflix',
+            'neq' => '2293456710',
+            'email' => 'admin@netflix.com',
+            'password' => bcrypt('stream123'),
+            'statut' => 'Inactif',
+            'rbq' => null
+        ]);
+
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Adobe',
+            'neq' => '3350194728',
+            'email' => 'support@adobe.com',
+            'password' => bcrypt('creative123'),
+            'statut' => 'En attente',
+            'rbq' => null
+        ]);
+
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Spotify',
+            'neq' => '8819625307',
+            'email' => 'contact@spotify.com',
+            'password' => bcrypt('music123'),
+            'statut' => 'Actif',
+            'rbq' => null
+        ]);
+
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Slack',
+            'neq' => '1164028573',
+            'email' => 'admin@slack.com',
+            'password' => bcrypt('work123'),
+            'statut' => 'Refusé',
+            'rbq' => null
+        ]);
+
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Zoom',
+            'neq' => '2237694815',
+            'email' => 'contact@zoom.com',
+            'password' => bcrypt('zoom1234'),
+            'statut' => 'Inactif',
+            'rbq' => null
+        ]);
+
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'LinkedIn',
+            'neq' => '3375096842',
+            'email' => 'admin@linkedin.com',
+            'password' => bcrypt('linkedinpass'),
+            'statut' => 'En attente',
+            'rbq' => null
+        ]);
+
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Twitter',
+            'neq' => '8891532064',
+            'email' => 'support@twitter.com',
+            'password' => bcrypt('tweet123'),
+            'statut' => 'Actif',
+            'rbq' => null
+        ]);
+
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Snapchat',
+            'neq' => '1125783946',
+            'email' => 'admin@snapchat.com',
+            'password' => bcrypt('snap1234'),
+            'statut' => 'Inactif',
+            'rbq' => null
+        ]);
+
+        DB::table('utilisateur')->insert([
+            'id' => Str::uuid()->toString(),
+            'nom_entreprise' => 'Airbnb',
+            'neq' => '2204638591',
+            'email' => 'contact@airbnb.com',
+            'password' => bcrypt('bnbsecure'),
+            'statut' => 'Actif',
+            'rbq' => null
+        ]);
     }
-
-   
 }
