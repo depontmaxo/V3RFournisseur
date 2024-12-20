@@ -235,6 +235,8 @@ Route::put('/email/templates/{id}/update', [EmailTemplateController::class, 'upd
 
 Route::get('/EnvoiemailResponsable', [EmailTemplateController::class,'EnvoiMailResponsable'])->name('EnvoiMailResp');
 
+Route::get('/EnvoiemailResponsableIndex', [EmailTemplateController::class,'EnvoiMailResponsableIndex'])->name('EnvoiMailResp.index');
+
 Route::post('/users', [UserController::class, 'store']);
 
 //Settings admin

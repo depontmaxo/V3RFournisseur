@@ -5,7 +5,7 @@
     top: 0;
     left: 0;
     padding: 30px 15px;
-    background: rgba(99, 188, 85, 0.92);
+    background: #0B2341;
     backdrop-filter: blur(5px);
     display: flex;
     flex-direction: column;
@@ -57,7 +57,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(99, 188, 85, 0.92);
+    background-color:#0B2341;
     backdrop-filter: blur(5px);
     padding: 10px 0;
 }
@@ -76,6 +76,7 @@
 
 .no-style-link {
     text-decoration: none;
+    color: aliceblue;
 }
 
 .no-color-link {

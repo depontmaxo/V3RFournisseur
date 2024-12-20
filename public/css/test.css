@@ -16,7 +16,7 @@ body {
 
 /* Header */
 .dashboard-header {
-    background-color: #5cb85c;
+    background-color: #0B2341;
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -104,7 +104,7 @@ body {
 
 .next-steps h3 {
     font-size: 1.6rem;
-    color: #5cb85c;
+    color: #0B2341;
     margin-bottom: 15px;
 }
 
