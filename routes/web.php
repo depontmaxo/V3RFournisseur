@@ -131,8 +131,10 @@ Route::GET('/ficheUtilisateur/document/{id}/download',
 Route::GET('/ficheUtilisateur/{utilisateur}/statut',
 [FournisseursController::class,'afficherStatut'])->name('Fournisseur.statut');
 
+/*
 Route::GET('/unspsc/recherche',
 [FournisseursController::class,'recherche'])->name('Fournisseurs.recherche');
+*/
 
 Route::GET('/unspsc/choisit',
 [FournisseursController::class,'choisit'])->name('Fournisseurs.choisit');

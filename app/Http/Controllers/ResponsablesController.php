@@ -82,6 +82,7 @@ class ResponsablesController extends Controller
             return view('responsable.pagePrincipaleResponsable', compact('utilisateurs'));
         }
 
+
         $recherche = $request->recherche;
 
         $query = Utilisateur::query();
@@ -89,14 +90,11 @@ class ResponsablesController extends Controller
         if($request->nom == "on"){
             $query->whereAny(['nomFournisseur'], 'LIKE' , "%$recherche%");
         }
-        else if($request->adresse == "on"){
-            $query->whereAny(['adresse'], 'LIKE' , "%$recherche%");
+        if($request->neq == "on"){
+            $query->whereAny(['neq'], 'LIKE' , "%$recherche%");
         }
-        else if($request->categorie == "on"){
+        if($request->categorie == "on"){
             $query->whereAny(['categorie'], 'LIKE' , "%$recherche%");
-        }
-        else{
-            $query->whereAny(['nomFournisseur', 'adresse'], 'LIKE' , "%$recherche%");
         }
 
         $utilisateurs = $query->paginate(10);

@@ -11,13 +11,12 @@
 
         <form method="get" action="/responsable/rechercheFournisseur" style="display-flex">
             @csrf
-            <label for="nom">Nom :</label>
+            <label for="nom">Nom Entreprise:</label>
             <input type="checkbox" id="nom" name="nom"/>
             <label for="neq">NEQ :</label>
             <input type="checkbox" id="neq" name="neq"/>
             <label for="courriel">Courriel :</label>
             <input type="checkbox" id="courriel" name="courriel"/>
-
 
             <input type="text" placeholder="Rechercher" id="recherche" name="recherche"/>
             <button class="btn btn-primary no-border-button" type="submit">Rechercher</button>
@@ -65,6 +64,8 @@
                     {{ $utilisateurs->links() }}
         </div>
     </body>
+
+
 @else
     <script>
         window.location.href = '{{ route("RefusAccess") }}';
