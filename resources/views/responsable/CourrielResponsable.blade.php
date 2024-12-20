@@ -7,7 +7,7 @@
     <h2>Envoyer un Courriel au Responsable</h2>
 
     <!-- Formulaire d'envoi d'email -->
-    <form action="" method="POST">    
+    <form action="{{route('EnvoiMailResp')}}" method="POST">    
         @csrf
 
         <!-- Sélection de l'utilisateur -->

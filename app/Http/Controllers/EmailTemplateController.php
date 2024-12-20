@@ -74,14 +74,40 @@ class EmailTemplateController extends Controller
     }
     
 
-    public function EnvoiMailResponsable()
+    public function EnvoiMailResponsable(Request $request)
     {
-        // Récupérer tous les utilisateurs et tous les modèles
-        $utilisateurs = Utilisateur::all();
-        $templates = EmailTemplate::all();
+        // Validation des données
+    $request->validate([
+        'utilisateur_id' => 'required|exists:utilisateurs,id',
+        'template_id' => 'required|exists:email_templates,id',
+    ]);
 
-        // Passer les données à la vue
-        return view('responsable.CourrielResponsable', compact('utilisateurs', 'templates'));
+    // Récupération des informations de l'utilisateur et du modèle
+    $utilisateur = Utilisateur::find($request->utilisateur_id);
+    $template = EmailTemplate::find($request->template_id);
+
+    // Préparer les données pour l'e-mail
+    $data = [
+        'nom' => $utilisateur->name,
+        'email' => $utilisateur->email,
+        'objet' => $template->objet,
+        'contenu' => $template->contenu,
+    ];
+
+    // Envoi de l'email via Mailtrap
+    Mail::send([], $data, function ($message) use ($utilisateur, $template, $data) {
+        $message->to($utilisateur->email)
+                ->subject($template->objet)
+                ->setBody($data['contenu'], 'text/html'); 
+    });
+
+    // Retourner un message de succès
+    return back()->with('success', 'L\'e-mail a été envoyé avec succès!');
+    }
+
+
+    public function EnvoiMailResponsableIndex(){
+        return view('responsable.CourrielResponsable');
     }
 
 }

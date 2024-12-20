@@ -65,7 +65,7 @@
 
 /* Accepted State */
 .status-card.accepted {
-    background-color: #2ecc71; /* Green */
+    background-color:#1E492D; /* Green */
 }
 
 .status-card.accepted i {
@@ -83,7 +83,7 @@
 
 /* Refused State */
 .status-card.refused {
-    background-color: #e74c3c; /* Red */
+    background-color: #E5004D; /* Red */
 }
 
 .status-card.refused i {
