@@ -158,6 +158,7 @@ Route::POST('/ficheUtilisateur/{utilisateur}/nouveau_contact/save',
 
 
 #################################Responsable#########################################
+
 //Rendre compte actif/inactif
 Route::GET('/inactif/{utilisateur}/',
 [FournisseursController::class,'inactif'])->name('Fournisseur.inactif');
@@ -202,6 +203,7 @@ Route::GET('/responsableIndex/listeInscription/{candidat}',
 
 
 
+
 #################################Admin#########################################
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailTemplateController;
@@ -242,6 +244,7 @@ Route::delete('/email-templates/{id}', [EmailTemplateController::class, 'destroy
 Route::put('/email/templates/{id}/update', [EmailTemplateController::class, 'update'])->name('email.templates.update');
 
 
+Route::get('/EnvoiemailResponsable', [EmailTemplateController::class,'EnvoiMailResponsable'])->name('EnvoiMailResp');
 
 Route::post('/users', [UserController::class, 'store']);
 

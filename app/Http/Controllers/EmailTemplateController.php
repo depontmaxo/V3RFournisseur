@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
+use App\Models\User;
+use App\Models\Utilisateur;
+
 
 class EmailTemplateController extends Controller
 {
@@ -38,14 +41,18 @@ class EmailTemplateController extends Controller
     public function destroy($id)
     {
         try {
-            $user = User::findOrFail($id); // Trouver l'utilisateur ou échouer
-            $user->delete(); // Supprimer l'utilisateur
+            // Trouver le modèle de courriel avec l'id
+            $template = EmailTemplate::findOrFail($id);
+            $template->delete(); // Supprimer le modèle
     
-            return response()->json(['success' => true, 'message' => 'Utilisateur supprimé avec succès']);
+            return redirect()->route('email.templates.index')->with('success', 'Modèle supprimé avec succès');
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Erreur lors de la suppression de l\'utilisateur'], 500);
+            return redirect()->route('email.templates.index')->with('error', 'Erreur lors de la suppression du modèle');
         }
     }
+    
+    
+    
     
     public function show($id)
     {
@@ -66,4 +73,15 @@ class EmailTemplateController extends Controller
         return redirect()->back()->with('success', 'Modèle mis à jour avec succès.');
     }
     
+
+    public function EnvoiMailResponsable()
+    {
+        // Récupérer tous les utilisateurs et tous les modèles
+        $utilisateurs = Utilisateur::all();
+        $templates = EmailTemplate::all();
+
+        // Passer les données à la vue
+        return view('responsable.CourrielResponsable', compact('utilisateurs', 'templates'));
+    }
+
 }

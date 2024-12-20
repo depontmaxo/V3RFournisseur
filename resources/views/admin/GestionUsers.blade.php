@@ -15,7 +15,7 @@
             .user-card {
                 border: 1px solid #ddd;
                 margin-bottom: 15px;
-                padding: 15px;
+                padding: 10px;
                 border-radius: 0; /* Change from 5px to 0 to remove rounded corners */
                 font-family: 'Poppins-Light'; /* Apply Poppins font */
                 background-color:white;
