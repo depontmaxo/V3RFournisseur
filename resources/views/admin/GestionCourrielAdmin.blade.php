@@ -95,6 +95,19 @@ body {
     </style>
 </head>
 <body>
+<div class="container mt-3">
+    @if(session('success'))
+        <div id="flashMessage" class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @elseif(session('error'))
+        <div id="flashMessage" class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+</div>
+
+
        <!-- Bouton Retour -->
        <a href="{{ route('admin.index') }}" class="btn btn-light btn-back">
         <i class="fas fa-arrow-left"></i> Retour
@@ -197,6 +210,23 @@ body {
         function updateModel() {
             const form = document.getElementById('modelForm');
             form.submit();
+
+            document.addEventListener('DOMContentLoaded', function () {
+        // Cible le message flash
+        const flashMessage = document.getElementById('flashMessage');
+        if (flashMessage) {
+            // Faire disparaître le message après 5 secondes
+            setTimeout(() => {
+                flashMessage.style.transition = "opacity 0.5s ease";
+                flashMessage.style.opacity = 0;
+
+                // Supprimer complètement l'élément après la transition
+                setTimeout(() => {
+                    flashMessage.remove();
+                }, 500); // Correspond à la durée de la transition
+            }, 5000); // Délai avant disparition (5000 ms = 5 secondes)
+        }
+    });
         }
     </script>
 

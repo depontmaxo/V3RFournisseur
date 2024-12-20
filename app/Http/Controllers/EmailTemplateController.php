@@ -38,21 +38,18 @@ class EmailTemplateController extends Controller
 
     public function destroy($id)
     {
-
-    
         try {
-            $user = User::findOrFail($id); // Trouver l'utilisateur ou échouer
-            $user->delete(); // Supprimer l'utilisateur
-
-            return response()->json(['success' => true, 'message' => 'Utilisateur supprimé avec succès']);
+            // Trouver le modèle de courriel avec l'id
+            $template = EmailTemplate::findOrFail($id);
+            $template->delete(); // Supprimer le modèle
+    
+            return redirect()->route('email.templates.index')->with('success', 'Modèle supprimé avec succès');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de la suppression de l\'utilisateur',
-                'error' => $e->getMessage(), // Pour le débogage, vous pouvez inclure ce détail
-            ], 500);
+            return redirect()->route('email.templates.index')->with('error', 'Erreur lors de la suppression du modèle');
         }
     }
+    
+    
     
     
     public function show($id)
