@@ -14,6 +14,8 @@ use App\Models\Contacts;
 use App\Models\Finance;
 use App\Models\Coordonnees;
 use App\Models\Document;
+use App\Models\Ville;
+use App\Models\RegionAdministrative;
 
 use App\Http\Requests\Inscription\InformationIdentificationRequest;
 use App\Http\Requests\Inscription\InformationProduitsRequest;
@@ -64,10 +66,11 @@ class FournisseursController extends Controller
      */
     public function edit(Utilisateur $utilisateur)
     {
+        $villes = Ville::all();
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
-        return View('modificationFicheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','finances'));
+        return View('modificationFicheFournisseur', compact('utilisateur', 'contacts', 'coordonnees','finances', 'villes'));
     }
 
     /**
@@ -91,23 +94,24 @@ class FournisseursController extends Controller
         $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
 
         //Vérification modifs?
-        $utilisateur->nom_entreprise = $request->nom_entreprise;
+        $utilisateur->nom_entreprise = $request->entreprise;
         $utilisateur->neq = $request->neq;
-        $utilisateur->email = $request->email;
+        $utilisateur->email = $request->courrielConnexion;
         $utilisateur->rbq = $request->rbq;
 
-        $coordonnees->bureau = $request->bureau;
-        $coordonnees->num_civique = $request->num_civique;
+        
+        $coordonnees->num_civique = $request->Ncivique;
         $coordonnees->rue = $request->rue;
-        $coordonnees->ville = $request->ville;
-        $coordonnees->code_region = $request->code_region;
-        $coordonnees->region_administrative = $request->region_administrative;
+        $coordonnees->bureau = $request->bureau;
+
         $coordonnees->province = $request->province;
-        $coordonnees->code_postal = $request->code_postal;
-        $coordonnees->num_telephone = $request->num_telephone;
-        $coordonnees->poste = $request->poste;
-        $coordonnees->type_contact = $request->type_contact;
-        $coordonnees->siteweb = $request->siteweb;
+        $coordonnees->ville = $request->ville;
+        
+        $coordonnees->code_postal = $request->codePostal;
+        $coordonnees->num_telephone = $request->numTel;
+        //$coordonnees->poste = $request->poste;
+        //$coordonnees->type_contact = $request->type_contact;
+        $coordonnees->siteweb = $request->site;
         
         //s'assure qu'il y a une ligne finance vu qu'il y en a pas encore sur l'inscription
         if ($finances === null) {
