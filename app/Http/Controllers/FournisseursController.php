@@ -82,7 +82,7 @@ class FournisseursController extends Controller
         if($request->neq == null){
             $request->request->add(['neq' => $utilisateur->neq]);
         }
-        if($request->siteweb == null){
+        if($request->site == null){
             $request->request->add(['siteweb' => $utilisateur->siteweb]);
         }
 
