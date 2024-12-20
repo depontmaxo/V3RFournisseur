@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit; // ✅ Changement de namespace
+namespace Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase; // ✅ Maintenant ça fonctionne
-use Tests\TestCase; // ✅ Remplace PHPUnit\Framework\TestCase par Tests\TestCase
+use Illuminate\Foundation\Testing\RefreshDatabase; 
+use Tests\TestCase;
 use App\Http\Requests\Inscription\InformationIdentificationRequest;
 use Illuminate\Support\Facades\Validator;
 

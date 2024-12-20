@@ -82,25 +82,26 @@ class InformationContactsRequest extends FormRequest
     {
         return [
             'prenom.required' => 'Ce champ est obligatoire.',
-            'prenom.regex' => 'Ce champ ne peut pas contenir de nombre ou d\'espaces consécutifs',
+            'prenom.regex' => 'Le prénom entrée est invalide.',
             'prenom.min' => 'Le prénom doit contenir au moins :min caractères.',
             'prenom.max' => 'Le prénom ne peut pas dépasser :max caractères.',
     
             'nom.required' => 'Ce champ est obligatoire.',
-            'nom.regex' => 'Ce champ ne peut pas contenir de nombre ou d\'espaces consécutifs',
+            'nom.regex' => 'Le nom entrée est invalide.',
             'nom.min' => 'Le nom doit contenir au moins :min caractères.',
             'nom.max' => 'Le nom ne peut pas dépasser :max caractères.',
     
             'fonction.required' => 'Ce champ est obligatoire.',
-            'fonction.regex' => 'Le format du poste est invalide.',
+            'fonction.regex' => 'Le poste entrée est invalide.',
             'fonction.min' => 'Le poste doit contenir au moins :min caractères.',
             'fonction.max' => 'Le poste ne peut pas dépasser :max caractères.',
     
             'courrielContact.required' => 'Ce champ est obligatoire.',
             'courrielContact.min' => 'Le courriel doit contenir au moins :min caractères.',
             'courrielContact.max' => 'Le courriel ne peut pas dépasser :max caractères.',
-            'courrielContact.regex' => 'Le courriel ne doit pas contenir d\'espaces.',
-            'courrielContact.unique' => 'Ce courriel est déjà utilisé',
+            'courrielContact.regex' => 'L’adresse courriel est invalide.',
+            'courrielContact.unique' => 'Ce courriel est déjà utilisé.',
+            'courrielContact.email' => 'L’adresse courriel est invalide.',
     
             'numContact.required' => 'Ce champ est obligatoire.',
             'numContact.digits' => 'Le numéro de contact doit contenir exactement :digits chiffres.',

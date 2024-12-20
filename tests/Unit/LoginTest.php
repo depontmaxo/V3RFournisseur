@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
 {
-    use RefreshDatabase; // Use this trait to reset the database after each test
 
     /** @test */
     public function a_user_can_view_the_login_page()

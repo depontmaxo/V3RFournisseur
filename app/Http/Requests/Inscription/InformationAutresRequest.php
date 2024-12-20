@@ -57,7 +57,7 @@ class InformationAutresRequest extends FormRequest
             'documents.required' => 'Veuillez fournir au moins 1 document pour prouver l\'existence de votre entreprise.',
             'documents.array' => 'Les documents doivent être un tableau.',
     
-            'documents.*.file' => 'Chaque document doit être un fichier valide.',
+            'documents.*.file' => 'Les documents fournis sont invalides.',
             'documents.*.mimes' => 'Chaque document doit être de type :values.',
             'documents.*.max' => 'Chaque document ne peut pas dépasser :max Ko.',
         ];
