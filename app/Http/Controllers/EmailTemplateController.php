@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
 use App\Models\User;
+use App\Models\Utilisateur;
+
 
 class EmailTemplateController extends Controller
 {
@@ -71,4 +73,15 @@ class EmailTemplateController extends Controller
         return redirect()->back()->with('success', 'Modèle mis à jour avec succès.');
     }
     
+
+    public function EnvoiMailResponsable()
+    {
+        // Récupérer tous les utilisateurs et tous les modèles
+        $utilisateurs = Utilisateur::all();
+        $templates = EmailTemplate::all();
+
+        // Passer les données à la vue
+        return view('responsable.CourrielResponsable', compact('utilisateurs', 'templates'));
+    }
+
 }
