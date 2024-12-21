@@ -79,6 +79,7 @@ class FournisseursController extends Controller
 
     public function update(InformationModificationNomRequest $requestIdent, InformationCoordonneeRequest $requestCoord, Utilisateur $utilisateur)
     {   
+        //dd($utilisateur);
         $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
         $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
         $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
@@ -100,6 +101,9 @@ class FournisseursController extends Controller
         }        
         if($request->ville == null){
             $request->ville = $request->input('ville-autre');
+        }        
+        if($request->email == null){
+            $request->email = $utilisateur->email;
         }
 
         //dd($requestIdent);
@@ -107,7 +111,7 @@ class FournisseursController extends Controller
         //Vérification modifs?
         $utilisateur->nom_entreprise = $request->entreprise;
         $utilisateur->neq = $request->neq;
-        $utilisateur->email = $request->courrielConnexion;
+        $utilisateur->email = $request->email;
         $utilisateur->rbq = $request->rbq;
 
         
