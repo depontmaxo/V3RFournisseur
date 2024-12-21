@@ -17,7 +17,7 @@
 
         @if (isset( $utilisateur))
             <div class="sections pt-3">Information de votre compte</div>
-            <p><span class="soustitre-bold">NEQ: </span>{{ $utilisateur->neq ?? 'Non Disponible' }}</p>
+            <p><span class="soustitre-bold">NEQ: </span>{{ $utilisateur->neq ? chunk_split($utilisateur->neq, 2, ' ') : 'Non Disponible' }}</p>
             <p><span class="soustitre-bold">Email: </span>{{ $utilisateur->email ?? 'Non Disponible' }}</p>
             <p><span class="soustitre-bold">Licence RBQ: </span>{{ $utilisateur->rbq ?? 'Pas définie' }}</p>
             <p><span class="soustitre-bold">Services et/ou produits offerts: </span>informations à venir</p>

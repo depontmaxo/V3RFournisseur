@@ -220,6 +220,39 @@
                         @enderror
                     </div>
 
+                    <!--Type de téléphone-->
+                    <div class="mb-3 col-12 col-md-6">
+                        <label for="typeContact" class="form-label txtPop">
+                            Type de téléphone :
+                        </label>
+                        <select class="form-control" id="typeContact" name="typeContact" required>
+                            <option value="" disabled>Choisir un type de contact</option>
+                            <option value="Bureau" {{ old('typeContact', session('user_data.typeContact')) == 'Bureau' ? 'selected' : '' }}>Bureau</option>
+                            <option value="Télécopieur" {{ old('typeContact', session('user_data.typeContact')) == 'Télécopieur' ? 'selected' : '' }}>Télécopieur</option>
+                            <option value="Cellulaire" {{ old('typeContact', session('user_data.typeContact')) == 'Cellulaire' ? 'selected' : '' }}>Cellulaire</option>
+                        </select>
+
+                        @error('typeContact')
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+
+                        <!--Input poste du téléphone-->
+                        <div class="mb-3 col-12 col-md-5" id="poste-container" style="position:relative; display: {{ old('typeContact') == 'Bureau' ? 'block' : 'none' }};">
+                        <label for="posteTel" class="form-label txtPop">Poste :</label>
+                        <input type="text" class="form-control" id="posteTel" placeholder="5589" name="posteTel" value="{{ old('posteTel', session('user_data.posteTel')) }}">
+                        
+                        @error('posteTel')
+                            <div class="text-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+
                     <!-- Siteweb -->
                     <div class="mb-3" style="position:relative;">
                         <label for="site" class="form-label txtPop" >Site web :</label>
@@ -237,103 +270,43 @@
                 </br>
                 <span class="sections">Finance de l'entreprise :</span>
                 <div class="form-group pt-2">
-                    <label for="numeroTPS">Numéro TPS:</label>
+                    <span class="text-danger">* </span><label for="numeroTPS">Numéro TPS:</label>
                     <input type="text" class="form-control" id="numeroTPS" placeholder="Numéro TPS" name="numeroTPS" value="{{ old('numeroTPS', $finances?->numeroTPS) }}">
                     @error('numeroTPS')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group pt-2">
-                    <label for="numeroTVQ">Numéro TVQ:</label>
+                    <span class="text-danger">* </span><label for="numeroTVQ">Numéro TVQ:</label>
                     <input type="text" class="form-control" id="numeroTVQ" placeholder="Numéro TVQ" name="numeroTVQ" value="{{ old('numeroTVQ', $finances?->numeroTVQ) }}">
                     @error('numeroTVQ')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group pt-2">
-                    <label for="conditionPaiement">Condition de paiement:</label>
+                    <span class="text-danger">* </span><label for="conditionPaiement">Condition de paiement:</label>
                     <input type="text" class="form-control" id="conditionPaiement" placeholder="Z001" name="conditionPaiement" value="{{ old('conditionPaiement', $finances?->conditionPaiement) }}">
                     @error('conditionPaiement')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group pt-2">
-                    <label for="devise">Devise:</label>
-                    <input type="text" class="form-control" id="devise" placeholder="CAD" name="devise" value="{{ old('devise', $finances?->devise) }}">
+                    <span class="text-danger">* </span><label for="devise">Devise:</label>
+                    <select class="form-control" id="devise" name="devise" required>
+                            <option value="CAD">CAD</option>
+                            <option value="USD">USD</option>
+                        </select>
                     @error('devise')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group pt-2">
-                    <label for="modeCommunication">Mode de communication: </label>
+                    <span class="text-danger">* </span><label for="modeCommunication">Mode de communication: </label>
                     <input type="text" class="form-control" id="modeCommunication" placeholder="Email" name="modeCommunication" value="{{ old('modeCommunication', $finances?->modeCommunication) }}">
                     @error('modeCommunication')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
-
-
-                <!--SECTIONS CONTACTS-->
-                <?php
-                    $nbFournisseur = 1;
-                ?>
-                </br>
-                <span class="sections">Information contact(s)</span>
-
-                
-                <?php
-                /* Mis en commentaire car ça bug, on peut juste delete et refaire un contact en attendant
-                                @foreach ($contacts as $index => $contact)
-                    <h6>Contact {{ $index + 1 }}</h6>
-
-                    <!-- Prénom du contact -->
-                    <div class="form-group pt-2">
-                        <label for="prenom_{{ $index }}">Prénom du contact :</label>
-                        <input type="text" class="form-control" id="prenom_{{ $index }}" placeholder="Jane" name="prenom[{{ $index }}]" value="{{ old('prenom.' . $index) ?? $contact->prenom }}">
-                        @error('prenom.'.$index)
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Nom du contact -->
-                    <div class="form-group pt-2">
-                        <label for="nom_{{ $index }}">Nom du contact :</label>
-                        <input type="text" class="form-control" id="nom_{{ $index }}" placeholder="Doe" name="nom[{{ $index }}]" value="{{ old('nom.' . $index) ?? $contact->nom }}">
-                        @error('nom.'.$index)
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Poste occupé -->
-                    <div class="form-group pt-2">
-                        <label for="poste_{{ $index }}">Poste occupé :</label>
-                        <input type="text" class="form-control" id="poste_{{ $index }}" placeholder="Développeur" name="poste[{{ $index }}]" value="{{ old('poste.' . $index) ?? $contact->poste }}">
-                        @error('poste.'.$index)
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Email du contact -->
-                    <div class="form-group pt-2">
-                        <label for="email_contact_{{ $index }}">Courriel du contact :</label>
-                        <input type="text" class="form-control" id="email_contact_{{ $index }}" placeholder="JaneDoe@email.com" name="email_contact[{{ $index }}]" value="{{ old('email_contact.' . $index) ?? $contact->email_contact }}">
-                        @error('email_contact.'.$index)
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Numéro de téléphone du contact -->
-                    <div class="form-group pt-2">
-                        <label for="num_contact_{{ $index }}">Numéro de téléphone du contact :</label>
-                        <input type="text" class="form-control" id="num_contact_{{ $index }}" placeholder="(819)123-4567" name="num_contact[{{ $index }}]" value="{{ old('num_contact.' . $index) ?? $contact->num_contact }}">
-                        @error('num_contact.'.$index)
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    </br>
-                @endforeach
-                */
-                ?>
 
                 <div class="form-group pt-2">
                     <button type="submit" class="btn btn-primary">Enregistrer</button>

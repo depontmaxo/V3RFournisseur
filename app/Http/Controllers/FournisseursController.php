@@ -17,7 +17,7 @@ use App\Models\Document;
 use App\Models\Ville;
 use App\Models\RegionAdministrative;
 
-use App\Http\Requests\Inscription\InformationIdentificationRequest;
+use App\Http\Requests\Inscription\InformationModificationNomRequest;
 use App\Http\Requests\Inscription\InformationProduitsRequest;
 use App\Http\Requests\Inscription\InformationCoordonneeRequest;
 use App\Http\Requests\Inscription\InformationContactsRequest;
@@ -77,8 +77,18 @@ class FournisseursController extends Controller
      * Updater le compte avec les nouvelles informations
      */
 
-    public function update(InformationIdentificationRequest $requestIdent, InformationCoordonneeRequest $requestCoord, Utilisateur $utilisateur)
+    public function update(InformationModificationNomRequest $requestIdent, InformationCoordonneeRequest $requestCoord, Utilisateur $utilisateur)
     {   
+        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
+        $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
+        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
+
+
+        $validatedIdent = $requestIdent->validated();
+        $validatedCoord = $requestCoord->validated();
+
+        //dd($requestIdent);
+        $request = $requestIdent;
         if($request->neq == null){
             $request->request->add(['neq' => $utilisateur->neq]);
         }
@@ -87,14 +97,12 @@ class FournisseursController extends Controller
         }
         if($request->code_region == null){
             $request->request->add(['code_region' => $utilisateur->code_region]);
+        }        
+        if($request->ville == null){
+            $request->ville = $request->input('ville-autre');
         }
 
-        $validatedData = $requestIdent->validated();
-        $validatedData = $requestCoord->validated();
-
-        $contacts = Contacts::where('utilisateur_id', $utilisateur->id)->get();
-        $coordonnees = Coordonnees::where('utilisateur_id', $utilisateur->id)->firstOrFail();
-        $finances = Finance::where('utilisateur_id', $utilisateur->id)->first();
+        //dd($requestIdent);
 
         //Vérification modifs?
         $utilisateur->nom_entreprise = $request->entreprise;
@@ -112,8 +120,8 @@ class FournisseursController extends Controller
         
         $coordonnees->code_postal = $request->codePostal;
         $coordonnees->num_telephone = $request->numTel;
-        //$coordonnees->poste = $request->poste;
-        //$coordonnees->type_contact = $request->type_contact;
+        $coordonnees->poste = $request->poste;
+        $coordonnees->type_contact = $request->typeContact;
         $coordonnees->siteweb = $request->site;
         
         //s'assure qu'il y a une ligne finance vu qu'il y en a pas encore sur l'inscription
@@ -128,16 +136,6 @@ class FournisseursController extends Controller
         $finances->devise = $request->devise;
         $finances->modeCommunication = $request->modeCommunication;
 
-        /* Pour le changer, delete et en refaire un autre
-        foreach ($contacts as $index => $contact) {
-            $contact->prenom = $request->input("prenom.{$index}");
-            $contact->nom = $request->input("nom.{$index}");
-            $contact->poste = $request->input("poste.{$index}");
-            $contact->email_contact = $request->input("email_contact.{$index}");
-            $contact->num_contact = $request->input("num_contact.{$index}");
-            $contact->save();
-        }
-        */
         
         $utilisateur->save();
         $coordonnees->save();

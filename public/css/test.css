@@ -138,7 +138,7 @@ body {
 
 .actions h3 {
     font-size: 1.6rem;
-    color: #5cb85c;
+    color: #0B2341;
     margin-bottom: 15px;
 }
 
@@ -155,7 +155,7 @@ body {
 .actions ul li a {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #5cb85c;
+    background-color: #0B2341;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -163,7 +163,7 @@ body {
 }
 
 .actions ul li a:hover {
-    background-color: #4cae4c;
+    background-color: #67acff;
 }
 
 .actions ul li a::before {
